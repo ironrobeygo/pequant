@@ -40,7 +40,7 @@
                             {{ $user->institution_id > 0 ? $user->institution->name : '-' }}
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->created_at->format('F d, Y') }}
+                            {{ $user->created_at }}
                         </td>
                         <td class="py-3 px-6 text-center">
                             <ul class="flex justify-center">
