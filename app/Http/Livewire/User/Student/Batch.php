@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use Spatie\SimpleExcel\SimpleExcelReader;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Batch extends Component
 {
@@ -27,8 +28,6 @@ class Batch extends Component
 
         $basePath = $this->batch_upload->getRealPath();
 
-        DB::beginTransaction();
-
         try{
 
             SimpleExcelReader::create($basePath, 'csv')
@@ -36,19 +35,21 @@ class Batch extends Component
                 ->each(
                     function(array $data){
 
-                        $institution_id = Institution::where('name', $data['institution'])->first()->id;
+                        $institution = Institution::where('name', $data['institution'])->firstOrFail();
+                        $course = Course::where('name', $data['course'])->firstOrFail();
+
+                        DB::beginTransaction();
 
                         $user = User::create([
                             'name'              => $data['name'] . ' ' . $data['last_name'],
                             'email'             => $data['email'],
                             'contact_number'    => $data['contact_number'],
                             'password'          => Hash::make('!@#$%^&*'),
-                            'institution_id'    => $institution_id
+                            'institution_id'    => $institution->id
                         ]);
 
                         $user->assignRole($data['role']);
 
-                        $course = Course::where('name', $data['course'])->first();
                         $course->enrolStudent($user->id);
 
                         DB::commit();
@@ -58,9 +59,10 @@ class Batch extends Component
             alert()->success("Batch upload successful.", 'Congratulations!');
 
         } catch(QueryException $e){
-
             DB::rollback();
+            alert()->error('An error has occurred, please double check your input file', 'Please try again!');
 
+        } catch(ModelNotFoundException $h){
             alert()->error('An error has occurred, please double check your input file', 'Please try again!');
 
         }
