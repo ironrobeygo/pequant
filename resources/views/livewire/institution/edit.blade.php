@@ -33,7 +33,7 @@
 
         <div class="flex justify-end mt-6">
             <x-jet-button>
-                {{ __('Edit Institution') }}
+                {{ __('Save changes') }}
             </x-jet-button>
         </div>
     </div>
