@@ -7,7 +7,7 @@
             @error('name') <span class="error">{{ $message }}</span> @enderror
         </div>
 
-        <div class="block mt-4 text-sm">
+        <div wire:ignore class="block mt-4 text-sm">
             <x-jet-label for="instructors" value="{{ __('Chapter Description') }}" />
 
             <div class="document-editor">
