@@ -43,8 +43,6 @@ class Edit extends Component
 
         $this->institution->update($data);
 
-        dd($this->institution);
-
         // return $course;
         return redirect()->to('/institutions/'.$this->institution->id.'/edit');
     }
