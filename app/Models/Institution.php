@@ -13,6 +13,7 @@ class Institution extends Model
 
     protected $fillable = [
         'name',
+        'alias',
         'zoom_email',
         'zoom_api',
         'zoom_secret'
