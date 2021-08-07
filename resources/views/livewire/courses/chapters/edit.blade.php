@@ -23,7 +23,7 @@
 
         <div class="flex justify-end mt-6">
             <x-jet-button>
-                {{ __('Edit Chapter') }}
+                {{ __('Update Chapter') }}
                 <span class="ml-2" aria-hidden="true">+</span>
             </x-jet-button>
         </div>
