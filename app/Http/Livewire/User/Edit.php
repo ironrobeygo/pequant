@@ -49,6 +49,8 @@ class Edit extends Component
 
         $this->user->syncRoles($this->role);
 
+        alert()->success("An {$this->role} information has been updated.", 'Congratulations!');
+
         return redirect()->to('/users');
 
     }

@@ -23,7 +23,6 @@
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">Course</th>
                         @role('admin')
-                        <th class="py-3 px-6 text-left">Institutions</th>
                         <th class="py-3 px-6 text-left">Instructors</th>
                         @endrole
                         <th class="py-3 px-6 text-left">Status</th>
@@ -53,15 +52,8 @@
                             @role('admin')
                             <td class="px-4 py-3 text-sm">
                                 <ul>
-                                    @foreach($course->institutions as $institution)
-                                    <li>{{ $institution->name }}</li>
-                                    @endforeach
-                                </ul>
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                <ul>
                                     @foreach($course->instructors as $instructor)
-                                    <li>{{ $instructor->name }}</li>
+                                    <li>{{ $instructor->name }} ({{ $instructor->institution->alias }})</li>
                                     @endforeach
                                 </ul>
                             </td>
@@ -93,7 +85,7 @@
                             </td>
                             @role('admin')
                             <td class="px-4 py-3 text-xs">
-                                {{ $course->user->name }}
+                                {{ $course->user->firstName() }}
                             </td>
                             @endrole
                             <td class="py-3 px-6 text-center">
@@ -121,7 +113,7 @@
                         @endforeach
                     @else
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td colspan="4" class="py-3 px-6 text-left whitespace-nowrap text-center">
+                            <td colspan="{{ auth()->user()->hasRole('admin') ? 4 : 6 }}" class="py-3 px-6 text-left whitespace-nowrap text-center">
                                 You currently don't have any courses
                             </td>
                         </tr>

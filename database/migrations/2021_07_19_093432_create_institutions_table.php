@@ -16,6 +16,7 @@ class CreateInstitutionsTable extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('alias');
             $table->text('zoom_email')->nullable();
             $table->text('zoom_api')->nullable();
             $table->text('zoom_secret')->nullable();

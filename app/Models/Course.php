@@ -57,7 +57,7 @@ class Course extends Model
     }
 
     public function addChapter($data){
-        return $this->modules()->create($data);
+        return $this->chapters()->create($data);
     }
 
     public function active(){

@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Quiz;
+use App\Models\User;
 use App\Models\Answer;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +13,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Question extends Model
 {
     use HasFactory, SoftDeletes;
+
+    CONST ACTIVE    = 1;
+    CONST PENDING   = 0;
 
     protected $fillable = [
         'question',
@@ -25,6 +30,14 @@ class Question extends Model
     public function path(){
 
         return "/api/courses/{$this->quiz->module->course_id}/modules/{$this->quiz->module_id}/quizzes/{$this->quiz->id}/questions/{$this->id}";
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function active(){
+        return $this->status == Question::ACTIVE;
     }
 
     public function quiz(){

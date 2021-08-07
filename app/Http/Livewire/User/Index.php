@@ -18,6 +18,10 @@ class Index extends Component
     public function render()
     {
         $users = User::search($this->search)
+            ->with('roles')
+            ->whereHas('roles', function($query){
+                $query->whereIn("name", ['admin','instructor']);
+            })
             ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
             ->simplePaginate($this->perPage);
         return view('livewire.user.index', compact('users'));

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\User;
+namespace App\Http\Livewire\User\Student;
 
 use App\Models\User;
+use App\Models\Course;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,7 @@ class Batch extends Component
 
     public function render()
     {
-        return view('livewire.user.batch');
+        return view('livewire.user.student.batch');
     }
 
     public function batchUser(){
@@ -38,9 +39,14 @@ class Batch extends Component
 
                     $user->assignRole($data['role']);
 
+                    $course = Course::where('id', $data['course_id'])->first();
+                    $course->enrolStudent($user->id);
+
                 }
             );
 
-        return redirect()->to('/users');
+        alert()->success('Batch Upload Successful', 'Congratulations!');
+
+        return redirect()->to('/students');
     }
 }

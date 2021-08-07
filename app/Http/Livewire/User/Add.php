@@ -20,7 +20,7 @@ class Add extends Component
     public function render()
     {
         $institutions = Institution::all();
-        $roles = Role::all();
+        $roles = Role::where("name", "!=", "Student")->get();
 
         return view('livewire.user.add', compact('institutions', 'roles'));
     }
@@ -37,6 +37,8 @@ class Add extends Component
 
         $user = User::create($data);
         $user->assignRole($this->role);
+
+        alert()->success("A {$this->role} has been created.", 'Congratulations!');
 
         return redirect()->to('/users');
 

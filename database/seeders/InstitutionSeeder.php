@@ -15,17 +15,20 @@ class InstitutionSeeder extends Seeder
     public function run()
     {
         DB::table('institutions')->insert(
-            ['name' => 'La Salle University']
+            ['name' => 'La Salle University', 'alias' => 'La Salle']
         );
 
         DB::table('institutions')->insert(
-            ['name' => 'Ateneo University']
+            ['name' => 'Ateneo University', 'alias' => 'Ateneo']
         );
 
         DB::table('institutions')->insert(
-            ['name' => 'Adamson University']
+            ['name' => 'Adamson University', 'alias' => 'Adamson']
         );
 
+        DB::table('institutions')->insert(
+            ['name' => 'University of Sto. Thomas', 'alias' => 'UST']
+        );
 
     }
 }

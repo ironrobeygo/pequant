@@ -6,6 +6,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Users\StudentController;
+use App\Http\Controllers\Course\ChapterController;
+use App\Http\Controllers\Course\ChapterQuizController;
+use App\Http\Controllers\Course\CourseStudentController;
+use App\Http\Controllers\Course\ChapterQuizQuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,8 +55,6 @@ Route::group(['middleware' => 'auth'], function(){
             ]
         ]);
 
-        Route::get('/users/batch', [UserController::class, 'batch'])->name('users.batch');
-
         Route::resource('users', UserController::class, [
             'names' => [
                 'index'     => 'users',
@@ -61,6 +64,28 @@ Route::group(['middleware' => 'auth'], function(){
                 'delete'    => 'users.delete'
             ]
         ]);
+
+        Route::get('/students/batch', [StudentController::class, 'batch'])->name('students.batch');
+
+        Route::resource('students', StudentController::class, [
+            'names' => [
+                'index'     => 'students',
+                'create'    => 'students.add',
+                'store'     => 'students.store',
+                'update'    => 'students.update',
+                'delete'    => 'students.delete'
+            ]
+        ]);
+
+        // Route::resource('students', StudentCourseController::class, [
+        //     'names' => [
+        //         'index'     => 'students.courses',
+        //         'create'    => 'students.courses.add',
+        //         'store'     => 'students.courses.store',
+        //         'update'    => 'students.courses.update',
+        //         'delete'    => 'students.courses.delete'
+        //     ]
+        // ]);
 
     });
     
@@ -75,7 +100,18 @@ Route::group(['middleware' => 'auth'], function(){
         ]
     ]);
 
-    Route::resource('courses.chapters', CourseController::class, [
+    Route::resource('courses.students', CourseStudentController::class, [
+        'names' => [
+            'index'     => 'courses.students',
+            'create'    => 'courses.students.add',
+            'store'     => 'courses.students.store',
+            'show'      => 'courses.students.show',
+            'update'    => 'courses.students.update',
+            'delete'    => 'courses.students.delete'
+        ]
+    ]);
+
+    Route::resource('courses.chapters', ChapterController::class, [
         'names' => [
             'index'     => 'courses.chapters',
             'create'    => 'courses.chapters.add',
@@ -85,4 +121,33 @@ Route::group(['middleware' => 'auth'], function(){
             'delete'    => 'courses.chapters.delete'
         ]
     ]);
+
+
+
+    Route::resource('courses.chapters.quiz', ChapterQuizController::class, [
+        'names' => [
+            'index'     => 'courses.chapters.quiz',
+            'create'    => 'courses.chapters.quiz.add',
+            'store'     => 'courses.chapters.quiz.store',
+            'show'      => 'courses.chapters.quiz.show',
+            'update'    => 'courses.chapters.quiz.update',
+            'delete'    => 'courses.chapters.quiz.delete'
+        ]
+    ]);
+
+    Route::resource('courses.chapters.quiz.questions', ChapterQuizQuestionController::class, [
+        'names' => [
+            'index'     => 'courses.chapters.quiz.questions',
+            'create'    => 'courses.chapters.quiz.questions.add',
+            'store'     => 'courses.chapters.quiz.questions.store',
+            'show'      => 'courses.chapters.quiz.questions.show',
+            'update'    => 'courses.chapters.quiz.questions.update',
+            'delete'    => 'courses.chapters.quiz.questions.delete'
+        ]
+    ]);
+
+    Route::get('/zoom', function(){
+        return view('frontend.course');
+    });
+
 });

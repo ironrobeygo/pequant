@@ -25,7 +25,7 @@ class CourseFactory extends Factory
         return [
             'name' => $this->faker->word,
             'description' => $this->faker->sentence(),
-            'category_id' => rand(1,6),
+            'category_id' => rand(1,2),
             'user_id' => $user,
             'updated_by' => $user,
             'status' => rand(0,1),

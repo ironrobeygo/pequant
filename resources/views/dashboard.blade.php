@@ -3,6 +3,6 @@
         {{ __('Dashboard') }}
     </x-slot>
 
-    <x-jet-welcome />
+    @livewire('dashboard')
     
 </x-app-layout>

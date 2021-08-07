@@ -17,16 +17,16 @@ class CreateChaptersTable extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->text('content');
+            $table->longText('content');
             $table->bigInteger('course_id')->unsigned()->index();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('updated_by')->unsigned();
             $table->boolean('status')->default(Chapter::INACTIVE);
+            $table->integer('order');
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

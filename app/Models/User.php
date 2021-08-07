@@ -65,6 +65,11 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function firstName(){
+        $name = explode(' ', $this->name);
+        return $name[0];
+    }
+
     public function courses(){
         return $this->hasMany(Course::class);
     }
@@ -73,20 +78,8 @@ class User extends Authenticatable
         return $this->courses()->create($data);
     }
 
-    public function admin(){
-        return $this->role('admin');
-    }
-
-    public function instructor(){
-        return $this->role('instructor');
-    }
-
     public function institution(){
         return $this->belongsTo(Institution::class);
-    }
-
-    public function student(){
-        return $this->role('student');
     }
 
     public function instructorCourses(){

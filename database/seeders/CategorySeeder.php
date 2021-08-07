@@ -19,25 +19,8 @@ class CategorySeeder extends Seeder
         );
 
         DB::table('categories')->insert(
-            ['name' => 'Data Analytics', 'description' => 'Category Description here']
-        );
-
-        DB::table('categories')->insert(
             ['name' => 'Data Science', 'description' => 'Category Description here']
         );
-
-        DB::table('categories')->insert(
-            ['name' => 'Data Warehousing', 'description' => 'Category Description here']
-        );
-
-        DB::table('categories')->insert(
-            ['name' => 'Fundamentals of Business Analytics', 'description' => 'Category Description here']
-        );
-
-        DB::table('categories')->insert(
-            ['name' => 'Professional Certificate Courses', 'description' => 'Category Description here']
-        );
-
         
     }
 }

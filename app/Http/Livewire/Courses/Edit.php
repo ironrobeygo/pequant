@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Courses;
 
+use App\Models\Course;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Institution;
@@ -52,7 +53,9 @@ class Edit extends Component
             'name' => $this->name,
             'description' => $this->description,
             'category_id' => $this->category_id,
-            'updated_by' => auth()->user()->id
+            'updated_by' => auth()->user()->id,
+            'status'    => Course::PENDING,
+            'isOnline' => Course::OFFLINE
         ];
 
         $this->course->update($data);

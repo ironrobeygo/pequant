@@ -42,6 +42,9 @@ class CourseController extends Controller
     }
 
     public function show(Course $course){
+        if(auth()->user()->hasRole('student')){
+            return view('course.students.show', compact('course'));
+        }
         return view('admin.courses.show', compact('course'));
     }
 

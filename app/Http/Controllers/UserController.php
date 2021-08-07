@@ -22,8 +22,4 @@ class UserController extends Controller
     public function show(User $user){
         echo '1';
     }
-
-    public function batch(){
-        return view('admin.users.batch');
-    }
 }
