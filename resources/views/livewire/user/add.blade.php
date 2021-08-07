@@ -16,7 +16,7 @@
 
         <div class="block text-sm mb-2">
             <x-jet-label for="contact_number" value="{{ __('Contact Number') }}" />
-            <x-jet-input id="contact_number" wire:model="contact_number" class="block mt-1 w-full" type="tel" name="contact_number" :value="old('contact_number')" required />
+            <x-jet-input id="contact_number" wire:model="contact_number" class="block mt-1 w-full" type="tel" name="contact_number" :value="old('contact_number')" />
             @error('contact_number') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 

@@ -7,6 +7,12 @@
             @error('name') <span class="error">{{ $message }}</span> @enderror
         </div>
 
+        <div class="block text-sm">
+            <x-jet-label for="alias" value="{{ __('Institution Alias') }}" />
+            <x-jet-input id="alias" class="block mt-1 w-full" type="text" wire:model="alias" name="alias" :value="old('alias')" required autofocus autocomplete="alias" />
+            @error('alias') <span class="error">{{ $message }}</span> @enderror
+        </div>
+
         <div class="mt-4">
             <x-jet-label for="zoom_email" value="{{ __('Zoom Email') }}" />
             <x-jet-input id="zoom_email" class="block mt-1 w-full" type="text" wire:model="zoom_email" name="zoom_email" :value="old('zoom_email')" autofocus autocomplete="zoom_email" />

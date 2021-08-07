@@ -54,7 +54,7 @@ class Edit extends Component
         return [
             'name'              => 'required',
             'email'             => 'required',
-            'contact_number'    => 'required',
+            'contact_number'    => 'nullable',
             'institution_id'    => 'required'
         ];
     }

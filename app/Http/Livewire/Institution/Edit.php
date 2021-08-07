@@ -10,6 +10,7 @@ class Edit extends Component
 
     public $institution;
     public $name;
+    public $alias;
     public $zoom_email;
     public $zoom_api;
     public $zoom_secret;
@@ -18,6 +19,7 @@ class Edit extends Component
         
         $this->institution = $institution;
         $this->name = $institution->name;
+        $this->alias = $institution->alias;
         $this->zoom_email = $institution->zoom_email;
         $this->zoom_api = $institution->zoom_api;
         $this->zoom_secret = $institution->zoom_secret;
@@ -33,6 +35,7 @@ class Edit extends Component
 
         $data = [
             'name' => $this->name,
+            'alias' => $this->alias,
             'zoom_email' => $this->zoom_email,
             'zoom_api' => $this->zoom_api,
             'zoom_secret' => $this->zoom_secret
@@ -47,6 +50,7 @@ class Edit extends Component
     protected function rules(){
         return [
             'name'          => 'required',
+            'alias'          => 'required',
             'zoom_email'    => 'nullable',
             'zoom_api'      => 'nullable',
             'zoom_secret'   => 'nullable'
