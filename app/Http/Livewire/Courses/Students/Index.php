@@ -19,6 +19,8 @@ class Index extends Component
     public $institutionFilter = 0;
     public $selected = [];
 
+    protected $listeners = ['deleted' => 'render'];
+
     public function mount(Course $course){
         $this->course = $course;
     }
@@ -43,5 +45,13 @@ class Index extends Component
             ->simplePaginate($this->perPage);
 
         return view('livewire.courses.students.index', compact('students'));
+    }
+
+    public function userDelete($id){
+
+        $user = User::find($id);
+        $user->delete();
+        $this->emitSelf('deleted');
+
     }
 }

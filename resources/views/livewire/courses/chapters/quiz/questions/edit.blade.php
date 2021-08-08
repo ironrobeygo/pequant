@@ -54,7 +54,7 @@
 
         <div class="flex justify-end mt-6">
             <x-jet-button>
-                {{ __('Edit Question') }}
+                {{ __('Update question') }}
                 <span class="ml-2" aria-hidden="true">+</span>
             </x-jet-button>
         </div>

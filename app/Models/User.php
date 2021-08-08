@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Unit;
 use App\Models\Course;
+use App\Models\Progress;
 use App\Models\Institution;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -95,4 +97,24 @@ class User extends Authenticatable
         return empty($search) ? static::query()
             : static::query()->where('name', 'like', '%'.$search.'%');
     }
+
+    public function progress(){
+        return $this->hasMany(Progress::class, 'student_id');
+    }
+
+    public function addProgress($data){
+        return $this->progress()->create($data);
+    } 
+
+    public function scopeStudentProgressCompleted($query){
+        return $this->progress()->whereNotNull('completed_at')->get()->pluck('unit_id')->toArray();
+    }  
+
+    public function scopeGetCompletionTime($query, $unit_id){
+        return $this->progress()
+            ->where('unit_id', $unit_id)
+            ->selectRaw('TIMESTAMPDIFF(minute, created_at, completed_at) as duration')
+            ->first();
+    }
+
 }

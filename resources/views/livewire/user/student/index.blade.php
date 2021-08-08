@@ -64,21 +64,21 @@
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
                     @foreach($students as $student)
-                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <tr class="border-b border-gray-200 hover:bg-gray-100 align-top">
                         <td class="py-3 px-6 text-left whitespace-nowrap">
                             {{ $student->id }}
                         </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                        <td class="py-3 px-6 text-left whitespace-nowrap align-top">
                             <p class="font-bold">{{ $student->name }}</p>
                             <span class="text-xs block">{{ $student->email }}</span>
                         </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                        <td class="py-3 px-6 text-left whitespace-nowrap align-top">
                             {{ $student->contact_number }}
                         </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                        <td class="py-3 px-6 text-left whitespace-nowrap align-top">
                             {{ $student->institution->alias }}
                         </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                        <td class="py-3 px-6 text-left whitespace-nowrap align-top">
                             @if($student->studentCourses->count() > 0)
                                 <ul>
                                 @foreach($student->studentCourses as $course)
@@ -111,6 +111,11 @@
                                         Unenrol
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="#" wire:click.prevent="userDelete({{ $student->id }})" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                        Edit
+                                    </a>
+                                </li> 
                             </ul>
                         </td>
                     </tr>

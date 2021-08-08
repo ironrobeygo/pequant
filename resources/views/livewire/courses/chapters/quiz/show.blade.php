@@ -30,39 +30,60 @@
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
                     @foreach($quiz->questions as $question)
-                    <tr class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="px-4 py-3 text-sm">
-                            {{ $question->id }}
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            {!! $question->question !!}
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            {{ $question->type_id == 1 ? 'Multiple Choice' : 'Open Ended' }}
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            {{ $question->user->firstName() }}
-                            @if($question->user->institution_id > 0)
-                                ({{$question->user->institution->alias}})
-                            @else
-                                (Admin)
-                            @endrole
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <span class="px-2 py-1 font-semibold leading-tight {{ $question->active() ? ' text-green-700 bg-green-100' : 'text-orange-700 bg-orange-100' }} rounded-full">
-                                {{ $question->active() ? 'Approved' : 'Pending' }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <ul class="flex space-x-2">
-                                <li>
-                                    <a href="{{ route('courses.chapters.quiz.questions.show', ['course' => $course->id, 'chapter' => $chapter, 'quiz' => $quiz, 'question' => $question->id]) }}">View</a>
-                                </li>
-                                <li><a href="{{ route('courses.chapters.quiz.questions.edit', ['course' => $course->id, 'chapter' => $chapter, 'quiz' => $quiz, 'question' => $question->id]) }}">Edit</a></li>
-                                <li>Delete</li>
-                            </ul>
-                        </td>
-                    </tr>
+                        @if(auth()->user()->hasRole('admin') || auth()->user()->can('view', $question))
+                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            <td class="px-4 py-3 text-sm">
+                                {{ $question->id }}
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                {!! $question->question !!}
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                {{ $question->type_id == 1 ? 'Multiple Choice' : 'Open Ended' }}
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                @if($question->user->id == auth()->user()->id)
+                                    Me
+                                @else
+                                    {{ $question->user->firstName() }}
+                                    @if($question->user->institution_id > 0)
+                                        ({{$question->user->institution->alias}})
+                                    @else
+                                        (Admin)
+                                    @endrole
+                                @endif
+
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                @role('admin')
+                                <span wire:click="updateStatus({{ $question->id }})" class="px-2 py-1 font-semibold leading-tight cursor-pointer {{ $question->active() ? ' text-green-700 bg-green-100' : 'text-orange-700 bg-orange-100' }} rounded-full">
+                                    {{ $question->active() ? 'Approved' : 'Pending' }}
+                                </span>
+                                @else
+                                <span class="px-2 py-1 font-semibold leading-tight {{ $question->active() ? ' text-green-700 bg-green-100' : 'text-orange-700 bg-orange-100' }} rounded-full">
+                                    {{ $question->active() ? 'Approved' : 'Pending' }}
+                                </span>
+                                @endrole
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                <ul class="flex space-x-2">
+                                    <li>
+                                        <a href="{{ route('courses.chapters.quiz.questions.show', ['course' => $course->id, 'chapter' => $chapter, 'quiz' => $quiz, 'question' => $question->id]) }}">View</a>
+                                    </li>
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->can('update', $question))
+                                    <li>
+                                        <a href="{{ route('courses.chapters.quiz.questions.edit', ['course' => $course->id, 'chapter' => $chapter, 'quiz' => $quiz, 'question' => $question->id]) }}">Edit</a>
+                                    </li>
+                                    @endif
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->can('delete', $question))
+                                    <li>
+                                        <a wire:click.prevent="delete({{ $question->id }})" href="#">Delete</a>
+                                    </li>
+                                    @endif
+                                </ul>
+                            </td>
+                        </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

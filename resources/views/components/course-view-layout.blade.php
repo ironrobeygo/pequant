@@ -24,9 +24,6 @@
     <body>
         <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
 
-            {{ dd($course) }}
-            @livewire('course.students.side-menu')
-
             <div class="flex flex-col flex-1 w-full">
 
                 @livewire('header-bar')

@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire\Courses;
 
+use App\Models\Unit;
+use App\Models\Chapter;
 use Livewire\Component;
 
 class Show extends Component
 {
     public $course;
     public $zoomSignature = '';
+
+    protected $listeners = ['deleted' => 'render'];
 
     public function mount($course){
         $this->course = $course;
@@ -26,6 +30,16 @@ class Show extends Component
             'course' => $this->course,
             'count' => $count
         ]);
+    }
+
+    public function deleteChapter(Chapter $chapter){
+        $chapter->delete();
+        $this->emitSelf('deleted');
+    }
+
+    public function deleteUnit(Unit $unit){
+        $unit->delete();
+        $this->emitSelf('deleted');
     }
 
     public function hostZoomLive(){

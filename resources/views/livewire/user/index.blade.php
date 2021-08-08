@@ -50,7 +50,7 @@
                                     </a>
                                 </li> 
                                 <li>
-                                    <a href="/users/{{ $user->id }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                    <a href="#" wire:click.prevent="userDelete({{ $user->id }})" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
                                         Delete
                                     </a>
                                 </li>

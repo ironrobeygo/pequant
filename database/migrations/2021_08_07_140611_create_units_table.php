@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Chapter;
+use App\Models\Unit;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChaptersTable extends Migration
+class CreateUnitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,19 +14,19 @@ class CreateChaptersTable extends Migration
      */
     public function up()
     {
-        Schema::create('chapters', function (Blueprint $table) {
+        Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->longText('content')->nullable();
-            $table->bigInteger('course_id')->unsigned()->index();
+            $table->longText('content');
+            $table->bigInteger('chapter_id')->unsigned()->index();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('updated_by')->unsigned();
-            $table->boolean('status')->default(Chapter::INACTIVE);
+            $table->boolean('status')->default(Unit::INACTIVE);
             $table->integer('order')->default(0);
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
         });
     }
 
@@ -37,6 +37,6 @@ class CreateChaptersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chapters');
+        Schema::dropIfExists('units');
     }
 }

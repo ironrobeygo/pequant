@@ -15,6 +15,8 @@ class Index extends Component
     public $orderBy = 'id';
     public $orderAsc = false;
 
+    protected $listeners = ['deleted' => 'render'];
+
     public function render()
     {
         $users = User::search($this->search)
@@ -25,5 +27,13 @@ class Index extends Component
             ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
             ->simplePaginate($this->perPage);
         return view('livewire.user.index', compact('users'));
+    }
+
+    public function userDelete($id){
+
+        $user = User::find($id);
+        $user->delete();
+        $this->emitSelf('deleted');
+
     }
 }

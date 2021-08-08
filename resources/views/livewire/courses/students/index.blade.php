@@ -50,7 +50,9 @@
                                 {{ $student->id }}
                             </td>
                             <td class="py-3 px-6 text-left whitespace-nowrap">
-                                {{ $student->name }}
+                                <a href="{{ route('courses.students.show', ['course' => $course->id, 'student' => $student]) }}">
+                                   {{ $student->name }} 
+                                </a>
                             </td>
                             <td class="py-3 px-6 text-left whitespace-nowrap">
                                 {{ $student->email }}

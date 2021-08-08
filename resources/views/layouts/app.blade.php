@@ -15,11 +15,7 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         @livewireStyles
-
         @stack('scripts')
-
-        <!-- Scripts -->
-        <script src="{{ mix('js/app.js') }}" defer></script>
 
         <style type="text/css">
             #zmmtg-root{
@@ -58,7 +54,7 @@
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
-    <body x-data="{ 'showModal': false }">
+    <body x-data="{ 'showModal': false, 'isSideMenuOpen': false, 'isPagesMenuOpen': false }">
         <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
 
             @livewire('navigation-menu')
@@ -89,9 +85,10 @@
         @livewireScripts
 
         @include('sweet::alert')
+        <!-- Scripts -->
+        <script src="{{ mix('js/app.js') }}" defer></script>
 
         <script type="text/javascript">
- 
             // Make the DIV element draggable:
             // dragElement(document.getElementById("zoom-dev"));
 

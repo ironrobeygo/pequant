@@ -16,6 +16,7 @@ class Add extends Component
     public $quiz;
     public $type_id;
     public $question;
+    public $weight;
     public $showOptionsForm = false;
     public $options = [];
 
@@ -49,7 +50,7 @@ class Add extends Component
             'user_id'   => auth()->user()->id,
             'updated_by' => auth()->user()->id,
             'status'    => auth()->user()->hasRole('admin') ? Question::ACTIVE : Question::PENDING,
-            'weight' => 0
+            'weight'    => $this->weight == '' ? 0 : $this->weight
         ];
 
         $question = $this->quiz->addQuestion($data);

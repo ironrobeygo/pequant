@@ -9,6 +9,7 @@ use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Users\StudentController;
 use App\Http\Controllers\Course\ChapterController;
 use App\Http\Controllers\Course\ChapterQuizController;
+use App\Http\Controllers\Course\ChapterUnitController;
 use App\Http\Controllers\Course\CourseStudentController;
 use App\Http\Controllers\Course\ChapterQuizQuestionController;
 
@@ -122,7 +123,16 @@ Route::group(['middleware' => 'auth'], function(){
         ]
     ]);
 
-
+    Route::resource('courses.chapters.units', ChapterUnitController::class, [
+        'names' => [
+            'index'     => 'courses.chapters.units',
+            'create'    => 'courses.chapters.units.add',
+            'store'     => 'courses.chapters.units.store',
+            'show'      => 'courses.chapters.units.show',
+            'update'    => 'courses.chapters.units.update',
+            'delete'    => 'courses.chapters.units.delete'
+        ]
+    ]);
 
     Route::resource('courses.chapters.quiz', ChapterQuizController::class, [
         'names' => [
