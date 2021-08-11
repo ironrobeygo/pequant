@@ -20,6 +20,8 @@ class CreateCoursesTable extends Migration
             $table->text('description')->nullable();
             $table->bigInteger('category_id')->unsigned()->index();
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('institution_id')->unsigned();
+            $table->bigInteger('instructor_id')->unsigned();
             $table->bigInteger('updated_by')->unsigned();
             $table->boolean('status')->default(Course::PENDING);
             $table->boolean('isOnline')->default(Course::OFFLINE);

@@ -29,11 +29,8 @@ class Index extends Component
         return view('livewire.user.index', compact('users'));
     }
 
-    public function userDelete($id){
-
-        $user = User::find($id);
+    public function userDelete(User $user){
         $user->delete();
         $this->emitSelf('deleted');
-
     }
 }

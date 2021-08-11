@@ -7,6 +7,7 @@
                 <option>Select question type</option>
                 <option value="1">Multiple Choice</option>
                 <option value="2">Open Ended Question</option>
+                <option value="3">Open Ended Question, File Upload</option>
             </select>
             @error('type_id') <span class="error">{{ $message }}</span> @enderror
         </div>
@@ -17,6 +18,13 @@
             @error('questionValue') <span class="error">{{ $message }}</span> @enderror
         </div>
 
+        <div class="block text-sm mb-4">
+            <x-jet-label for="weight" value="{{ __('Percentage') }}" />
+            <x-jet-input id="weight" class="block mt-1 w-full" type="text" wire:model="weight" name="weight" :value="old('weight')"/>
+            @error('weight') <span class="error">{{ $message }}</span> @enderror
+        </div>
+
+        @if($showOptionsForm || $type_id == 1)
         <div class="block text-sm">
             <table class="w-full" id="options">
                 <thead>
@@ -41,7 +49,7 @@
                     </tr>
                     @endforeach
                     <tr>
-                        <td colspan="2">
+                        <td colspan="2" class="pt-4">
                             <button wire:click.prevent="addOption" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
                                 Add option
                                 <span class="ml-2" aria-hidden="true">+</span>
@@ -51,6 +59,7 @@
                 </tbody>
             </table>                    
         </div>
+        @endif
 
         <div class="flex justify-end mt-6">
             <x-jet-button>

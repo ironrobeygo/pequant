@@ -16,6 +16,7 @@ class Edit extends Component
     public $quiz;
     public $type_id;
     public $question;
+    public $weight;
     public $questionValue;
     public $showOptionsForm = false;
     public $options = [];

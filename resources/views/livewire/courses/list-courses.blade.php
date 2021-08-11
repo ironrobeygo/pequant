@@ -23,7 +23,7 @@
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">Course</th>
                         @role('admin')
-                        <th class="py-3 px-6 text-left">Instructors</th>
+                        <th class="py-3 px-6 text-left">Instructor</th>
                         @endrole
                         <th class="py-3 px-6 text-left">Status</th>
                         <th class="py-3 px-6 text-left">Published</th>
@@ -51,11 +51,7 @@
                             </td>
                             @role('admin')
                             <td class="px-4 py-3 text-sm">
-                                <ul>
-                                    @foreach($course->instructors as $instructor)
-                                    <li>{{ $instructor->name }} ({{ $instructor->institution->alias }})</li>
-                                    @endforeach
-                                </ul>
+                                {{ $course->instructor->name }}
                             </td>
                             @endrole
                             <td class="px-4 py-3 text-xs">
@@ -102,8 +98,13 @@
                                         </a>
                                     </li> 
                                     <li>
-                                        <a href="/courses/{{ $course->id }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                        <a wire:click.prevent="delete({{ $course->id }})" href="#" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
                                             Delete
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a wire:click.prevent="clone({{ $course->id }})" href="#" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                            Clone
                                         </a>
                                     </li>
                                     @endrole

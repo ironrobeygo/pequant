@@ -52,8 +52,19 @@
 @endpush
 
 <script>
+    import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'
+
     DecoupledEditor
-        .create( document.querySelector( '.document-editor__editable' ) )
+        .create( document.querySelector( '.document-editor__editable' ), {
+            plugins: [ SimpleUploadAdapter],
+            simpleUpload: {
+                uploadUrl: "/image_upload",
+
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            }
+        })
         .then( editor => {
             const toolbarContainer = document.querySelector( '.document-editor__toolbar' );
 

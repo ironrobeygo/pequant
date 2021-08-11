@@ -3,33 +3,32 @@
 namespace App\Http\Livewire\Courses;
 
 use App\Models\Unit;
+use App\Models\Course;
 use App\Models\Chapter;
 use Livewire\Component;
 
 class Show extends Component
 {
+    public $count;
     public $course;
     public $zoomSignature = '';
 
     protected $listeners = ['deleted' => 'render'];
 
-    public function mount($course){
+    public function mount(Course $course){
         $this->course = $course;
     }
 
     public function render()
     {
 
-        $count = $this->course->students()
+        $this->count = $this->course->students()
             ->when(auth()->user()->hasRole('instructor'), function($query){
                 return $query->where('institution_id', auth()->user()->institution_id);
             })
             ->count();
 
-        return view('livewire.courses.show', [
-            'course' => $this->course,
-            'count' => $count
-        ]);
+        return view('livewire.courses.show');
     }
 
     public function deleteChapter(Chapter $chapter){

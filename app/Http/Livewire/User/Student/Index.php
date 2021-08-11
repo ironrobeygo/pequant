@@ -20,6 +20,8 @@ class Index extends Component
     public $selectedCourse;
     public $student;
 
+    public $listeners = ["updatedList" => 'render'];
+
     public function render()
     {
         $institutionFilter = $this->institutionFilter;
@@ -70,6 +72,11 @@ class Index extends Component
     public function processUnEnrolment(){
         $course = Course::find($this->selectedCourse);
         $course->unEnrolStudent($this->student);
+    }
+
+    public function userDelete(User $student){
+        $student->delete();
+        $this->emitSelf('updatedList');
     }
 
 }

@@ -50,7 +50,7 @@ class Add extends Component
             'email'             => 'required',
             'contact_number'    => 'nullable',
             'institution_id'    => 'required',
-            'role'              => 'required'
+            'role'              => 'required|not_in:0'
         ];
     }
 }

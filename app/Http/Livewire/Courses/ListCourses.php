@@ -15,6 +15,8 @@ class ListCourses extends Component
     public $orderBy = 'id';
     public $orderAsc = false;
 
+    public $listeners = ["updatedList" => 'render'];
+
     public function render()
     {
         if(auth()->user()->hasRole('instructor')){
@@ -40,5 +42,87 @@ class ListCourses extends Component
         $course = Course::find($id);
         $course->isOnline = !$course->isOnline;
         $course->save();
+    }
+
+    public function clone(Course $course){
+
+        $name = $course->name;
+        $chapters = $course->chapters;
+
+        $clone = $course->replicate()->fill([
+            'name' => $name . ' - copy',
+            'user_id' => auth()->user()->id,
+            'updated_by' => auth()->user()->id
+        ]);
+        $clone->save();
+
+        foreach($chapters as $chapter){
+            $units = $chapter->units;
+            $quizzes = $chapter->quizzes;
+
+            $cloneChapter = $chapter->replicate()->fill([
+
+            ]);
+            $cloneChapter->course_id = $clone->id;
+            $cloneChapter->user_id = auth()->user()->id;
+            $cloneChapter->updated_by = auth()->user()->id;
+            $cloneChapter->status = 0;
+            $cloneChapter->save();
+
+            foreach($units as $unit){
+                $cloneUnit = $unit->replicate();
+                $cloneUnit->chapter_id = $cloneChapter->id;
+                $cloneUnit->user_id = auth()->user()->id;
+                $cloneUnit->updated_by = auth()->user()->id;
+                $cloneUnit->status = 0;
+                $cloneUnit->save();
+            }
+
+            foreach($quizzes as $quiz){
+                $questions = $quiz->questions;
+
+                $cloneQuiz = $quiz->replicate();
+                $cloneQuiz->chapter_id = $cloneChapter->id;
+                $cloneQuiz->user_id = auth()->user()->id;
+                $cloneQuiz->updated_by = auth()->user()->id;
+                $cloneQuiz->status = 0;
+                $cloneQuiz->save();
+
+                foreach($questions as $question){
+                    $cloneQuestion = $question->replicate();
+                    $cloneQuestion->quiz_id = $cloneQuiz->id;
+                    $cloneQuestion->user_id = auth()->user()->id;
+                    $cloneQuestion->updated_by = auth()->user()->id;
+                    $cloneQuestion->status = 0;
+                    $cloneQuestion->save();
+
+                    if($question->type_id == 1){
+
+                        $options = $question->options;
+                        $opts = array();
+
+                        foreach($options as $option){
+                            $cloneOption = $option->replicate();
+                            $cloneOption->save();
+                            $opts[] = $cloneOption->id;
+                        }
+
+                        $cloneQuestion->syncOptions($options);
+
+                    }
+
+
+                }
+            }
+
+        }
+
+        $this->emitSelf('updatedList');
+
+    }
+
+    public function delete(Course $course){
+        $course->delete();
+        $this->emitSelf('updatedList');
     }
 }

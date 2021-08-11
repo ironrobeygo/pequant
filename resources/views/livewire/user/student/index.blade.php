@@ -2,7 +2,7 @@
     <div class="w-full">
 
         <div class="mb-4 mt-1 mx-1 flex justify-between items-center">
-            <div class="flex w-1/2 space-x-4">
+            <div class="flex w-2/3 space-x-4">
                 <input wire:model="search" class="w-1/2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-mohs-green-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for students" aria-label="Search">
 
                 <select class="inline-block text-sm focus:outline-none form-input" wire:model="institutionFilter">
@@ -23,16 +23,6 @@
                                     Student Upload
                                 </a>
                             </li>
-<!--                             <li class="flex">
-                                <a @click.prevent="isModalOpen = true" wire:click.prevent="showModalEnrolment" class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800" href="#">
-                                    Enrol
-                                </a>
-                            </li>
-                            <li class="flex">
-                                <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800" href="/students/unenrol">
-                                    Unenrol
-                                </a>
-                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -56,8 +46,6 @@
                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">Name</th>
-                        <th class="py-3 px-6 text-left">Contact Number</th>
-                        <th class="py-3 px-6 text-left">Institution</th>
                         <th class="py-3 px-6 text-left">Course(s)</th>
                         <th class="py-3 px-6 text-center">Actions</th>
                     </tr>
@@ -71,12 +59,7 @@
                         <td class="py-3 px-6 text-left whitespace-nowrap align-top">
                             <p class="font-bold">{{ $student->name }}</p>
                             <span class="text-xs block">{{ $student->email }}</span>
-                        </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap align-top">
-                            {{ $student->contact_number }}
-                        </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap align-top">
-                            {{ $student->institution->alias }}
+                            <span class="text-xs block">{{ $student->institution->alias .' - '.$student->section }}</span>
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap align-top">
                             @if($student->studentCourses->count() > 0)
@@ -113,7 +96,7 @@
                                 </li>
                                 <li>
                                     <a href="#" wire:click.prevent="userDelete({{ $student->id }})" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
-                                        Edit
+                                        Delete
                                     </a>
                                 </li> 
                             </ul>

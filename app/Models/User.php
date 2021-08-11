@@ -34,6 +34,7 @@ class User extends Authenticatable
         'email',
         'password',
         'contact_number',
+        'section',
         'institution_id'
     ];
 

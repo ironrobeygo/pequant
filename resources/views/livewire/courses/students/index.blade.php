@@ -34,7 +34,7 @@
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">Name</th>
                         <th class="py-3 px-6 text-left">Email</th>
-                        <th class="py-3 px-6 text-left">Contact Number</th>
+                        <th class="py-3 px-6 text-left">Section</th>
                         @role('admin')
                         <th class="py-3 px-6 text-left">Institution</th>
                         @endrole
@@ -58,7 +58,7 @@
                                 {{ $student->email }}
                             </td>
                             <td class="py-3 px-6 text-left whitespace-nowrap">
-                                {{ $student->contact_number }}
+                                {{ $student->section }}
                             </td>
                             @role('admin')
                             <td class="py-3 px-6 text-left whitespace-nowrap">

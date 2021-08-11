@@ -37,10 +37,10 @@
                             </ul>
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->institution_id > 0 ? $user->institution->name : '-' }}
+                            {{ $user->institution_id > 0 ? $user->institution->alias : '-' }}
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->created_at }}
+                            {{ $user->created_at->format('M d, Y') }}
                         </td>
                         <td class="py-3 px-6 text-center">
                             <ul class="flex justify-center">

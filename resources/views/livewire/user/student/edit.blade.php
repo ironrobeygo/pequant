@@ -15,9 +15,9 @@
         </div>
 
         <div class="block text-sm mb-2">
-            <x-jet-label for="contact_number" value="{{ __('Contact Number') }}" />
-            <x-jet-input id="contact_number" wire:model="contact_number" class="block mt-1 w-full" type="tel" name="contact_number" :value="old('contact_number')" />
-            @error('contact_number') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+            <x-jet-label for="section" value="{{ __('Section') }}" />
+            <x-jet-input id="section" wire:model="section" class="block mt-1 w-full" type="text" name="section" :value="old('section')" />
+            @error('section') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
         <div class="block text-sm mb-2">
@@ -33,7 +33,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <x-jet-button class="ml-4">
-                {{ __('Edit Student') }}
+                {{ __('Update student') }}
                 <span class="ml-2" aria-hidden="true">+</span>
             </x-jet-button>
         </div>

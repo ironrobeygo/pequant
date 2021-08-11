@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth'], function(){
 
         Route::get('/students/batch', [StudentController::class, 'batch'])->name('students.batch');
 
+        Route::post('image_upload', [ImageController::class, 'store']);
+
         Route::resource('students', StudentController::class, [
             'names' => [
                 'index'     => 'students',

@@ -18,8 +18,27 @@
             @error('category_id') <span class="error">{{ $message }}</span> @enderror
         </div>
 
-        @livewire('form.select-institution')
-        @livewire('form.select-instructor')
+        <div class="mt-4">
+            <x-jet-label for="institution_id" value="{{ __('Institution') }}" />
+            <select id="institution_id" name="institution_id" wire:model="institution_id" wire:change="updateInstructors" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full">
+                <option>Select an institution</option>
+                @foreach($institutions as $institution)
+                <option value="{{ $institution->id }}">{{ $institution->name }}</option>
+                @endforeach
+            </select>
+            @error('institution_id') <span class="error">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mt-4">
+            <x-jet-label for="instructor_id" value="{{ __('Instructor') }}" />
+            <select id="instructor_id" name="instructor_id" wire:model="instructor_id" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full">
+                <option>Select an instructor</option>
+                @foreach($instructors as $instructor)
+                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                @endforeach
+            </select>
+            @error('instructor_id') <span class="error">{{ $message }}</span> @enderror
+        </div>
 
         <div class="block mt-4 text-sm">
             <x-jet-label for="instructors" value="{{ __('Course Description') }}" />

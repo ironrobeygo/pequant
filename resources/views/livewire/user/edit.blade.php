@@ -34,7 +34,7 @@
         <div class="block text-sm mb-2">
             <x-jet-label for="role" value="{{ __('Role') }}" />
             <select id="role" name="role" wire:model="role" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full">
-                <option>Select a role</option>
+                <option value="0">Select a role</option>
                 @foreach($roles as $role)
                 <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
                 @endforeach
@@ -44,7 +44,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <x-jet-button class="ml-4">
-                {{ __('Add User') }}
+                {{ __('Edit User') }}
                 <span class="ml-2" aria-hidden="true">+</span>
             </x-jet-button>
         </div>

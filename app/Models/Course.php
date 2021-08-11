@@ -26,6 +26,7 @@ class Course extends Model
         'description',
         'category_id',
         'instructor_id',
+        'institution_id',
         'user_id',
         'updated_by',
         'status',
@@ -36,8 +37,8 @@ class Course extends Model
     protected $with = array(
         'category', 
         'user',
-        'institutions',
-        'instructors'
+        'institution',
+        'instructor'
     );
 
     public function path(){
@@ -68,20 +69,12 @@ class Course extends Model
         return $this->isOnline == Course::ONLINE;
     }
 
-    public function institutions(){
-        return $this->belongsToMany(Institution::class);
+    public function institution(){
+        return $this->belongsTo(Institution::class);
     }
 
-    public function syncInstitutions($data){
-        return $this->institutions()->sync($data);
-    }
-
-    public function instructors(){
-        return $this->belongsToMany(User::class, 'course_instructor', 'course_id', 'instructor_id');
-    }
-
-    public function syncInstructors($data){
-        return $this->instructors()->sync($data);
+    public function instructor(){
+        return $this->belongsTo(User::class, 'instructor_id');
     }
 
     public function students(){

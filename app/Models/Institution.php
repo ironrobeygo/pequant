@@ -28,7 +28,7 @@ class Institution extends Model
     }
 
     public function instructors(){
-        return $this->hasMany(User::class)->role('instructor');
+        return $this->hasMany(User::class, 'user_id');
     }
 
     public function students(){

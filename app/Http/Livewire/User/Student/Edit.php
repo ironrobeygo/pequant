@@ -12,7 +12,7 @@ class Edit extends Component
     public $student;
     public $name;
     public $email;
-    public $contact_number;
+    public $section;
     public $institution_id;
 
     public function mount(User $student){
@@ -20,7 +20,7 @@ class Edit extends Component
         $this->student = $student;
         $this->name = $this->student->name;
         $this->email = $this->student->email;
-        $this->contact_number = $this->student->contact_number;
+        $this->section = $this->student->section;
         $this->institution_id = $this->student->institution_id;
 
     }
@@ -38,7 +38,7 @@ class Edit extends Component
         $data = [
             'name'              => $this->name,
             'email'             => $this->email,
-            'contact_number'    => $this->contact_number,
+            'section'           => $this->section,
             'institution_id'    => $this->institution_id
         ];
 
@@ -54,7 +54,7 @@ class Edit extends Component
         return [
             'name'              => 'required',
             'email'             => 'required',
-            'contact_number'    => 'nullable',
+            'section'           => 'required',
             'institution_id'    => 'required'
         ];
     }
