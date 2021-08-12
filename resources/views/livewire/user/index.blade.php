@@ -37,7 +37,7 @@
                             </ul>
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->institution_id > 0 ? $user->institution->alias : '-' }}
+                            {{ $user->institution_id > 0 ? !is_null($user->institution) ? $user->institution->alias : '-' : '-' }}
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap">
                             {{ $user->created_at->format('M d, Y') }}
