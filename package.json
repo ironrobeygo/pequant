@@ -25,7 +25,6 @@
         "webpack-dev-server": "3.11.2"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-upload": "^29.1.0",
         "sortablejs": "^1.14.0"
     }
 }

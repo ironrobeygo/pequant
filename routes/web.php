@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstitutionController;
@@ -56,6 +57,9 @@ Route::group(['middleware' => 'auth'], function(){
             ]
         ]);
 
+
+
+
         Route::resource('users', UserController::class, [
             'names' => [
                 'index'     => 'users',
@@ -67,8 +71,6 @@ Route::group(['middleware' => 'auth'], function(){
         ]);
 
         Route::get('/students/batch', [StudentController::class, 'batch'])->name('students.batch');
-
-        Route::post('image_upload', [ImageController::class, 'store']);
 
         Route::resource('students', StudentController::class, [
             'names' => [
@@ -91,6 +93,10 @@ Route::group(['middleware' => 'auth'], function(){
         // ]);
 
     });
+
+    Route::get('/image', [ImageController::class, 'index'])->name('image');
+
+    Route::post('/image', [ImageController::class, 'store'])->name('image.store');
     
     Route::resource('courses', CourseController::class, [
         'names' => [

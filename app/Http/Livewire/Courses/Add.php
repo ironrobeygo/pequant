@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Courses;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Category;
@@ -18,6 +19,8 @@ class Add extends Component
     public $category_id;
     public $institution_id;
     public $instructor_id;
+    public $expiration;
+    public $expires_at;
 
     public function mount(){
         $this->categories = Category::all();
@@ -43,7 +46,9 @@ class Add extends Component
             'category_id' => $this->category_id,
             'instructor_id' => $this->instructor_id,
             'institution_id' => $this->institution_id,
-            'updated_by' => auth()->user()->id
+            'updated_by' => auth()->user()->id,
+            'expiration' => $this->expiration,
+            'expires_at'    => Carbon::now()->addMonths($this->expiration)
         ];
 
         $course = auth()->user()->addCourse($data); 
@@ -59,7 +64,8 @@ class Add extends Component
             'description'   => 'nullable',
             'category_id'   => 'required',
             'institution_id' => 'required',
-            'instructor_id' => 'required'
+            'instructor_id' => 'required',
+            'expiration'    => 'required'
         ];
     }
 }

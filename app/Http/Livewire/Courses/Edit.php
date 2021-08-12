@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Courses;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Course;
 use Livewire\Component;
@@ -19,6 +20,8 @@ class Edit extends Component
     public $category_id;
     public $institution_id;
     public $instructor_id;
+    public $expiration;
+    public $expires_at;
 
     protected $listeners = [
         'updateInstitutionIds',
@@ -36,6 +39,8 @@ class Edit extends Component
         $this->categories       = Category::all();
         $this->institutions     = Institution::all();
         $this->instructors      = $this->getInstructors();
+        $this->expiration       = $this->course->expiration;
+        $this->expires_at       = $this->course->expires_at;
 
     }
 
@@ -56,7 +61,9 @@ class Edit extends Component
             'category_id'   => $this->category_id,
             'updated_by'    => auth()->user()->id,
             'status'        => Course::PENDING,
-            'isOnline'      => Course::OFFLINE
+            'isOnline'      => Course::OFFLINE,
+            'expiration'    => $this->expiration,
+            'expires_at'    => $this->course->expiration != $this->expiration ? Carbon::now()->addMonths($this->expiration) : $this->expires_at
         ];
 
         $this->course->update($data);
@@ -80,7 +87,8 @@ class Edit extends Component
             'description'   => 'nullable',
             'category_id'   => 'required',
             'institution_id' => 'required',
-            'instructor_id' => 'required'
+            'instructor_id' => 'required',
+            'expiration'    => 'required'
         ];
     }
 }

@@ -39,6 +39,14 @@
             </select>
             @error('instructor_id') <span class="error">{{ $message }}</span> @enderror
         </div>
+        <div class="mt-4">
+            <x-jet-label for="expiration" value="{{ __('Expiration') }}" />
+            <select id="expiration" name="expiration" wire:model="expiration" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full">
+                <option value="6" {{ $expiration == 6 ? 'selected' : ''}}>6 Months</option>
+                <option value="12" {{ $expiration == 12 ? 'selected' : ''}}>12 Months</option>
+            </select>
+            @error('expiration') <span class="error">{{ $message }}</span> @enderror
+        </div>
 
         <div class="block mt-4 text-sm">
             <x-jet-label for="instructors" value="{{ __('Course Description') }}" />

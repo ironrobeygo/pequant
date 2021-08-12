@@ -30,7 +30,8 @@ class Course extends Model
         'user_id',
         'updated_by',
         'status',
-        'isOnline'
+        'isOnline',
+        'expiration'
     ];
 
 
