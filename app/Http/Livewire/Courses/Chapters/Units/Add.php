@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Courses\Chapters\Units;
 use App\Models\Course;
 use App\Models\Chapter;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Add extends Component
 {
+    use WithFileUploads;
+
     public $course;
     public $chapter;
     public $name;
