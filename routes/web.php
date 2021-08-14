@@ -94,8 +94,6 @@ Route::group(['middleware' => 'auth'], function(){
 
     });
 
-    Route::get('/image', [ImageController::class, 'index'])->name('image');
-
     Route::post('/image', [ImageController::class, 'store'])->name('image.store');
     
     Route::resource('courses', CourseController::class, [

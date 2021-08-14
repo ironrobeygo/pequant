@@ -8,9 +8,12 @@ use App\Models\Option;
 use App\Models\Chapter;
 use Livewire\Component;
 use App\Models\Question;
+use Livewire\WithFileUploads;
 
 class Add extends Component
 {
+    use WithFileUploads;
+
     public $course;
     public $chapter;
     public $quiz;
@@ -19,12 +22,17 @@ class Add extends Component
     public $weight;
     public $showOptionsForm = false;
     public $options = [];
+    public $attachments = [];
 
     public function mount(Course $course, Chapter $chapter, Quiz $quiz){
         $this->course = $course;
         $this->chapter = $chapter;
+        $this->type_id = 2; //default
         $this->quiz = $quiz;
         $this->options[] = ['value' => '', 'answer' => false];
+        $this->attachments = [
+            []
+        ];
     }
 
     public function multipleChoice($value){
@@ -73,6 +81,14 @@ class Add extends Component
             $question->syncOptions($options);
         }
 
+        foreach ($this->attachments as $attachment) {
+            $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
+            $question->addMedia($attachment[0]->getRealPath())
+                ->usingName($filename)
+                ->usingFileName($attachment[0]->getClientOriginalName())
+                ->toMediaCollection('images');
+        }
+
         return redirect()->to('/courses/'.$this->course->id.'/chapters/'.$this->chapter->id.'/quiz/'.$this->quiz->id);
 
     }
@@ -83,6 +99,15 @@ class Add extends Component
             'answer' => false
         ];
         $this->dispatchBrowserEvent('contentChanged');
+    }
+
+    public function addAttachment(){
+        $this->attachments[] = [];
+    }
+
+    public function removeAttachment($index)
+    {
+        unset($this->attachments[$index]);
     }
 
     public function render()

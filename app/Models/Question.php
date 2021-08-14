@@ -6,13 +6,16 @@ use App\Models\Quiz;
 use App\Models\User;
 use App\Models\Answer;
 use App\Models\Question;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Question extends Model
+class Question extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes;
+    use InteractsWithMedia;
 
     CONST ACTIVE    = 1;
     CONST PENDING   = 0;

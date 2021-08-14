@@ -47,7 +47,7 @@ class Index extends Component
             ->pluck('institution_id')
             ->unique();
 
-        $this->courses = Course::whereHas('institutions', function($query) use($institutions){
+        $this->courses = Course::whereHas('institution', function($query) use($institutions){
                 $query->whereIn('institution_id', $institutions);
             })
             ->get();

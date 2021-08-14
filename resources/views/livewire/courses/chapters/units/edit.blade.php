@@ -38,6 +38,55 @@
             @error('content') <span class="error">{{ $message }}</span> @enderror
         </div>
 
+        <div class="form-group mt-4">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-left">Attachments</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($medias as $mediaIndex => $media)
+                    <tr>
+                        <td>
+                            <a href="{{ $media->getUrl() }}" target="_blank">
+                                {{ $media->name }}
+                            </a>
+                        </td>
+                        <td>
+                            <span wire:click="removeMedia({{$mediaIndex}})" class="rounded">
+                                <svg class="w-6 h-6 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                    @foreach($attachments as $index => $attachment)
+                    <tr>
+                        <td>
+                            <input type="file" wire:model="attachments.{{$index}}">
+                        </td>
+                        <td>
+                            <span wire:click="removeAttachment({{$index}})" class="rounded">
+                                <svg class="w-6 h-6 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="2">
+                            <a href="#" wire:click.prevent="addAttachment" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Add attachment</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="flex justify-end mt-6">
             <x-jet-button>
                 {{ __('Update unit') }}
@@ -142,7 +191,7 @@
             return new MyUploadAdapter( loader );
         };
     }
-    
+
     DecoupledEditor
         .create( document.querySelector( '.document-editor__editable' ), {
             extraPlugins: [ SimpleUploadAdapterPlugin ],

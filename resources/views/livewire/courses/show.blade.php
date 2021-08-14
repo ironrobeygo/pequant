@@ -45,7 +45,10 @@
                                 <div class="w-full -mx-4 sm:-mx-8 px-2 sm:px-8 pb-2 overflow-x-auto">
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
                                         <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
-                                            <h3 class="text-l">{{ $unit->name }}</h3>
+                                            <h3 class="text-l">
+                                                {{ $unit->name }}
+                                                <span class="text-xs italic block">Unit</span>
+                                            </h3>
                                             <ul class="flex space-x-2">
                                                 @role('admin')
                                                 <li>
@@ -71,14 +74,20 @@
                                 <div class="w-full -mx-4 sm:-mx-8 px-2 sm:px-8 pb-2 overflow-x-auto">
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
                                         <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
-                                            <h3 class="text-l">{{ $quiz->name }}</h3>
+                                            <h3 class="text-l">
+                                                {{ $quiz->name }}
+                                                <span class="text-xs italic block">Quiz</span>
+                                            </h3>
                                             <ul class="flex space-x-2">
                                                 <li>
                                                     <a href="{{ route('courses.chapters.quiz.show', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $quiz->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-yellow-500 rounded-full text-sm">View</a>
                                                 </li>
                                                 @role('admin')
                                                 <li>
-                                                    <a href="#" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-red-500 rounded-full text-sm">Delete</a>
+                                                    <a href="{{ route('courses.chapters.quiz.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $quiz->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" wire:click.prevent="deleteQuiz({{ $quiz->id }})" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-red-500 rounded-full text-sm">Delete</a>
                                                 </li>
                                                 @endrole
                                             </ul>

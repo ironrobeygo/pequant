@@ -12,9 +12,10 @@ class ImageController extends Controller
 
     public function store(){
 
-        $image = auth()->user()->addMediaFromRequest('upload')->toMediaCollection('images');
+        $image = auth()->user()->addMediaFromRequest('file')->toMediaCollection('images');
 
         return response()->json([
+            'id'  => $image->id,
             'url' => $image->getUrl()
         ]);
     }

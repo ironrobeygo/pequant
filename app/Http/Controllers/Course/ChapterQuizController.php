@@ -17,4 +17,8 @@ class ChapterQuizController extends Controller
     public function show(Course $course, Chapter $chapter, Quiz $quiz){
         return view('admin.courses.chapters.quiz.show', compact('course', 'chapter', 'quiz'));
     }
+
+    public function edit(Course $course, Chapter $chapter, Quiz $quiz){
+        return view('admin.courses.chapters.quiz.edit', compact('course', 'chapter', 'quiz'));
+    }
 }

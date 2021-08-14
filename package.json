@@ -25,6 +25,7 @@
         "webpack-dev-server": "3.11.2"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "sortablejs": "^1.14.0"
     }
 }

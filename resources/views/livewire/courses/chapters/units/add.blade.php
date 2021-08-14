@@ -38,6 +38,38 @@
             @error('content') <span class="error">{{ $message }}</span> @enderror
         </div>
 
+        <div class="form-group mt-4">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-left">Attachments</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($attachments as $index => $attachment)
+                    <tr>
+                        <td>
+                            <input type="file" wire:model="attachments.{{$index}}">
+                        </td>
+                        <td>
+                            <span wire:click="removeAttachment({{$index}})" class="rounded">
+                                <svg class="w-6 h-6 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="2">
+                            <a href="#" wire:click.prevent="addAttachment" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Add attachment</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="flex justify-end mt-6">
             <x-jet-button>
                 {{ __('Create unit') }}
@@ -51,15 +83,11 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/decoupled-document/ckeditor.js"></script>
 @endpush
 
-<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
 <script>
     class MyUploadAdapter {
         constructor( loader ) {
-            // The file loader instance to use during the upload. It sounds scary but do not
-            // worry — the loader will be passed into the adapter later on in this guide.
             this.loader = loader;
         }
-        // Starts the upload process.
         upload() {
             return this.loader.file
                 .then( file => new Promise( ( resolve, reject ) => {
@@ -68,24 +96,17 @@
                     this._sendRequest( file );
                 } ) );
         }
-        // Aborts the upload process.
         abort() {
             if ( this.xhr ) {
                 this.xhr.abort();
             }
         }
-        // Initializes the XMLHttpRequest object using the URL passed to the constructor.
         _initRequest() {
             const xhr = this.xhr = new XMLHttpRequest();
-            // Note that your request may look different. It is up to you and your editor
-            // integration to choose the right communication channel. This example uses
-            // a POST request with JSON as a data structure but your configuration
-            // could be different.
             xhr.open( 'POST', "{{ route('image.store') }}", true );
             xhr.setRequestHeader('x-csrf-token', '{{ csrf_token() }}');
             xhr.responseType = 'json';
         }
-        // Initializes XMLHttpRequest listeners.
         _initListeners( resolve, reject, file ) {
             const xhr = this.xhr;
             const loader = this.loader;
@@ -94,26 +115,13 @@
             xhr.addEventListener( 'abort', () => reject() );
             xhr.addEventListener( 'load', () => {
                 const response = xhr.response;
-                // This example assumes the XHR server's "response" object will come with
-                // an "error" which has its own "message" that can be passed to reject()
-                // in the upload promise.
-                //
-                // Your integration may handle upload errors in a different way so make sure
-                // it is done properly. The reject() function must be called when the upload fails.
                 if ( !response || response.error ) {
                     return reject( response && response.error ? response.error.message : genericErrorText );
                 }
-                // If the upload is successful, resolve the upload promise with an object containing
-                // at least the "default" URL, pointing to the image on the server.
-                // This URL will be used to display the image in the content. Learn more in the
-                // UploadAdapter#upload documentation.
                 resolve( {
                     default: response.url
                 } );
             } );
-            // Upload progress when it is supported. The file loader has the #uploadTotal and #uploaded
-            // properties which are used e.g. to display the upload progress bar in the editor
-            // user interface.
             if ( xhr.upload ) {
                 xhr.upload.addEventListener( 'progress', evt => {
                     if ( evt.lengthComputable ) {
@@ -123,20 +131,14 @@
                 } );
             }
         }
-        // Prepares the data and sends the request.
         _sendRequest( file ) {
             // Prepare the form data.
             const data = new FormData();
-            data.append( 'upload', file );
-            // Important note: This is the right place to implement security mechanisms
-            // like authentication and CSRF protection. For instance, you can use
-            // XMLHttpRequest.setRequestHeader() to set the request headers containing
-            // the CSRF token generated earlier by your application.
-            // Send the request.
+            data.append( 'file', file );
             this.xhr.send( data );
         }
-        // ...
     }
+
     function SimpleUploadAdapterPlugin( editor ) {
         editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
             // Configure the URL to the upload script in your back-end here!

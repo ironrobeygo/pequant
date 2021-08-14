@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Courses;
 
+use App\Models\Quiz;
 use App\Models\Unit;
 use App\Models\Course;
 use App\Models\Chapter;
@@ -32,12 +33,31 @@ class Show extends Component
     }
 
     public function deleteChapter(Chapter $chapter){
+
+        foreach($chapter->units as $unit){
+            $unit->delete();
+        }
+        foreach($chapter->quizzes as $quiz){
+            $quiz->delete();
+        }
+        
         $chapter->delete();
+
         $this->emitSelf('deleted');
     }
 
     public function deleteUnit(Unit $unit){
         $unit->delete();
+        $this->emitSelf('deleted');
+    }
+
+    public function deleteQuiz(Quiz $quiz){
+        
+        foreach($quiz->questions as $question){
+            $question->delete();
+        }
+        $quiz->delete();
+        
         $this->emitSelf('deleted');
     }
 
