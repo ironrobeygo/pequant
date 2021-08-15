@@ -39,37 +39,75 @@ class UnitObserver
      */
     public function updated(Unit $unit)
     {
-        if($unit->isClean('order')){
+        if($unit->isClean('order') && $unit->isClean('chapter_id')){
             return;
         }
 
-        if(is_null($unit->order)){
-            $unit->order = Unit::where('chapter_id', $unit->chapter_id)->max('order');
-        }
+        $old = $unit->getOriginal();
+        $oldChapterId = $old['chapter_id'];
+        $oldOrder = $old['order'];
 
-        if ($unit->getOriginal('order') > $unit->order) {
-            $orderRange = [
-                $unit->order, $unit->getOriginal('order')
+        if($oldChapterId != $unit->chapter_id){
+
+            $oldChapterUnitOrderMax = Unit::where('chapter_id', $oldChapterId)->max('order');
+
+            $oldOrderRange = [
+                $oldOrder, $oldChapterUnitOrderMax
             ];
-        } else {
-            $orderRange = [
-                $unit->getOriginal('order'), $unit->order
-            ];
-        }
 
-        $lowerPriorityUnits = Unit::where('id', '!=', $unit->id)
-            ->where('chapter_id', $unit->chapter_id)
-            ->whereBetween('order', $orderRange)
-            ->get();
+            $oldChapterUnits = Unit::where('chapter_id', $oldChapterId)
+                ->whereBetween('order', $oldOrderRange)
+                ->get();
 
-        foreach ($lowerPriorityUnits as $lowerPriorityUnit) {
-            if ($unit->getOriginal('order') < $unit->order) {
-                $lowerPriorityUnit->order--;
-            } else {
-                $lowerPriorityUnit->order++;
+            foreach ($oldChapterUnits as $oldChapterUnit) {
+                $oldChapterUnit->order--;
+                $oldChapterUnit->saveQuietly();
             }
-            $lowerPriorityUnit->saveQuietly();
+
+            $lowerPriorityUnits = Unit::where('id', '!=', $unit->id)
+                ->where('chapter_id', $unit->chapter_id)
+                ->get();
+
+            foreach ($lowerPriorityUnits as $lowerPriorityUnit) {
+                if ($unit->order <= $lowerPriorityUnit->order) {
+                    $lowerPriorityUnit->order++;
+                }
+                $lowerPriorityUnit->saveQuietly();
+            }
+
+        } else {
+
+            if(is_null($unit->order)){
+                $unit->order = Unit::where('chapter_id', $unit->chapter_id)->max('order');
+            }
+
+            if ($unit->getOriginal('order') > $unit->order) {
+                $orderRange = [
+                    $unit->order, $unit->getOriginal('order')
+                ];
+            } else {
+                $orderRange = [
+                    $unit->getOriginal('order'), $unit->order
+                ];
+            }
+
+            $lowerPriorityUnits = Unit::where('id', '!=', $unit->id)
+                ->where('chapter_id', $unit->chapter_id)
+                ->whereBetween('order', $orderRange)
+                ->get();
+
+            foreach ($lowerPriorityUnits as $lowerPriorityUnit) {
+                if ($unit->getOriginal('order') < $unit->order) {
+                    $lowerPriorityUnit->order--;
+                } else {
+                    $lowerPriorityUnit->order++;
+                }
+                $lowerPriorityUnit->saveQuietly();
+            }
+
         }
+
+
     }
 
     /**
@@ -80,7 +118,7 @@ class UnitObserver
      */
     public function deleted(Unit $unit)
     {
-        $lowerPriorityUnits = Unit::where('order', '>', $category->order)
+        $lowerPriorityUnits = Unit::where('order', '>', $unit->order)
             ->where('chapter_id', $unit->chapter_id)
             ->get();
 

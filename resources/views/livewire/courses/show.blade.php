@@ -35,9 +35,9 @@
                                 @endif
                             </div>
                         </div>
-                        <ul class="sortableList">
+                        <ul class="sortableList" data-chapter_id="{{ $chapter->id }}">
                         @foreach($chapter->units as $u => $unit)
-                            <li class="flex" data-order="{{ $unit->order }}" data-unit_id="{{ $unit->id }}" data-chapter_id="{{ $chapter->id }}">
+                            <li class="flex" data-order="{{ $unit->order }}" data-unit_id="{{ $unit->id }}">
                                 <span class="inline-block pt-3 mr-2">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -47,7 +47,7 @@
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
                                         <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                             <h3 class="text-l">
-                                                {{ $unit->name }}
+                                                {{ $unit->name }} - {{ $unit->id }}
                                                 <span class="text-xs italic block">Unit {{$unit->order}}</span>
                                             </h3>
                                             <ul class="flex space-x-2">
@@ -169,10 +169,11 @@
             animation: 150,
             onEnd: function (evt) {
                 var itemEl = evt.item;  // dragged HTMLElement
+                var newEl = evt.to;
 
                 var unitOrder = itemEl.getAttribute('data-order');
                 var unitId = itemEl.getAttribute('data-unit_id');
-                var chapterId = itemEl.getAttribute('data-chapter_id');
+                var chapterId = newEl.getAttribute('data-chapter_id');
 
                 Livewire.emit('reOrderUnit', { 'unitId': unitId, 'order': evt.newIndex + 1, 'chapterId': chapterId });
             },
