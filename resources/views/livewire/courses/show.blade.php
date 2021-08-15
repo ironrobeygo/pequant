@@ -47,7 +47,7 @@
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
                                         <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                             <h3 class="text-l">
-                                                {{ $unit->name }} - {{ $unit->id }}
+                                                {{ $unit->name }}
                                                 <span class="text-xs italic block">Unit {{$unit->order}}</span>
                                             </h3>
                                             <ul class="flex space-x-2">
