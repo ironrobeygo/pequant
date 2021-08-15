@@ -45,12 +45,14 @@ class Add extends Component
 
         $unit = $this->chapter->addUnit($data);
 
-        foreach ($this->attachments as $attachment) {
-            $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
-            $unit->addMedia($attachment[0]->getRealPath())
-                ->usingName($filename)
-                ->usingFileName($attachment[0]->getClientOriginalName())
-                ->toMediaCollection('images');
+        if(!empty($this->attachments[0])){
+            foreach ($this->attachments as $attachment) {
+                $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
+                $unit->addMedia($attachment[0]->getRealPath())
+                    ->usingName($filename)
+                    ->usingFileName($attachment[0]->getClientOriginalName())
+                    ->toMediaCollection('images');
+            }            
         }
 
         return redirect()->to('/courses/'.$this->course->id);

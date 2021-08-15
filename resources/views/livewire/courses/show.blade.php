@@ -35,8 +35,9 @@
                                 @endif
                             </div>
                         </div>
+                        <ul id="sortableList">
                         @foreach($chapter->units as $u => $unit)
-                            <div class="flex">
+                            <li class="flex">
                                 <span class="inline-block pt-3 mr-2">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -62,10 +63,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </li>
                         @endforeach
                         @foreach($chapter->quizzes as $k => $quiz)
-                            <div class="flex">
+                            <li class="flex">
                                 <span class="inline-block pt-3 mr-2">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -94,8 +95,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </li>
                         @endforeach
+                        </ul>
                     </div>
                 @endforeach
             @else
@@ -155,3 +157,14 @@
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+<script type="text/javascript">
+    var el = document.getElementById('sortableList');
+    // List with handle
+    new Sortable.create(el, {
+      animation: 150
+    });
+
+</script>
