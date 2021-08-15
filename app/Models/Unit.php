@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Chapter;
+use App\Scopes\OrderScope;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -26,6 +27,13 @@ class Unit extends Model implements HasMedia
         'status', 
         'order'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+  
+        static::addGlobalScope(new OrderScope);
+    }
 
     public function path(){
         return "/api/courses/{$this->chapter->course_id}/chapters/{$this->chapter->id}/units/{$this->id}";

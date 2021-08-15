@@ -57,7 +57,7 @@ class UnitObserver
             ];
         }
 
-        $lowerPriorityCategories = Unit::where('id', '!=', $unit->id)
+        $lowerPriorityUnits = Unit::where('id', '!=', $unit->id)
             ->where('chapter_id', $unit->chapter_id)
             ->whereBetween('order', $orderRange)
             ->get();

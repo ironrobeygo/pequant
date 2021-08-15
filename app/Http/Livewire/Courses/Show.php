@@ -14,7 +14,7 @@ class Show extends Component
     public $course;
     public $zoomSignature = '';
 
-    protected $listeners = ['deleted' => 'render'];
+    protected $listeners = ['deleted' => 'render', 'reOrderUnit'];
 
     public function mount(Course $course){
         $this->course = $course;
@@ -59,6 +59,17 @@ class Show extends Component
         $quiz->delete();
         
         $this->emitSelf('deleted');
+    }
+
+    public function reOrderUnit($data){
+        $unit = Unit::find($data['unitId']);
+
+        var_dump($unit);
+        dd($data['chapterId']);
+
+        // $unit->order = $data['order'];
+        // $unit->chapter_id = $data['chapterId'];
+        // $unit->save();
     }
 
     public function hostZoomLive(){
