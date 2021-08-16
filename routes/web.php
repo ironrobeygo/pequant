@@ -11,6 +11,7 @@ use App\Http\Controllers\Users\StudentController;
 use App\Http\Controllers\Course\ChapterController;
 use App\Http\Controllers\Course\ChapterQuizController;
 use App\Http\Controllers\Course\ChapterUnitController;
+use App\Http\Controllers\Course\CoursePreviewController;
 use App\Http\Controllers\Course\CourseStudentController;
 use App\Http\Controllers\Course\ChapterQuizQuestionController;
 
@@ -57,9 +58,6 @@ Route::group(['middleware' => 'auth'], function(){
             ]
         ]);
 
-
-
-
         Route::resource('users', UserController::class, [
             'names' => [
                 'index'     => 'users',
@@ -79,6 +77,12 @@ Route::group(['middleware' => 'auth'], function(){
                 'store'     => 'students.store',
                 'update'    => 'students.update',
                 'delete'    => 'students.delete'
+            ]
+        ]);
+
+        Route::resource('courses.preview', CoursePreviewController::class,[
+            'names' => [
+                'index'     => 'courses.preview',
             ]
         ]);
 
