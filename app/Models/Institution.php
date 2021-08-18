@@ -23,14 +23,6 @@ class Institution extends Model
         return "/api/institutions/{$this->id}";
     }
 
-    public function courses(){
-        return $this->belongsToMany(Course::class);
-    }
-
-    public function instructors(){
-        return $this->hasMany(User::class, 'user_id');
-    }
-
     public function students(){
         return $this->hasMany(User::class)->role('student');
     }

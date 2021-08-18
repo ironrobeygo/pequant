@@ -77,9 +77,6 @@
                     @role('admin')
                     <li class="mb-2">
                         <span class="font-bold block">Instructors:</span>
-                        @foreach( $course->instructors as $instructor )
-                            <span class="block">{{ $instructor->name }} ({{$instructor->institution->alias}})</span>
-                        @endforeach             
                     </li>
                     @endrole
                     <li class="mb-2">

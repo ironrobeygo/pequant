@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Institution;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class Add extends Component
 {
@@ -24,16 +25,23 @@ class Add extends Component
 
     public function newStudent(){
         $this->validate();
+
+        $password = str_random(16);
+
         $data = [
             'name'              => $this->name,
             'email'             => $this->email,
             'section'           => $this->section,
-            'password'          => Hash::make('!@#$%^&*'),
+            'password'          => Hash::make($password),
             'institution_id'    => $this->institution_id
         ];
 
         $user = User::create($data);
         $user->assignRole('student');
+
+        $data['password'] = $password;
+
+        Notification::send($user, new StudentCreated($data));
 
         alert()->success('A student has been added.', 'Congratulations!');
 

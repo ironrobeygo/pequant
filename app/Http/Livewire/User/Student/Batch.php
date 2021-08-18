@@ -35,6 +35,8 @@ class Batch extends Component
                 ->each(
                     function(array $data){
 
+                        $password = str_random(16);
+
                         $institution = Institution::where('name', $data['institution'])->firstOrFail();
                         $course = Course::where('name', $data['course'])->firstOrFail();
 
@@ -44,11 +46,12 @@ class Batch extends Component
                             'name'              => $data['name'] . ' ' . $data['last_name'],
                             'email'             => $data['email'],
                             'contact_number'    => $data['contact_number'],
-                            'password'          => Hash::make('!@#$%^&*'),
+                            'section'           => $data['section'],
+                            'password'          => Hash::make($password),
                             'institution_id'    => $institution->id
                         ]);
 
-                        $user->assignRole($data['role']);
+                        $user->assignRole('student');
 
                         $course->enrolStudent($user->id);
 

@@ -21,12 +21,6 @@
     <script src="js/vconsole.min.js"></script>
     <script src="js/meeting.js"></script>
 
-    <script>
-        
-    </script>
-
-
-    asdfasd
 </body>
 
 </html>

@@ -106,10 +106,10 @@
         </div>
         <div class="w-1/4 mb-2">
             @hasanyrole('admin|instructor')
-<!--             <a wire:click="hostZoomLive" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+            <a wire:click.prevent="hostZoomLive" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
                 Host Live Class 
                 <span class="ml-2" aria-hidden="true">+</span>
-            </a> -->
+            </a>
             @endhasanyrole
             <div class="w-full bg-white shadow-md rounded-md rounded-md overflow-hidden p-4 mb-4">
                 <ul>
@@ -147,12 +147,12 @@
             </div>
             @endhasanyrole
 
-<!--             <div id="zoom-dev" x-show="showModal" class="absolute border border-gray-500 text-center">
-                <div class="divHeader bg-mohs-green-500 text-white cursor-move text-2xl p-2">
+            <div id="zoom-dev" x-show="showModal" class="absolute border border-gray-500 text-center">
+                <div class="divHeader bg-mohs-green-500 text-white cursor-move text-2xl p-2" style="width: 606px;">
                     Live Class
                 </div>
-                <iframe src="http://127.0.0.1:9999/meeting.html?name=Um9iIEdv&mn=73416191884&email=&pwd=gL8xBW&role=1&lang=en-US&signature=X3lJQjh6cUtTSGVBVkZWcmdSTHZMdy43MzQxNjE5MTg4NC4xNjI3ODE0MzQ1NTE0LjEuaVJSUGsvcGVwMW5qSjFxOFllS2NCQlZObm13TkdMYVBndFF4aXNaM2tzdz0&china=0&apiKey=_yIB8zqKSHeAVFVrgRLvLw" width="100%" height="583px" allow="camera;microphone" style="border: none;"></iframe>
-            </div> -->
+                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone" style="border: none;"></iframe>
+            </div>
         </div>
     </div>
 
@@ -180,4 +180,50 @@
         });
     }
 
+    // Make the DIV element draggable:
+    dragElement(document.getElementById("zoom-dev"));
+
+    function dragElement(elmnt) {
+        var pos1 = 0,
+            pos2 = 0,
+            pos3 = 0,
+            pos4 = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
 </script>

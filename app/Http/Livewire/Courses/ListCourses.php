@@ -20,7 +20,9 @@ class ListCourses extends Component
     public function render()
     {
         if(auth()->user()->hasRole('instructor')){
-            $courses = auth()->user()->instructorCourses()->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage); 
+
+            $courses = Course::where('instructor_id', auth()->user()->id)->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage);
+
         } else if(auth()->user()->hasRole('student')){
             $courses = auth()->user()->studentCourses()->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage);
         } else {

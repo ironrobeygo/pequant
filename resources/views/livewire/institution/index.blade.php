@@ -22,8 +22,6 @@
                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">Institutions</th>
-                        <th class="py-3 px-6 text-left">Courses</th>
-                        <th class="py-3 px-6 text-left">Instructors</th>
                         <th class="py-3 px-6 text-left">Students</th>
                         <th class="py-3 px-6 text-left">Zoom Account</th>
                         <th class="py-3 px-6 text-center">Actions</th>
@@ -38,12 +36,6 @@
                             </td>
                             <td class="py-3 px-6 text-left whitespace-nowrap">
                                 {{ $institution->name }}
-                            </td>
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                {{ $institution->courses->count() }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $institution->instructors->count() }}
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 {{ $institution->students->count() }}

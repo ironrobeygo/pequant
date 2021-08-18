@@ -16,6 +16,7 @@ class Show extends Component
     public $content;
     public $progress;
     public $visited;
+    public $zoomSignature = '';
 
     public function mount(Course $course){
         $this->course = $course;
@@ -82,5 +83,15 @@ class Show extends Component
                         ->first();
         $progress->completed_at = Carbon::now();
         $progress->save();
+    }
+
+    public function hostZoomLive(){      
+
+        $user = auth()->user();
+        $meeting_number = 84882799343;
+        $password = 911412;
+        $role = 0;
+
+        $this->zoomSignature = '/zoom?user='.$user->firstName().'&api='.$user->institution->zoom_api.'&secret='.$user->institution->zoom_secret.'&meeting_number='.$meeting_number.'&password='.$password.'&role='.$role;
     }
 }
