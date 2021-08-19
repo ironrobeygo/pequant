@@ -41,17 +41,19 @@ class Add extends Component
         $this->validate();
 
         $data = [
-            'name' => $this->name,
-            'description' => $this->description,
-            'category_id' => $this->category_id,
+            'name'          => $this->name,
+            'description'   => $this->description,
+            'category_id'   => $this->category_id,
             'instructor_id' => $this->instructor_id,
-            'institution_id' => $this->institution_id,
-            'updated_by' => auth()->user()->id,
-            'expiration' => $this->expiration,
+            'institution_id'=> $this->institution_id,
+            'updated_by'    => auth()->user()->id,
+            'expiration'    => $this->expiration,
             'expires_at'    => Carbon::now()->addMonths($this->expiration)
         ];
 
         $course = auth()->user()->addCourse($data); 
+
+        alert()->success('A new course has been created.', 'Congratulations!');
 
         // return $course;
         return redirect()->to('/courses/'.$course->id);

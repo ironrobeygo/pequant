@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div class="container mx-auto" x-data="{ showLiveZoom: false }">
     <div class="flex -mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto space-x-4">
         <div class="w-3/4">
             @if($course->chapters->count() > 0)
@@ -106,7 +106,7 @@
         </div>
         <div class="w-1/4 mb-2">
             @hasanyrole('admin|instructor')
-            <a wire:click.prevent="hostZoomLive" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+            <a wire:click.prevent="hostZoomLive" x-on:click="showLiveZoom = true" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
                 Host Live Class 
                 <span class="ml-2" aria-hidden="true">+</span>
             </a>
@@ -147,7 +147,7 @@
             </div>
             @endhasanyrole
 
-            <div id="zoom-dev" x-show="showModal" class="absolute border border-gray-500 text-center">
+            <div id="zoom-dev" x-show="showLiveZoom" class="absolute border border-gray-500 text-center">
                 <div class="divHeader bg-mohs-green-500 text-white cursor-move text-2xl p-2" style="width: 606px;">
                     Live Class
                 </div>

@@ -134,7 +134,7 @@
         _sendRequest( file ) {
             // Prepare the form data.
             const data = new FormData();
-            data.append( 'file', file );
+            data.append( 'upload', file );
             this.xhr.send( data );
         }
     }

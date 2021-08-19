@@ -31,7 +31,7 @@
                                             @if(in_array($unit->id, $student->studentProgressCompleted()))
                                             <div class="flex">
                                                 <span class="text-sm italic text-mohs-green-500">
-                                                    Completed in {{ $student->getCompletionTime($unit->id)->duration }} minutes
+                                                    Completed in {{ number_format($student->getCompletionTime($unit->id)->duration / 60, 2) }} hour(s)
                                                 </span>
                                             </div>
                                             @endif

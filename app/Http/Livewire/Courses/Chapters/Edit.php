@@ -44,7 +44,7 @@ class Edit extends Component
     protected function rules(){
         return [
             'name'      => 'required',
-            'content'   => 'required',
+            'content'   => 'nullable',
         ];
     }
 }

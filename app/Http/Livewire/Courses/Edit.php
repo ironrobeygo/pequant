@@ -68,6 +68,8 @@ class Edit extends Component
 
         $this->course->update($data);
 
+        alert()->success($this->name . ' course has been updated successfully.', 'Congratulations!');
+
         // return $course;
         return redirect()->to('/courses/'.$this->course->id.'/edit');
 

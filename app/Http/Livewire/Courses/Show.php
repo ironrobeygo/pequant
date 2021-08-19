@@ -70,13 +70,20 @@ class Show extends Component
         $this->emitSelf('updated');
     }
 
-    public function hostZoomLive(){      
+    public function hostZoomLive(){  
 
         $user = auth()->user();
+        $firstName = $user->firstName();
+        $institution = $user->institution;
+        if( $user->hasRole('admin') ){
+            $institution = $this->course->instructor->institution;
+        } 
+
         $meeting_number = 84882799343;
         $password = 911412;
         $role = 1;
 
-        $this->zoomSignature = '/zoom?user='.$user->firstName().'&api='.$user->institution->zoom_api.'&secret='.$user->institution->zoom_secret.'&meeting_number='.$meeting_number.'&password='.$password.'&role='.$role;
+        $this->zoomSignature = '/zoom?user='.$user->firstName().'&api='.$institution->zoom_api.'&secret='.$institution->zoom_secret.'&meeting_number='.$meeting_number.'&password='.$password.'&role='.$role;
+
     }
 }
