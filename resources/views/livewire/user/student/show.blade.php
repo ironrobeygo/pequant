@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-2" x-data="{ showModal: false }">
+<div class="relative container mx-auto mt-2" x-data="{ showModal: false }">
     <a wire:click.prevent="hostZoomLive" x-on:click.prevent="showModal = true" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
         Host Live Class 
         <span class="ml-2" aria-hidden="true">+</span>
@@ -37,7 +37,7 @@
             @endforeach                
             </ul>
 
-            <div id="zoom-dev" x-show="showModal" class="absolute border border-gray-500 text-center">
+            <div id="zoom-dev" x-show="showModal" class="absolute border border-gray-500 text-center top-0 left-0">
                 <div class="divHeader bg-mohs-green-500 text-white cursor-move text-2xl p-2" style="width: 606px;">
                     Live Class
                 </div>
