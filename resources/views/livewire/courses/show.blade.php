@@ -151,7 +151,7 @@
                 <div class="divHeader bg-mohs-green-500 text-white cursor-move text-2xl p-2" style="width: 606px;">
                     Live Class
                 </div>
-                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone cross-origin-isolated" style="border: none;"></iframe>
+                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
             </div>
         </div>
     </div>
