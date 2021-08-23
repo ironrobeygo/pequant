@@ -168,6 +168,6 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/zoom', function(){
         return view('frontend.course');
-    });
+    })->middleware('myHeader');
 
 });
