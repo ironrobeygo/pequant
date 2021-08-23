@@ -109,7 +109,7 @@ Route::group(['middleware' => 'auth'], function(){
             'update'    => 'courses.update',
             'delete'    => 'courses.delete'
         ]
-    ]);
+    ])->middleware('myHeader');
 
     Route::resource('courses.students', CourseStudentController::class, [
         'names' => [
