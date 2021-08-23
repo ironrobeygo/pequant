@@ -1,6 +1,9 @@
 <div class="container mx-auto" x-data="{ showLiveZoom: false }">
-    <div class="relative flex -mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto space-x-4">
-        <div class="w-3/4">
+    <div class="relative flex -mx-4 sm:-mx-8 px-4 sm:px-8 space-x-4">
+        <div class="w-3/4 items-start">
+            <div id="zoom-dev" x-show="showLiveZoom" class="border text-center left-0 top-0 mb-4">
+                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
+            </div>
             @if($course->chapters->count() > 0)
                 @foreach($course->chapters as $key => $chapter)
                     <div class="mb-2">
@@ -146,13 +149,6 @@
                 </p>
             </div>
             @endhasanyrole
-
-            <div id="zoom-dev" x-show="showLiveZoom" class="absolute border border-gray-500 text-center left-0 top-0">
-                <div class="divHeader bg-mohs-green-500 text-white cursor-move text-2xl p-2" style="width: 606px;">
-                    Live Class
-                </div>
-                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
-            </div>
         </div>
     </div>
 
