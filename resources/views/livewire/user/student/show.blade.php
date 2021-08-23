@@ -1,9 +1,14 @@
-<div class="relative container mx-auto mt-2" x-data="{ showModal: false }">
-    <a wire:click.prevent="hostZoomLive" x-on:click.prevent="showModal = true" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
-        Host Live Class 
-        <span class="ml-2" aria-hidden="true">+</span>
-    </a>
-    <div class="flex -mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto space-x-4">
+<div class="relative mt-2" x-data="{ showSticky: false }">
+    <h2 class="font-semibold text-xl leading-loose text-gray-800 leading-tight flex justify-between mb-4">
+       {{$course->name}}
+
+        <a wire:click.prevent="hostZoomLive" x-on:click.prevent="showSticky = true" class="flex items-center justify-between px-4 py-3 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+            Join Live Class 
+            <span class="ml-2" aria-hidden="true">+</span>
+        </a>
+    </h2>
+
+    <div class="flex -mx-4 sm:-mx-8 px-4 sm:px-8 space-x-4">
         <div class="w-1/4 mb-2">
             <ul class="border border-b-1 border-t-0 border-r-0 border-l-0">
             @foreach($course->chapters as $chapter)
@@ -36,15 +41,12 @@
                 </li>
             @endforeach                
             </ul>
-
-            <div id="zoom-dev" x-show="showModal" class="absolute border border-gray-500 text-center top-0 left-0">
-                <div class="divHeader bg-mohs-green-500 text-white cursor-move text-2xl p-2" style="width: 606px;">
-                    Live Class
-                </div>
-                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
-            </div>
         </div>
         <div class="w-3/4">
+
+            <div id="zoom-dev" x-show="showSticky" class="sticky top-0 w-full border border-gray-500 text-center top-0 left-0 mb-4">
+                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
+            </div>
 
             @if($title == '')
 
@@ -98,7 +100,7 @@
 </style>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     // Make the DIV element draggable:
     dragElement(document.getElementById("zoom-dev"));
 
@@ -145,4 +147,4 @@
             document.onmousemove = null;
         }
     }
-</script>
+</script> -->

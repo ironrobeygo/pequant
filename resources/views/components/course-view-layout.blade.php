@@ -30,7 +30,7 @@
 
                 <main class="h-full overflow-y-auto">
 
-                    <div class="container px-6 mx-auto grid">
+                    <div class="px-6 grid">
                         @if (isset($header))
                             <h2 class="flex justify-between mt-6 mb-3 text-2xl font-semibold text-gray-700 leading-normal">
                                 {{ $header }}
