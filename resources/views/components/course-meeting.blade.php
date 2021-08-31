@@ -8,6 +8,14 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="origin-trial" content="">
+    <style type="text/css">
+        .media-preview-container p{
+            display:  none;
+        }
+        .av-preview-container{
+            height:  280px!important;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,6 +28,7 @@
     <script src="https://source.zoom.us/zoom-meeting-1.9.7.min.js"></script>
     <script src="{{ asset('js/admin/tool.js') }}"></script>
     <script src="{{ asset('js/admin/vconsole.min.js') }}"></script>
+
 
     <script type="text/javascript">
 

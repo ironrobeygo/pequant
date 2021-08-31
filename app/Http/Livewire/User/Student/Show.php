@@ -3,28 +3,42 @@
 namespace App\Http\Livewire\User\Student;
 
 use Carbon\Carbon;
+use App\Models\Quiz;
 use App\Models\Unit;
+use App\Models\User;
 use App\Models\Course;
 use Livewire\Component;
 use App\Models\Progress;
+use Livewire\WithFileUploads;
 
 class Show extends Component
 {
+    use WithFileUploads;
+
     public $course;
     public $title;
     public $video;
     public $content;
     public $progress;
     public $visited;
-    public $zoomSignature = '';
+    public $questions;
+    public $counter;
+    public $zoomSignature;
+    public $submitQuiz;
+    public $answerType;
 
     public function mount(Course $course){
         $this->course = $course;
         $this->title = '';
         $this->video = '';
         $this->content = '';
+        $this->questions = [];
         $this->progress = [];
         $this->visited = [];
+        $this->counter = 1;
+        $this->zoomSignature = '';
+        $this->submitQuiz = [];
+        $this->answerType = 'checkbox';
     }
 
     public function render()
@@ -69,12 +83,33 @@ class Show extends Component
         }
 
         if($type == 'quiz'){
-
             $quiz = Quiz::find($id);
-
+            $this->title = $quiz->name;
+            $this->questions = $quiz->questions->where('status', 1);
+            
+            if( auth()->user()->hasRole('student') ){
+                $admins = User::whereHas("roles", function($q){ $q->where("name", "admin"); })->get()->pluck('id')->toArray();
+                $instructor = $this->course->instructor->id;
+                array_push($admins, $instructor);
+                $this->questions = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
+            }
 
         }
 
+    }
+
+    public function getAnswerCount($data){
+        $type = 'checkbox';
+
+        $count = $data->pluck('answer')->filter(function($value, $key){
+            return $value == 1;
+        });
+
+        if($count->count() == 1){
+            $type = 'radio';
+        }
+
+        return $type;
     }
 
     public function progressUpdate($id){
@@ -83,6 +118,10 @@ class Show extends Component
                         ->first();
         $progress->completed_at = Carbon::now();
         $progress->save();
+    }
+
+    public function submitQuiz(){
+        dd($this->submitQuiz);
     }
 
     public function hostZoomLive(){      

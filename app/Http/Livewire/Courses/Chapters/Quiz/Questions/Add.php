@@ -36,7 +36,7 @@ class Add extends Component
     }
 
     public function multipleChoice($value){
-        if( $value == 1 ){
+        if( $value == 1){
             $this->showOptionsForm = true;
         } else {
             $this->showOptionsForm = false;
@@ -80,6 +80,7 @@ class Add extends Component
 
             $question->syncOptions($options);
         }
+
         if(!empty($this->attachments[0])){
             foreach ($this->attachments as $attachment) {
                 $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);

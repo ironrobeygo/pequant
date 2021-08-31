@@ -22,7 +22,7 @@
                         @endforeach
                         @foreach($chapter->quizzes as $quiz)
                         <li>
-                            <a href="#" class="flex px-4 py-5 border border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, 'unit')">
+                            <a href="#" class="flex px-4 py-5 border border-b-0" wire:click.prevent="updateContent({{ $quiz->id }}, 'quiz')">
                                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 {{ $quiz->name }}
                             </a>
@@ -54,8 +54,36 @@
                     <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
                     <div class="document-editor__editable-container">
                         <div class="document-editor__editable">
+                            @if(empty($questions))
                             <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
                             {!! $content !!}
+                            @else
+                            <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
+
+                                @foreach($questions as $question)
+                                <div>
+                                    <h3>{{ $counter++ .'. ' .$question->question }}</h3>
+                                    @if($question->type_id == 1)
+                                        <ul>
+                                        @foreach($question->options as $option)
+                                            <li>
+                                                {{ $option->value }}
+                                            </li>
+                                        @endforeach
+                                        </ul>
+                                    @endif
+
+                                    @if($question->type_id == 2)
+                                    <textarea></textarea>
+                                    @endif
+
+                                    @if($question->type_id == 3)
+                                    <textarea></textarea>
+                                    @endif
+                                </div>
+                                @endforeach
+
+                            @endif
                         </div>
                     </div>
                 </div>

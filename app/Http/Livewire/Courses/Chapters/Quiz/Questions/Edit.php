@@ -39,7 +39,7 @@ class Edit extends Component
     }
 
     public function multipleChoice($value){
-        if( $value == 1 ){
+        if( $value == 1){
             $this->showOptionsForm = true;
         } else {
             $this->showOptionsForm = false;

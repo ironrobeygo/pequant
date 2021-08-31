@@ -66,6 +66,7 @@ class Batch extends Component
             alert()->error('An error has occurred, please double check your input file', 'Please try again!');
 
         } catch(ModelNotFoundException $h){
+            DB::rollback();
             alert()->error('An error has occurred, please double check your input file', 'Please try again!');
 
         }

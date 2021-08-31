@@ -27,7 +27,7 @@ use App\Http\Controllers\Course\ChapterQuizQuestionController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {

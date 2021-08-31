@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Courses;
 
 use App\Models\Quiz;
 use App\Models\Unit;
+use App\Models\User;
 use App\Models\Course;
 use Livewire\Component;
 use App\Models\Progress;
@@ -15,6 +16,8 @@ class Preview extends Component
     public $video;
     public $content;
     public $progress;
+    public $questions;
+    public $counter = 1;
     public $visited;
 
     public function mount(Course $course){
@@ -24,6 +27,7 @@ class Preview extends Component
         $this->content = '';
         $this->progress = [];
         $this->visited = [];
+        $this->questions = [];
     }
 
     public function render()
@@ -54,10 +58,9 @@ class Preview extends Component
         }
 
         if($type == 'quiz'){
-
             $quiz = Quiz::find($id);
-
-
+            $this->title = $quiz->name;
+            $this->questions = $quiz->questions->where('status', 1);
         }
 
     }
