@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Course;
 use Livewire\Component;
 use App\Models\Institution;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +36,7 @@ class Batch extends Component
                 ->each(
                     function(array $data){
 
-                        $password = str_random(16);
+                        $password = Str::random(16);
 
                         $institution = Institution::where('name', $data['institution'])->firstOrFail();
                         $course = Course::where('name', $data['course'])->firstOrFail();
@@ -63,11 +64,11 @@ class Batch extends Component
 
         } catch(QueryException $e){
             DB::rollback();
-            alert()->error('An error has occurred, please double check your input file', 'Please try again!');
+            alert()->error($e->getMessage(), 'Please try again!');
 
         } catch(ModelNotFoundException $h){
             DB::rollback();
-            alert()->error('An error has occurred, please double check your input file', 'Please try again!');
+            alert()->error($h->getMessage(), 'Please try again!');
 
         }
 

@@ -45,7 +45,7 @@
         <div class="w-3/4">
 
             <div id="zoom-dev" x-show="showSticky" class="sticky top-0 w-full border border-gray-500 text-center top-0 left-0 mb-4 z-50">
-                <iframe src="{{ $zoomSignature }}" width="100%" height="583px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
+                <iframe src="{{ $zoomSignature }}" width="100%" height="400px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
             </div>
 
             @if($title == '')

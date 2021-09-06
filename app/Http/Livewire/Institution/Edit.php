@@ -25,6 +25,7 @@ class Edit extends Component
         $this->zoom_secret = $institution->zoom_secret;
 
     }
+    
     public function render()
     {
         return view('livewire.institution.edit');

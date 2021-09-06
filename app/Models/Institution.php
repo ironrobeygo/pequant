@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Course;
+use App\Models\Schedule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -23,6 +24,10 @@ class Institution extends Model
         return "/api/institutions/{$this->id}";
     }
 
+    public function courses(){
+        return $this->hasMany(Course::class);
+    }
+
     public function students(){
         return $this->hasMany(User::class)->role('student');
     }
@@ -31,5 +36,9 @@ class Institution extends Model
     {
         return empty($search) ? static::query()
             : static::query()->where('name', 'like', '%'.$search.'%');
+    }
+
+    public function schedules(){
+        return $this->hasMany(Schedule::class);
     }
 }

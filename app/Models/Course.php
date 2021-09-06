@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Chapter;
 use App\Models\Category;
+use App\Models\Schedule;
 use App\Models\Institution;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -94,5 +95,13 @@ class Course extends Model
     {
         return empty($search) ? static::query()
             : static::query()->where('name', 'like', '%'.$search.'%');
+    }
+
+    public function schedule(){
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function addSchedule($data){
+        return $this->schedule()->create($data);
     }
 }

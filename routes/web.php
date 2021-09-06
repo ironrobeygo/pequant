@@ -13,6 +13,7 @@ use App\Http\Controllers\Course\ChapterQuizController;
 use App\Http\Controllers\Course\ChapterUnitController;
 use App\Http\Controllers\Course\CoursePreviewController;
 use App\Http\Controllers\Course\CourseStudentController;
+use App\Http\Controllers\Institution\ScheduleController;
 use App\Http\Controllers\Course\ChapterQuizQuestionController;
 
 /*
@@ -55,6 +56,16 @@ Route::group(['middleware' => 'auth'], function(){
                 'store'     => 'institutions.store',
                 'update'    => 'institutions.update',
                 'delete'    => 'institutions.delete'
+            ]
+        ]);
+
+        Route::resource('institutions.schedules', ScheduleController::class, [
+            'names' => [
+                'index'     => 'institutions.schedules',
+                'create'    => 'institutions.schedules.add',
+                'store'     => 'institutions.schedules.store',
+                'update'    => 'institutions.schedules.update',
+                'delete'    => 'institutions.schedules.delete'
             ]
         ]);
 
