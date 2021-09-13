@@ -67,6 +67,8 @@ class Add extends Component
 
     public function addSchedule(){
 
+        $this->validate();
+
         $course = $this->getCourse();
 
         $body = [
@@ -98,13 +100,15 @@ class Add extends Component
         $zoom_response = json_decode($response->getBody());
 
         $data = [
-            'meeting_id' => $zoom_response->id,
-            'date'  => date("Y-m-d\TH:i:s", $this->start_time),
-            'duration'  => $this->duration,
-            'recurrence_type'  => $this->recurrence_type,
+            'meeting_id'        => $zoom_response->id,
+            'date'              => date("Y-m-d\TH:i:s", $this->start_time),
+            'duration'          => $this->duration,
+            'recurrence_type'   => $this->recurrence_type,
             'recurrence_interval' => $this->recurrence_interval,
-            'recurrence_day' => $this->recurrence_day,
-            'course_length' => $this->length
+            'recurrence_day'    => $this->recurrence_day,
+            'course_length'     => $this->length,
+            'start_url'         => $zoom_response->start_url,
+            'join_url'          => $zoom_response->join_url
         ];
 
         $course->addSchedule($data);
@@ -127,6 +131,23 @@ class Add extends Component
         );
 
         return JWT::encode($payload, $this->apiSecret, 'HS256');
+    }
+
+    protected function messages(){
+        return [
+            'course_id.gt' => 'Please select a course'
+        ];
+    }
+
+    protected function rules(){
+        return [
+            'course_id'     => 'required|gt:0',
+            'duration'      => 'required',
+            'recurrence_type'=> 'required',
+            'recurrence_day'=> 'required',
+            'recurrence_interval'=> 'required',
+            'length'        => 'required'
+        ];
     }
 
 }

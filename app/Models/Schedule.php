@@ -21,6 +21,8 @@ class Schedule extends Model
         'recurrence_day',
         'recurrence_interval',
         'course_length',
+        'start_url',
+        'join_url'
     ];
 
     public function institution(){

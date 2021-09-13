@@ -1,15 +1,12 @@
 <div class="container mx-auto" x-data="{ showLiveZoom: false }">
-    <div class="relative flex -mx-4 sm:-mx-8 px-4 sm:px-8 space-x-4">
-        <div class="w-3/4 items-start">
-            <div id="zoom-dev" x-show="showLiveZoom" class="border text-center left-0 top-0 mb-4">
-                <iframe src="{{ $zoomSignature }}" width="100%" height="400px" allow="camera;microphone;cross-origin-isolated" style="border: none;"></iframe>
-            </div>
+    <div class="relative lg:flex -mx-4 sm:-mx-8 px-4 sm:px-8 lg:space-x-4">
+        <div class="lg:w-3/4 items-start">
             @if($course->chapters->count() > 0)
                 @foreach($course->chapters as $key => $chapter)
                     <div class="mb-2">
                         <div class="-mx-4 sm:-mx-8 px-2 sm:px-8 py-2 overflow-x-auto">
                             <div class="bg-white shadow-md rounded-md overflow-hidden">
-                                <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
+                                <div class="lg:flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                     <h3 class="text-l">Chapter {{ $key + 1 }} : {{ $chapter->name }}</h3>
                                     <ul class="flex space-x-2">
                                         <li>
@@ -48,7 +45,7 @@
                                 </span>
                                 <div class="w-full -mx-4 sm:-mx-8 px-2 sm:px-8 pb-2 overflow-x-auto">
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
-                                        <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
+                                        <div class="lg:flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                             <h3 class="text-l">
                                                 {{ $unit->name }}
                                                 <span class="text-xs italic block">Unit {{$unit->order}}</span>
@@ -77,7 +74,7 @@
                                 </span>
                                 <div class="w-full -mx-4 sm:-mx-8 px-2 sm:px-8 pb-2 overflow-x-auto">
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
-                                        <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
+                                        <div class="lg:flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                             <h3 class="text-l">
                                                 {{ $quiz->name }}
                                                 <span class="text-xs italic block">Quiz</span>
@@ -107,12 +104,14 @@
                 <p>This course doesn't have a chapter yet!</p>
             @endif
         </div>
-        <div class="w-1/4 mb-2">
+        <div class="lg:w-1/4 mb-2">
             @hasanyrole('admin|instructor')
-            <a wire:click.prevent="hostZoomLive" x-on:click="showLiveZoom = true" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
-                Host Live Class 
-                <span class="ml-2" aria-hidden="true">+</span>
-            </a>
+                @if($course->schedule)
+                <a href="{{$course->schedule->start_url}}" target="_blank" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+                    Host Live Class 
+                    <span class="ml-2" aria-hidden="true">+</span>
+                </a>
+                @endif
             @endhasanyrole
             <div class="w-full bg-white shadow-md rounded-md rounded-md overflow-hidden p-4 mb-4">
                 <ul>

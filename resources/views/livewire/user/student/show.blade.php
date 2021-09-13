@@ -2,7 +2,7 @@
     <h2 class="font-semibold text-xl leading-loose text-gray-800 leading-tight flex justify-between mb-4">
        {{$course->name}}
 
-        <a wire:click.prevent="hostZoomLive" x-on:click.prevent="showSticky = true" class="flex items-center justify-between px-4 py-3 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+        <a href="{{ $course->schedule->join_url }}" target="_blank" class="flex items-center justify-between px-4 py-3 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
             Join Live Class 
             <span class="ml-2" aria-hidden="true">+</span>
         </a>

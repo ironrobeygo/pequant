@@ -98,7 +98,7 @@ class Course extends Model
     }
 
     public function schedule(){
-        return $this->hasMany(Schedule::class);
+        return $this->hasOne(Schedule::class);
     }
 
     public function addSchedule($data){

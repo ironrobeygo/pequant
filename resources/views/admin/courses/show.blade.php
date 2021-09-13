@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         {{ $course->name }}
-        <div class="flex justify-items space-x-2">
-	        <a href="{{ route('courses.preview', ['course' => $course->id]) }}" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none space-x-4">
+        <div class="lg:flex md:flex justify-items lg:space-x-2 md:space-x-2">
+	        <a href="{{ route('courses.preview', ['course' => $course->id]) }}" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none space-x-4 mb-2">
 	            Preview
 				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -10,7 +10,7 @@
 				</svg>
 	        </a>
         	@role('admin')
-	        <a href="{{ route('courses.chapters.add', ['course' => $course->id]) }}" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+	        <a href="{{ route('courses.chapters.add', ['course' => $course->id]) }}" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none mb-2">
 	            Create Chapter
 	            <span class="ml-2" aria-hidden="true">+</span>
 	        </a>

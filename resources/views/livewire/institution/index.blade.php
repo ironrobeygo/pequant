@@ -45,7 +45,7 @@
                             <td class="py-3 px-6 text-center">
                                 <ul class="flex justify-center">
                                     <li>
-                                        <a href="/institutions/{{ $institution->id }}/schedules/create" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                        <a href="/institutions/{{ $institution->id }}/schedules" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
                                             View
                                         </a>
                                     </li> 
@@ -55,7 +55,7 @@
                                         </a>
                                     </li> 
                                     <li>
-                                        <a href="/institutions/{{ $institution->id }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                        <a wire:click.prevent="delete({{ $institution->id }})" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110 cursor-pointer">
                                             Delete
                                         </a>
                                     </li>
