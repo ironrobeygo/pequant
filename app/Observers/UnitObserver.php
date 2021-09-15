@@ -15,6 +15,7 @@ class UnitObserver
      */
     public function created(Unit $unit)
     {
+
         if(is_null($unit->order)){
             $unit->order = Unit::where('chapter_id', $unit->chapter_id)->max('order') + 1;
             $unit->save();
@@ -31,12 +32,6 @@ class UnitObserver
         }
     }
 
-    /**
-     * Handle the Unit "updated" event.
-     *
-     * @param  \App\Models\Unit  $unit
-     * @return void
-     */
     public function updated(Unit $unit)
     {
         if($unit->isClean('order') && $unit->isClean('chapter_id')){
@@ -44,8 +39,8 @@ class UnitObserver
         }
 
         $old = $unit->getOriginal();
-        $oldChapterId = $old['chapter_id'];
-        $oldOrder = $old['order'];
+        $oldChapterId = isset($old['chapter_id']) ? $old['chapter_id'] : $unit->chapter_id;
+        $oldOrder = isset($old['order']) ? $old['order'] : $unit->order;
 
         if($oldChapterId != $unit->chapter_id){
 
@@ -110,12 +105,6 @@ class UnitObserver
 
     }
 
-    /**
-     * Handle the Unit "deleted" event.
-     *
-     * @param  \App\Models\Unit  $unit
-     * @return void
-     */
     public function deleted(Unit $unit)
     {
         $lowerPriorityUnits = Unit::where('order', '>', $unit->order)

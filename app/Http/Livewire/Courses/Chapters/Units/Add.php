@@ -55,6 +55,8 @@ class Add extends Component
             }            
         }
 
+        alert()->success('A new unit has been created.', 'Congratulations!');
+
         return redirect()->to('/courses/'.$this->course->id);
 
     }

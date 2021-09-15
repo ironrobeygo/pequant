@@ -120,7 +120,7 @@ Route::group(['middleware' => 'auth'], function(){
             'update'    => 'courses.update',
             'delete'    => 'courses.delete'
         ]
-    ])->middleware('myHeader');
+    ]);
 
     Route::resource('courses.students', CourseStudentController::class, [
         'names' => [
@@ -176,9 +176,5 @@ Route::group(['middleware' => 'auth'], function(){
             'delete'    => 'courses.chapters.quiz.questions.delete'
         ]
     ]);
-
-    Route::get('/zoom', function(){
-        return view('frontend.course');
-    })->middleware('myHeader');
 
 });
