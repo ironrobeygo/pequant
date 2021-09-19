@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Question;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Answer extends Model
+class Score extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'question_id',
-        'type',
-        'answer',
-        'point'
+        'quiz_id',
+        'score'
     ];
 }

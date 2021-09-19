@@ -11,10 +11,14 @@ class Add extends Component
     public $course;
     public $chapter;
     public $name;
+    public $attachments = [];
 
     public function mount(Course $course, Chapter $chapter){
         $this->course = $course;
         $this->chapter = $chapter;
+        $this->attachments = [
+            []
+        ];
     }
 
     public function render()
@@ -32,10 +36,31 @@ class Add extends Component
             'updated_by' => auth()->user()->id
         ];
 
-        $this->chapter->addQuiz($data); 
+        $quiz = $this->chapter->addQuiz($data); 
+
+        if(!empty($this->attachments[0])){
+            foreach ($this->attachments as $attachment) {
+                $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
+                $quiz->addMedia($attachment[0]->getRealPath())
+                    ->usingName($filename)
+                    ->usingFileName($attachment[0]->getClientOriginalName())
+                    ->toMediaCollection('images');
+            }            
+        }
+
+        alert()->success('A new quiz has been created.', 'Congratulations!');
 
         return redirect()->to('/courses/'.$this->course->id);
 
+    }
+
+    public function addAttachment(){
+        $this->attachments[] = [];
+    }
+
+    public function removeAttachment($index)
+    {
+        unset($this->attachments[$index]);
     }
 
     protected function rules(){

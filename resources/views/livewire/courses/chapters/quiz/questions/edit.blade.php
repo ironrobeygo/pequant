@@ -4,9 +4,8 @@
         <div class="block text-sm mb-4">
             <x-jet-label for="type_id" value="{{ __('Question Type') }}" />
             <select id="type_id" name="type_id" wire:model="type_id" wire:change="multipleChoice($event.target.value)" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full">
-                <option>Select question type</option>
-                <option value="1">Multiple Choice - Single Answer</option>
-                <option value="2">Open Ended Question</option>
+                <option value="2" selected>Open Ended Question</option>
+                <option value="1">Multiple Choice</option>
                 <option value="3">File Upload</option>
             </select>
             @error('type_id') <span class="error">{{ $message }}</span> @enderror

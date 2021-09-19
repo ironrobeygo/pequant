@@ -46,14 +46,6 @@ class Preview extends Component
             $data = [
                 'unit_id' => $unit->id,
             ];
-
-            $exists = Progress::where('student_id', auth()->user()->id)
-                        ->where('unit_id', $id)
-                        ->first();
-
-            if( $exists === null ){
-                auth()->user()->addProgress($data);
-            }
             
         }
 
@@ -61,6 +53,7 @@ class Preview extends Component
             $quiz = Quiz::find($id);
             $this->title = $quiz->name;
             $this->questions = $quiz->questions->where('status', 1);
+            
         }
 
     }

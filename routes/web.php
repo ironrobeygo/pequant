@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
@@ -29,6 +30,22 @@ use App\Http\Controllers\Course\ChapterQuizQuestionController;
 
 Route::get('/', function () {
     return redirect('/login');
+});
+
+Route::get('/test', function (){
+    $question = Question::find(55)
+                    ->options
+                    ->filter(function($value, $key){
+                        return $value->answer == 1;
+                    })
+                    ->pluck('id')
+                    ->toArray();
+
+    $answer = array(97, 98);
+    sort($answer);
+    sort($question);
+
+    dd($answer == $question);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {

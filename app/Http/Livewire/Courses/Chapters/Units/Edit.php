@@ -60,6 +60,8 @@ class Edit extends Component
             }
         }
 
+        alert()->success('A unit has been updated successfully.', 'Congratulations!');
+
         return redirect()->to('/courses/'.$this->course->id);
 
     }

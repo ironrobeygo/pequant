@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Unit;
+use App\Models\Score;
+use App\Models\Answer;
 use App\Models\Course;
 use App\Models\Progress;
 use App\Models\Institution;
@@ -119,6 +121,22 @@ class User extends Authenticatable implements HasMedia
             ->where('unit_id', $unit_id)
             ->selectRaw('TIMESTAMPDIFF(minute, created_at, completed_at) as duration')
             ->first();
+    }
+
+    public function answers(){
+        return $this->hasMany(Answer::class);
+    }
+
+    public function addAnswer($data){
+        return $this->answers()->create($data);
+    }
+
+    public function scores(){
+        return $this->hasMany(Score::class);
+    }
+
+    public function addScore($data){
+        return $this->scores()->create($data);
     }
 
 }

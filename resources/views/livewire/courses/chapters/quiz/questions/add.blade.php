@@ -22,7 +22,7 @@
             @error('question') <span class="error">{{ $message }}</span> @enderror
         </div>
 
-        <div class="block text-sm mb-4">
+        <div class="block text-sm mb-4 w-1/6">
             <x-jet-label for="weight" value="{{ __('Percentage') }}" />
             <x-jet-input id="weight" class="block mt-1 w-full" type="text" wire:model="weight" name="weight" :value="old('weight')"/>
             @error('weight') <span class="error">{{ $message }}</span> @enderror
@@ -158,7 +158,7 @@
         _sendRequest( file ) {
             // Prepare the form data.
             const data = new FormData();
-            data.append( 'file', file );
+            data.append( 'upload', file );
             this.xhr.send( data );
         }
     }

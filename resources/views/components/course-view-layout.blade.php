@@ -21,27 +21,11 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
-    <body>
-        <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
+    <body x-data="{ 'showModal': false, 'isSideMenuOpen': false, 'isPagesMenuOpen': false }">
 
-            <div class="flex flex-col flex-1 w-full">
+        <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
 
-                @livewire('header-bar')
-
-                <main class="h-full overflow-y-auto">
-
-                    <div class="px-6 grid">
-                        @if (isset($header))
-                            <h2 class="flex justify-between mt-6 mb-3 text-2xl font-semibold text-gray-700 leading-normal">
-                                {{ $header }}
-                            </h2>
-                        @endif
-
-                        {{ $slot }}
-                    </div>
-                    
-                </main>
-            </div>
+            {{ $slot }}
 
         </div>
 

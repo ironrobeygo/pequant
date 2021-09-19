@@ -12,7 +12,6 @@ class Show extends Component
 {
     public $count;
     public $course;
-    public $zoomSignature = '';
 
     protected $listeners = ['deleted' => 'render', 'updated' => 'render', 'reOrderUnit'];
 
@@ -68,22 +67,5 @@ class Show extends Component
         $unit->save();
 
         $this->emitSelf('updated');
-    }
-
-    public function hostZoomLive(){  
-
-        $user = auth()->user();
-        $firstName = $user->firstName();
-        $institution = $user->institution;
-        if( $user->hasRole('admin') ){
-            $institution = $this->course->instructor->institution;
-        } 
-
-        $meeting_number = 84882799343;
-        $password = 911412;
-        $role = 1;
-
-        $this->zoomSignature = '/zoom?user='.$user->firstName().'&api='.$institution->zoom_api.'&secret='.$institution->zoom_secret.'&meeting_number='.$meeting_number.'&password='.$password.'&role='.$role;
-
     }
 }
