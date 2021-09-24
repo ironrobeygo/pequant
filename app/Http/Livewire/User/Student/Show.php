@@ -168,6 +168,7 @@ class Show extends Component
                         ->toMediaCollection('quiz');
 
                     $data = [
+                        'quiz_id'       => $this->currentQuiz,
                         'question_id'   => $key,
                         'type'          => 'file',
                         'answer'        => $fileUpload->id,
@@ -217,6 +218,7 @@ class Show extends Component
             }
 
             $data = [
+                'quiz_id'       => $this->currentQuiz,
                 'question_id'   => $key,
                 'type'          => $type,
                 'answer'        => $temp,
@@ -229,6 +231,10 @@ class Show extends Component
             'quiz_id' => $this->currentQuiz,
             'score' => $score
         ];
+
+        if( $quiz_type == 'custom' ){
+            $quizData['completed'] = 1;
+        }
 
         $user->addScore($quizData);
 

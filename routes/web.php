@@ -10,6 +10,7 @@ use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Users\StudentController;
 use App\Http\Controllers\Course\ChapterController;
+use App\Http\Controllers\CourseStudentQuizController;
 use App\Http\Controllers\Course\ChapterQuizController;
 use App\Http\Controllers\Course\ChapterUnitController;
 use App\Http\Controllers\Course\CoursePreviewController;
@@ -147,6 +148,14 @@ Route::group(['middleware' => 'auth'], function(){
             'show'      => 'courses.students.show',
             'update'    => 'courses.students.update',
             'delete'    => 'courses.students.delete'
+        ]
+    ]);
+
+    Route::resource('courses.students.quiz', CourseStudentQuizController::class, [
+        'names' => [
+            'show'      => 'courses.students.quiz.show',
+            'update'    => 'courses.students.quiz.update',
+            'delete'    => 'courses.students.quiz.delete'
         ]
     ]);
 

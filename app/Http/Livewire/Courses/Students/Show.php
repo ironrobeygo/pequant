@@ -20,4 +20,6 @@ class Show extends Component
     {
         return view('livewire.courses.students.show');
     }
+
+    
 }

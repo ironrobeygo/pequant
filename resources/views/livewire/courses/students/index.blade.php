@@ -39,7 +39,7 @@
                         <th class="py-3 px-6 text-left">Institution</th>
                         @endrole
                         <th class="py-3 px-6 text-left">Joined Date</th>
-                        <th class="py-3 px-6 text-center">Progress</th>
+                        <th class="py-3 px-6 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
@@ -69,11 +69,19 @@
                                 {{ $student->created_at }}
                             </td>
                             <td class="py-3 px-6 text-center">
-                                <div class="relative pt-1">
+<!--                                 <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-mohs-orange-100">
                                         <div style="width:{{ rand(0, 100)  }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-mohs-orange-600"></div>
                                     </div>
-                                </div>
+                                </div> -->
+
+                                <ul class="flex justify-center">
+                                    <li>
+                                        <a href="{{ route('courses.students.show', ['course' => $course, 'student' => $student]) }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                            Gradebook
+                                        </a>
+                                    </li> 
+                                </ul>
                             </td>
                         </tr>
                         @endforeach

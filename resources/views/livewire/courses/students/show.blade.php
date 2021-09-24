@@ -51,9 +51,18 @@
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
                                         <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                             <h3 class="text-l">{{ $quiz->name }}</h3>
-                                            <span class="px-2 py-1 font-semibold leading-tight cursor-pointer  text-yellow-700 bg-yellow-100 rounded-full">
-                                                Submitted
+                                            @if($student->getQuizScore($quiz->id)->completed == 0)
+                                            <span class="px-2 py-1 font-semibold leading-tight text-mohs-green-700 bg-mohs-green-100 rounded-full">
+                                                Completed
                                             </span>
+                                            @else
+                                            <a href="{{ route('courses.students.quiz.show', ['course' => $course, 'student' => $student, 'quiz' => $quiz]) }}" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full">
+                                                Submitted
+                                            </a>
+                                            @endif
+                                        </div>
+                                        <div class="w-full px-5 py-3">
+                                            Score: {{ $student->getQuizScore($quiz->id)->score }}/{{ $quiz->getQuizTotal() }}
                                         </div>
                                     </div>
                                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Quiz;
 use App\Models\Unit;
 use App\Models\Score;
 use App\Models\Answer;
@@ -137,6 +138,37 @@ class User extends Authenticatable implements HasMedia
 
     public function addScore($data){
         return $this->scores()->create($data);
+    }
+
+    public function scopeGetQuizScore($query, $quiz_id){
+        return $this->scores()->where('quiz_id', $quiz_id)->first();
+    }
+
+    public function scopeGetQuizAnswers($query, $quiz_id){
+
+        $collections = $this->answers()
+            ->where('quiz_id', $quiz_id)
+            ->get()
+            ->map(function($item, $key){
+
+                $data[$item->question_id] = array(
+                    'answer_id' => $item->id,
+                    'answer'    => $item->answer,
+                    'point'     => $item->point
+                );
+
+                return $data;
+            });
+
+        $return = array();
+
+        foreach($collections as $collection){
+            foreach($collection as $key => $coll){
+                $return[$key] = $coll;
+            }
+        }
+
+        return $return;
     }
 
 }

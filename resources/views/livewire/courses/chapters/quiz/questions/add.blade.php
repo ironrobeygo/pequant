@@ -23,7 +23,7 @@
         </div>
 
         <div class="block text-sm mb-4 w-1/6">
-            <x-jet-label for="weight" value="{{ __('Percentage') }}" />
+            <x-jet-label for="weight" value="{{ __('Max Score') }}" />
             <x-jet-input id="weight" class="block mt-1 w-full" type="text" wire:model="weight" name="weight" :value="old('weight')"/>
             @error('weight') <span class="error">{{ $message }}</span> @enderror
         </div>
