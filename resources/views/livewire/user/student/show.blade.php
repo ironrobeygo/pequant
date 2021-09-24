@@ -14,11 +14,11 @@
 
             <ul class="bg-gray-600 text-white">
                 @foreach($course->chapters as $u => $chapter)
-                    <li class="border border-b-0">
-                        <div class="bg-mohs-green-600 text-white p-4 text-lg">
+                    <li class="border border-b-0" x-data="{show:false}">
+                        <div class="bg-mohs-green-600 text-white p-4 text-lg cursor-pointer" @click="show=!show">
                            {{ $u + 1 .'. '.$chapter->name }} 
                         </div>
-                        <ul>
+                        <ul x-show="show">
                             @foreach($chapter->units as $unit)
                             <li>
                                 <a href="#" class="block p-4 border border-gray-50 border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, 'unit')">

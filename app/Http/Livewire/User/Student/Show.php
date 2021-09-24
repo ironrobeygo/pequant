@@ -16,6 +16,7 @@ class Show extends Component
 {
     use WithFileUploads;
 
+    public $student;
     public $currentUnit;
     public $currentQuiz;
     public $course;
@@ -48,19 +49,20 @@ class Show extends Component
         $this->answerType   = 'checkbox';
         $this->currentQuiz  = 0;
         $this->currentUnit  = 0;
+        $this->student      = auth()->user();
 
-        $this->progress = auth()->user()
+        $this->progress = $this->student
             ->progress()
             ->whereNotNull('completed_at')
             ->get()
             ->pluck('unit_id')->toArray();
 
-        $this->visited = auth()->user()
+        $this->visited = $this->student
             ->progress()
             ->get()
             ->pluck('unit_id')->toArray();
 
-        $this->answered = auth()->user()
+        $this->answered = $this->student
             ->scores()
             ->get()
             ->pluck('quiz_id')->toArray();
@@ -90,12 +92,12 @@ class Show extends Component
                 'unit_id' => $unit->id,
             ];
 
-            $exists = Progress::where('student_id', auth()->user()->id)
+            $exists = Progress::where('student_id', $this->student->id)
                         ->where('unit_id', $id)
                         ->first();
 
             if( $exists === null ){
-                auth()->user()->addProgress($data);
+                $this->student->addProgress($data);
             }
 
             
@@ -112,11 +114,13 @@ class Show extends Component
             $this->submitQuiz   = [];
 
             if(in_array($quiz->id, $this->answered)){
-                $this->status       = 'Congratulations on completing your quiz!';
-                $this->quizMessage  = 'You will be notified when this quiz has been graded.';
+
+                $quizScore = $this->student->getQuizScore($quiz->id);
+                $this->status       = $quizScore->score .'/'.$quiz->getQuizTotal();
+                $this->quizMessage  = 'Congratulations on completing your quiz!';
             }
             
-            if( auth()->user()->hasRole('student') ){
+            if( $this->student->hasRole('student') ){
                 $admins         = User::whereHas("roles", function($q){ $q->where("name", "admin"); })->get()->pluck('id')->toArray();
                 $instructor     = $this->course->instructor->id;
                 array_push($admins, $instructor);
@@ -142,7 +146,7 @@ class Show extends Component
     }
 
     public function progressUpdate($id){
-        $progress = Progress::where('student_id', auth()->user()->id)
+        $progress = Progress::where('student_id', $this->student->id)
                         ->where('unit_id', $id)
                         ->first();
         $progress->completed_at = Carbon::now();
@@ -151,7 +155,6 @@ class Show extends Component
 
     public function submitQuiz(){
 
-        $user = auth()->user();
         $type = 'text';
         $score = 0;
         $total = count($this->questions);
@@ -162,7 +165,7 @@ class Show extends Component
             foreach($this->submitQuiz['attachments'] as $attachment){
                 foreach($attachment as $key => $attach){
                     $filename = pathinfo($attach->getClientOriginalName(), PATHINFO_FILENAME);
-                    $fileUpload = $user->addMedia($attach->getRealPath())
+                    $fileUpload = $student->addMedia($attach->getRealPath())
                         ->usingName($filename)
                         ->usingFileName($attach->getClientOriginalName())
                         ->toMediaCollection('quiz');
@@ -174,7 +177,7 @@ class Show extends Component
                         'answer'        => $fileUpload->id,
                         'point'         => 0
                     ];
-                    $user->addAnswer($data);
+                    $student->addAnswer($data);
                 }
             }
 
@@ -224,7 +227,7 @@ class Show extends Component
                 'answer'        => $temp,
                 'point'         => $point
             ];
-            $user->addAnswer($data);
+            $student->addAnswer($data);
         }
 
         $quizData = [
@@ -236,7 +239,7 @@ class Show extends Component
             $quizData['completed'] = 1;
         }
 
-        $user->addScore($quizData);
+        $student->addScore($quizData);
 
         $this->status       = $score . '/'. $total;
         $this->quizMessage  = 'Congratulations on completing your quiz!';
