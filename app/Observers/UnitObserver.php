@@ -101,8 +101,6 @@ class UnitObserver
             }
 
         }
-
-
     }
 
     public function deleted(Unit $unit)

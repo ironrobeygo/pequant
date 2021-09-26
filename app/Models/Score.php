@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Quiz;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Score extends Model
 {
@@ -14,4 +15,8 @@ class Score extends Model
         'quiz_id',
         'score'
     ];
+
+    public function quiz(){
+        return $this->belongsTo(Quiz::class);
+    }
 }

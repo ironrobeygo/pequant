@@ -7,6 +7,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Users\StudentController;
 use App\Http\Controllers\Course\ChapterController;
@@ -31,22 +32,6 @@ use App\Http\Controllers\Course\ChapterQuizQuestionController;
 
 Route::get('/', function () {
     return redirect('/login');
-});
-
-Route::get('/test', function (){
-    $question = Question::find(55)
-                    ->options
-                    ->filter(function($value, $key){
-                        return $value->answer == 1;
-                    })
-                    ->pluck('id')
-                    ->toArray();
-
-    $answer = array(97, 98);
-    sort($answer);
-    sort($question);
-
-    dd($answer == $question);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -200,6 +185,17 @@ Route::group(['middleware' => 'auth'], function(){
             'show'      => 'courses.chapters.quiz.questions.show',
             'update'    => 'courses.chapters.quiz.questions.update',
             'delete'    => 'courses.chapters.quiz.questions.delete'
+        ]
+    ]);
+
+    Route::resource('announcements', AnnouncementController::class, [
+        'names' => [
+            'index'     => 'announcements',
+            'create'    => 'announcements.add',
+            'store'     => 'announcements.store',
+            'show'      => 'announcements.show',
+            'update'    => 'announcements.update',
+            'delete'    => 'announcements.delete'
         ]
     ]);
 

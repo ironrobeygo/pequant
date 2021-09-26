@@ -4,5 +4,4 @@
     </x-slot>
 
     @livewire('dashboard')
-    
 </x-app-layout>

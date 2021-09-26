@@ -20,32 +20,36 @@
                         </div>
                         <ul x-show="show">
                             @foreach($chapter->units as $unit)
-                            <li>
-                                <a href="#" class="block p-4 border border-gray-50 border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, 'unit')">
-                                    <span class="flex block">
-                                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            <li class="flex p-4 border-b">
+                                <span>
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                    @if(in_array($unit->id, $visited))
+                                    <input type="checkbox" class="leading-loose ml-1 mr-2 z-50" wire:change="progressUpdate({{ $unit->id }})" {{ in_array($unit->id, $progress) ? 'checked' : '' }}>
+                                    @endif
+                                </span>
+                                <a href="#" class="block" wire:click.prevent="updateContent({{ $unit->id }}, 'unit')">
+                                    <span>
                                         {{ $unit->name }}
                                     </span>
                                     <span class="block text-sm italic">
-                                        @if(in_array($unit->id, $visited))
-                                        <input type="checkbox" class="leading-loose ml-1 mr-2" wire:change="progressUpdate({{ $unit->id }})" {{ in_array($unit->id, $progress) ? 'checked' : '' }}>
-                                        @endif
                                         unit
                                     </span>
                                 </a>
                             </li>
                             @endforeach
                             @foreach($chapter->quizzes as $quiz)
-                            <li>
-                                <a href="#" class="block p-4 border border-b-0" wire:click.prevent="updateContent({{ $quiz->id }}, 'quiz')">
-                                    <span class="flex block">
-                                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <li class="flex p-4">
+                                <span>
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    @if(in_array($quiz->id, $answered))
+                                    <input type="checkbox" class="leading-loose ml-1 mr-2" {{ in_array($quiz->id, $answered) ? 'checked' : '' }} disabled>
+                                    @endif
+                                </span>
+                                <a href="#" class="block" wire:click.prevent="updateContent({{ $quiz->id }}, 'quiz')">
+                                    <span>
                                         {{ $quiz->name }}
                                     </span>
                                     <span class="block text-sm italic">
-                                        @if(in_array($quiz->id, $answered))
-                                        <input type="checkbox" class="leading-loose ml-1 mr-2" {{ in_array($quiz->id, $answered) ? 'checked' : '' }} disabled>
-                                        @endif
                                         quiz
                                     </span>
                                 </a>

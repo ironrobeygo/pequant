@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course;
 
 use App\Models\Course;
+use App\Events\CourseAccess;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -42,6 +43,8 @@ class CourseController extends Controller
     }
 
     public function show(Course $course){
+
+        event(new CourseAccess(auth()->user(), $course));
 
         if(auth()->user()->hasRole('student')){
             return view('users.students.show', compact('course'));

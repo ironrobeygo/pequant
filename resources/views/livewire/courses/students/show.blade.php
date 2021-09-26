@@ -51,9 +51,14 @@
                                     <div class="bg-white shadow-md rounded-md overflow-hidden">
                                         <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                             <h3 class="text-l">{{ $quiz->name }}</h3>
-                                            @if($student->getQuizScore($quiz->id)->completed == 0)
+
+                                            @if( $student->getQuizScore($quiz->id) !== false && $student->getQuizScore($quiz->id)->completed == 0)
                                             <span class="px-2 py-1 font-semibold leading-tight text-mohs-green-700 bg-mohs-green-100 rounded-full">
                                                 Completed
+                                            </span>
+                                            @elseif( $student->getQuizScore($quiz->id) === false )
+                                            <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">
+                                                Not submitted
                                             </span>
                                             @else
                                             <a href="{{ route('courses.students.quiz.show', ['course' => $course, 'student' => $student, 'quiz' => $quiz]) }}" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full">
@@ -62,7 +67,7 @@
                                             @endif
                                         </div>
                                         <div class="w-full px-5 py-3">
-                                            Score: {{ $student->getQuizScore($quiz->id)->score }}/{{ $quiz->getQuizTotal() }}
+                                            Score: {{ $student->getQuizScore($quiz->id) !== false ? $student->getQuizScore($quiz->id)->score : 0 }}/{{ $quiz->getQuizTotal() }}
                                         </div>
                                     </div>
                                 </div>

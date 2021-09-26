@@ -45,4 +45,8 @@ class Quiz extends Model
     public function scopeGetQuizTotal($query){
         return $this->questions()->where('status', 1)->whereIn('user_id', array(1,2,3,4))->sum('weight');
     }
+
+    public function completed(){
+        return $this->completed == 0 ? true : false;
+    }
 }

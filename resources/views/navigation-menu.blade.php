@@ -10,6 +10,13 @@
             </x-jet-nav-link>
         </ul>
         <ul>
+            @hasrole('admin|instructor')
+            <x-jet-nav-link href="{{ route('announcements') }}" :active="request()->routeIs('announcements')">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="ml-4">{{ __('Announcements') }}</span>
+            </x-jet-nav-link>
             <x-jet-nav-link href="{{ route('courses') }}" :active="request()->routeIs('courses')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -18,13 +25,8 @@
                 </svg>
                 <span class="ml-4">{{ __('Courses') }}</span>
             </x-jet-nav-link>
+            @endhasrole
             @role('admin')
-            <x-jet-nav-link href="{{ route('categories') }}" :active="request()->routeIs('categories')">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                <span class="ml-4">{{ __('Gradebook') }}</span>
-            </x-jet-nav-link>
             <x-jet-nav-link href="{{ route('categories') }}" :active="request()->routeIs('categories')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -47,11 +49,28 @@
             </x-jet-nav-link>
             <x-jet-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 </svg>
                 <span class="ml-4">{{ __('Users') }}</span>
             </x-jet-nav-link>
             @endrole
+            <x-jet-nav-link href="/user/profile" :active="request()->routeIs('user/profile')">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="ml-4">{{ __('Profile') }}</span>
+            </x-jet-nav-link>
+            <li class="relative px-6 py-3 leading-none">
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <button type="submit" class="inline-flex items-center w-full px-1 text-sm font-semibold transition-colors duration-150 rounded-md">
+                        <svg class="w-6 h-6 mr-3" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                        </svg>
+                        <span>{{ __('Log Out') }}</span>
+                    </button>
+                </form>
+            </li>
         </ul>
     </div>
 </aside>

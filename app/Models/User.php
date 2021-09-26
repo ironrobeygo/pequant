@@ -9,6 +9,7 @@ use App\Models\Answer;
 use App\Models\Course;
 use App\Models\Progress;
 use App\Models\Institution;
+use App\Models\Announcement;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -92,7 +93,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     public function instructorCourses(){
-        return $this->belongsToMany(Course::class, 'course_instructor', 'instructor_id', 'course_id');
+        return $this->hasMany(Course::class, 'instructor_id');
     }
 
     public function studentCourses(){
@@ -112,6 +113,36 @@ class User extends Authenticatable implements HasMedia
     public function addProgress($data){
         return $this->progress()->create($data);
     } 
+
+    public function scopeStudentRecentProgress(){
+
+        return $this->progress()->orderBy('updated_at', 'desc')->get();
+
+    }
+
+    public function scopeStudentProgress($query, $course_id){
+
+        $total_units    = 0;
+        $chapters = $this->studentCourses()
+            ->where('course_id', $course_id)
+            ->first()
+            ->chapters;
+
+        foreach($chapters as $chapter){
+            $total_units += $chapter->units->count();
+            $total_units += $chapter->quizzes->count();
+        }
+
+        $completed = $this->progress->filter(function($value, $key){
+            return $value->isCompleted();
+        })->count();
+
+        if( $completed == 0 || $total_units == 0 ){
+            return 0;
+        }
+
+        return number_format($completed/$total_units*100, 2);
+    }
 
     public function scopeStudentProgressCompleted($query){
         return $this->progress()->whereNotNull('completed_at')->get()->pluck('unit_id')->toArray();
@@ -141,7 +172,14 @@ class User extends Authenticatable implements HasMedia
     }
 
     public function scopeGetQuizScore($query, $quiz_id){
-        return $this->scores()->where('quiz_id', $quiz_id)->first();
+        $score = $this->scores()->where('quiz_id', $quiz_id)->first();
+
+        if(!$score){
+            return false;
+        }
+
+        return $score;
+
     }
 
     public function scopeGetQuizAnswers($query, $quiz_id){
@@ -171,4 +209,11 @@ class User extends Authenticatable implements HasMedia
         return $return;
     }
 
+    public function announcements(){
+        return $this->hasMany(Announcement::class);
+    }
+
+    public function addAnnouncement($data){
+        return $this->announcements()->create($data);
+    }
 }

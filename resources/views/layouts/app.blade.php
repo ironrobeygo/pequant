@@ -25,8 +25,6 @@
 
             <div class="flex flex-col flex-1 w-full">
 
-                @livewire('header-bar')
-
                 <main class="h-full overflow-y-auto">
 
                     <div class="container px-6 mx-auto grid">
