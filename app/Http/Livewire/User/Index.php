@@ -14,6 +14,7 @@ class Index extends Component
     public $search = '';
     public $orderBy = 'id';
     public $orderAsc = false;
+    public $deleteUser = '';
 
     protected $listeners = ['deleted' => 'render'];
 
@@ -29,8 +30,15 @@ class Index extends Component
         return view('livewire.user.index', compact('users'));
     }
 
-    public function userDelete(User $user){
-        $user->delete();
-        $this->emitSelf('deleted');
+    public function delete(User $user){
+        $this->deleteUser = $user;
+    }
+
+    public function confirmDelete(){
+        if(is_object($this->deleteUser)){
+            $this->deleteUser->delete();
+            $this->emitSelf('deleted');
+            $this->deleteUser = '';
+        }
     }
 }

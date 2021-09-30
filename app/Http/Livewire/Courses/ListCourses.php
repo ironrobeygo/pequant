@@ -14,6 +14,7 @@ class ListCourses extends Component
     public $search = '';
     public $orderBy = 'id';
     public $orderAsc = false;
+    public $deleteCourse = '';
 
     public $listeners = ["updatedList" => 'render'];
 
@@ -124,7 +125,16 @@ class ListCourses extends Component
     }
 
     public function delete(Course $course){
-        $course->delete();
-        $this->emitSelf('updatedList');
+        $this->deleteCourse = $course;
+    }
+
+    public function confirmDelete(){
+
+        if(is_object($this->deleteCourse)){
+            $this->deleteCourse->delete();
+            $this->emitSelf('updatedList');
+            $this->deleteCourse = '';
+        }
+
     }
 }

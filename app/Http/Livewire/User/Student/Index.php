@@ -19,6 +19,7 @@ class Index extends Component
     public $courses = [];
     public $selectedCourse;
     public $student;
+    public $deleteUser = '';
 
     public $listeners = ["updatedList" => 'render'];
 
@@ -74,9 +75,16 @@ class Index extends Component
         $course->unEnrolStudent($this->student);
     }
 
-    public function userDelete(User $student){
-        $student->delete();
-        $this->emitSelf('updatedList');
+    public function delete(User $user){
+        $this->deleteUser = $user;
+    }
+
+    public function confirmDelete(){
+        if(is_object($this->deleteUser)){
+            $this->deleteUser->delete();
+            $this->emitSelf('updatedList');
+            $this->deleteUser = '';
+        }
     }
 
 }
