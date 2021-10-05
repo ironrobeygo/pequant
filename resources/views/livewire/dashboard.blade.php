@@ -53,37 +53,22 @@
 
 <div class="flex w-full space-x-4 mb-4">
 
-    <div class="rounded overflow-hidden shadow-lg w-1/2">
+    <div class="rounded overflow-hidden shadow-lg w-full">
         <div class="font-bold mb-2 bg-gray-200 text-gray-600 uppercase text-sm leading-normal py-3 px-6">Announcements</div>
         <div class="py-3 px-6">
             <ul>
-                @foreach($announcements as $announcement)
-                <li class="mb-2 border-b border-dashed pb-2">
-                    <span class="font-bold block">{{ $announcement->name }} <span class="font-normal">by</span> {{ $announcement->user->id == auth()->user()->id ? 'You' : $announcement->user->name }} <span class="italic text-xs">({{ $announcement->created_at->diffForHumans() }})</span></span> 
-                    <p class="text-gray-700 text-base text-justify">
-                         {{ $announcement->announcement }}
-                    </p>
-                </li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-
-    <div class="rounded overflow-hidden shadow-lg w-1/2">
-        <div class="font-bold mb-2 bg-gray-200 text-gray-600 uppercase text-sm leading-normal py-3 px-6">Events Log</div>
-        <div class="py-3 px-6">
-
-            <ul>
-                @foreach($activities as $activity)
-                <li class="mb-2 border-b border-dashed pb-2 flex justify-between">
-                    <span class="{{ $activity->event }}">
-                        {{ $activity->user->id == auth()->user()->id ? 'You' : $activity->user->name }} {{ Str::limit($activity->event, 30) }}
-                    </span>
-                    <span class="italic text-xs">
-                        {{ $activity->created_at->diffForHumans() }}
-                    </span>
-                </li>
-                @endforeach
+                @if(!$announcements->isEmpty())
+                    @foreach($announcements as $announcement)
+                    <li class="mb-2 border-b border-dashed pb-2">
+                        <span class="font-bold block">{{ $announcement->name }} <span class="font-normal">by</span> {{ $announcement->user->id == auth()->user()->id ? 'You' : $announcement->user->name }} <span class="italic text-xs">({{ $announcement->created_at->diffForHumans() }})</span></span> 
+                        <p class="text-gray-700 text-base text-justify">
+                             {{ $announcement->announcement }}
+                        </p>
+                    </li>
+                    @endforeach
+                @else
+                <li>No current active announcements</li>
+                @endif
             </ul>
         </div>
     </div>

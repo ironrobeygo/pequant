@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\RecordController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstitutionController;
@@ -100,17 +101,17 @@ Route::group(['middleware' => 'auth'], function(){
             ]
         ]);
 
-        // Route::resource('students', StudentCourseController::class, [
-        //     'names' => [
-        //         'index'     => 'students.courses',
-        //         'create'    => 'students.courses.add',
-        //         'store'     => 'students.courses.store',
-        //         'update'    => 'students.courses.update',
-        //         'delete'    => 'students.courses.delete'
-        //     ]
-        // ]);
-
     });
+
+    Route::resource('activities', ActivityController::class, [
+        'names' => [
+            'index'     => 'activities',
+            'create'    => 'activities.add',
+            'store'     => 'activities.store',
+            'update'    => 'activities.update',
+            'delete'    => 'activities.delete'
+        ]
+    ]);
 
     Route::post('/image', [ImageController::class, 'store'])->name('image.store');
     
@@ -198,5 +199,7 @@ Route::group(['middleware' => 'auth'], function(){
             'delete'    => 'announcements.delete'
         ]
     ]);
+
+    Route::get('/records/students/{student}/quiz/{quiz}',  [RecordController::class, 'index']);
 
 });
