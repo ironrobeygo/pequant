@@ -51,7 +51,7 @@
                             </td>
                             @role('admin')
                             <td class="px-4 py-3 text-sm">
-                                {{ $course->instructor->name }}
+                                {{ ($course->instructor ? $course->instructor->name : '-') }}
                             </td>
                             @endrole
                             <td class="px-4 py-3 text-xs">
