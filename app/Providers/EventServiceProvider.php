@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Unit;
+use App\Models\Question;
 use App\Events\QuizOpened;
 use App\Events\UnitOpened;
 use App\Events\CourseAccess;
@@ -14,6 +15,7 @@ use App\Listeners\LogUnitOpened;
 use App\Listeners\LogCourseAccess;
 use App\Listeners\LogQuizSubmitted;
 use App\Listeners\LogUnitCompleted;
+use App\Observers\QuestionObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -64,5 +66,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Unit::observe(UnitObserver::class);
+        Question::observe(QuestionObserver::class);
     }
 }

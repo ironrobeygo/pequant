@@ -13,8 +13,9 @@ class Show extends Component
     public $course;
     public $chapter;
     public $quiz;
+    public $questions; 
 
-    public $listeners = ["questionUpdated" => 'render'];
+    public $listeners = ["questionUpdated" => 'render', 'reOrderQuestion'];
 
     public function mount(Course $course, Chapter $chapter, Quiz $quiz){
         $this->course = $course;
@@ -24,6 +25,7 @@ class Show extends Component
     
     public function render()
     {
+        $this->questions = $this->quiz->questions()->orderBy('order', 'asc')->get();
         return view('livewire.courses.chapters.quiz.show');
     }
 
@@ -42,5 +44,14 @@ class Show extends Component
         $question->save();
         $this->emitSelf('questionUpdated');
 
+    }
+
+
+    public function reOrderQuestion($data){
+        $question = Question::find($data['id']);
+        $question->order = $data['order'];
+        $question->save();
+
+        $this->emitSelf('questionUpdated');
     }
 }

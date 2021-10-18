@@ -13,11 +13,11 @@
                         <th class="py-3 px-6 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
-                    @if(count($quiz->questions) > 0)
-                        @foreach($quiz->questions as $question)
+                <tbody id="sortableList" class="text-gray-600 text-sm font-light">
+                    @if(count($questions) > 0)
+                        @foreach($questions as $question)
                             @if(auth()->user()->hasRole('admin') || auth()->user()->can('view', $question))
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            <tr class="border-b border-gray-200 hover:bg-gray-100 draggable" data-id="{{ $question->id }}" data-order="{{ $question->order }}">
                                 <td class="px-4 py-3 text-sm">
                                     {{ $question->id }}
                                 </td>
@@ -81,3 +81,23 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+<script type="text/javascript">
+    var el = document.getElementById('sortableList');
+    new Sortable.create(el, {
+        group: 'questions',
+        animation: 150,
+        filter: '.ignore-elements',
+        draggable: '.draggable',
+        onEnd: function (evt) {
+            var itemEl = evt.item;  // dragged HTMLElement
+            var newEl = evt.to;
+
+            var questionOrder = itemEl.getAttribute('data-order');
+            var questionId = itemEl.getAttribute('data-id');
+
+            Livewire.emit('reOrderQuestion', { 'id': questionId, 'order': evt.newIndex + 1 });
+        },
+    });
+</script>
