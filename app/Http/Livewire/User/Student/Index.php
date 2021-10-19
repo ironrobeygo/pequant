@@ -5,6 +5,7 @@ namespace App\Http\Livewire\User\Student;
 use App\Models\User;
 use App\Models\Course;
 use Livewire\Component;
+use App\Models\Institution;
 use Livewire\WithPagination;
 
 class Index extends Component
@@ -15,6 +16,7 @@ class Index extends Component
     public $orderBy = 'id';
     public $orderAsc = false;
     public $institutionFilter = 0;
+    public $institutions;
     public $institution;
     public $courses = [];
     public $selectedCourse;
@@ -26,6 +28,8 @@ class Index extends Component
     public function render()
     {
         $institutionFilter = $this->institutionFilter;
+
+        $this->institutions = Institution::all();
 
         $students = User::search($this->search)
             ->whereHas("roles", function($q){ 
@@ -51,6 +55,7 @@ class Index extends Component
         $this->courses = Course::whereHas('institution', function($query) use($institutions){
                 $query->whereIn('institution_id', $institutions);
             })
+            ->where('isOnline', 1)
             ->get();
 
     }

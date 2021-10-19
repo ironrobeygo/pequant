@@ -121,7 +121,7 @@
                     @role('admin')
                     <li class="mb-2">
                         <span class="font-bold block">Instructor:</span>
-                        <span class="block">{{ $course->instructor->name }}</span>
+                        <span class="block">{{ $course->instructor ? $course->instructor->name : '-' }}</span>
                     </li>
                     <li class="mb-2">
                         <span class="font-bold block">Institution:</span>

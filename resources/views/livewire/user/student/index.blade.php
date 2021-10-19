@@ -7,9 +7,9 @@
 
                 <select class="inline-block text-sm focus:outline-none form-input" wire:model="institutionFilter">
                     <option>Institution Filter</option>
-                    <option value="1">La Salle</option>
-                    <option value="2">Ateneo</option>
-                    <option value="3">Adamson</option>
+                    @foreach($institutions as $institution)
+                    <option value="{{ $institution->id }}">{{ $institution->name }}</option>
+                    @endforeach
                 </select>
 
                 <div class="relative">
@@ -127,7 +127,7 @@
                             </h3>
                             <div class="mt-2">
                                 <select class="w-full inline-block text-sm focus:outline-none form-input" wire:model="selectedCourse">
-                                    <option>Institution Filter</option>
+                                    <option>Enrol to Course</option>
                                     @foreach($courses as $course)
                                     <option value="{{ $course->id }}">{{ $course->name }}</option>
                                     @endforeach

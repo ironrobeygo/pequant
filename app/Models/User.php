@@ -92,6 +92,12 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Institution::class);
     }
 
+    public function scopeGetAdmins($query){
+        return $this->whereHAs('roles', function($q){
+            $q->where('name', 'admin');
+        })->get();
+    }
+
     public function instructorCourses(){
         return $this->hasMany(Course::class, 'instructor_id');
     }

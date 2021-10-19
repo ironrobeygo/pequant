@@ -43,7 +43,9 @@ class Quiz extends Model
     }
 
     public function scopeGetQuizTotal($query){
-        return $this->questions()->where('status', 1)->whereIn('user_id', array(1,2,3,4))->sum('weight');
+        $admins = User::getAdmins()->pluck('id')->toArray();
+        array_push($admins, $this->chapter->course->instructor_id);
+        return $this->questions()->where('status', 1)->whereIn('user_id', $admins)->sum('weight');
     }
 
     public function completed(){

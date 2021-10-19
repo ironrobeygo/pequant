@@ -27,7 +27,7 @@ class RecordController extends Controller
         $html .= '<hr>';
 
         foreach($questions as $question){
-            $html .= '<p style="margin-bottom: 0; font-weight: bold;">'.$count.'. '.strip_tags($question->question) . "</p>"; 
+            $html .= '<p style="margin-bottom: 0; font-weight: bold;">'.$count.'. '.strip_tags($question->question) .   ' - <span style="'. ( $answers[$question->id]['point'] >= 1 ? 'color: green">Correct' : 'color: red">Incorrect') .'</span></p>'; 
 
             if($question->type_id == 1){
                 $html .= '<ul style="list-style: none; margin-left: 0; padding-left: 0; margin-top: 5px;">';

@@ -5,7 +5,9 @@ namespace App\Http\Livewire\User\Student;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Institution;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\StudentCreated;
 use Illuminate\Support\Facades\Notification;
 
 class Add extends Component
@@ -24,9 +26,10 @@ class Add extends Component
     }
 
     public function newStudent(){
+        
         $this->validate();
 
-        $password = str_random(16);
+        $password = Str::random(16);
 
         $data = [
             'name'              => $this->name,
@@ -52,7 +55,7 @@ class Add extends Component
     protected function rules(){
         return [
             'name'              => 'required',
-            'email'             => 'required',
+            'email'             => 'required|unique:users',
             'section'           => 'required',
             'institution_id'    => 'required',
         ];
