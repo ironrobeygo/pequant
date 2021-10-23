@@ -81,7 +81,11 @@
                     <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </span>
                 <h1 class="text-2xl">{{ $status }}</h1>     
-                <p>{{ $quizMessage }}</p>               
+                <p class="mb-4">{{ $quizMessage }}</p>
+
+                @if($showRetake)    
+                    <a href="#" wire:click.prevent="retakeQuiz({{$currentQuiz->id}})" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Retake Quiz</a> 
+                @endif
             </div>
 
         @else

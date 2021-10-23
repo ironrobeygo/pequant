@@ -81,9 +81,9 @@
 
                             @foreach($questions as $question)
                             <div>
-                                <h3>{{ $counter++ .'. ' .$question->question }}</h3>
+                                <h3><p>{!! $counter++ .'. ' . str_replace('<p>', '', $question->question) !!}</h3>
                                 @if($question->type_id == 1)
-                                    <ul>
+                                    <ul class="ml-5">
                                     @foreach($question->options as $option)
                                         <li>
                                             {{ $option->value }}

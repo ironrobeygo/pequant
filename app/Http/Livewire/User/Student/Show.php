@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Quiz;
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\Score;
 use App\Models\Course;
 use Livewire\Component;
 use App\Models\Progress;
@@ -36,6 +37,9 @@ class Show extends Component
     public $quizMessage;
     public $submitQuiz;
     public $answerType;
+    public $showRetake;
+
+    protected $listeners = ['updateContent'];
 
     public function mount(Course $course){
         $this->course       = $course;
@@ -54,6 +58,7 @@ class Show extends Component
         $this->currentQuiz  = 0;
         $this->currentUnit  = 0;
         $this->student      = auth()->user();
+        $this->showRetake   = false;
 
         $this->progress = $this->student
             ->progress()
@@ -68,6 +73,7 @@ class Show extends Component
 
         $this->answered = $this->student
             ->scores()
+            ->where('retake', 0)
             ->get()
             ->pluck('quiz_id')->toArray();
     }
@@ -123,17 +129,22 @@ class Show extends Component
 
             if(in_array($quiz->id, $this->answered)){
 
-                $quizScore = $this->student->getQuizScore($quiz->id);
+                $quizScore          = $this->student->getQuizScore($quiz->id);
+                $quizCompleted      = $this->student->scores()->where('quiz_id', $quiz->id)->orderBy('updated_at', 'desc')->first()->completed;
+                $retakeCount        = $this->student->scores()->where('quiz_id', $quiz->id)->get()->count();
 
                 $this->status       = $quizScore->score .'/'.$quiz->getQuizTotal();
                 $this->quizMessage  = 'Congratulations on completing your quiz!';
-            }
-            
-            if( $this->student->hasRole('student') ){
-                $admins         = User::whereHas("roles", function($q){ $q->where("name", "admin"); })->get()->pluck('id')->toArray();
-                $instructor     = $this->course->instructor->id;
-                array_push($admins, $instructor);
-                $this->questions = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
+
+                $this->showRetake = ( $quizCompleted == 1 && $retakeCount < 3 ? true : false );
+
+            } else {
+                if( $this->student->hasRole('student') ){
+                    $admins         = User::whereHas("roles", function($q){ $q->where("name", "admin"); })->get()->pluck('id')->toArray();
+                    $instructor     = $this->course->instructor->id;
+                    array_push($admins, $instructor);
+                    $this->questions = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
+                }
             }
 
         }
@@ -262,11 +273,45 @@ class Show extends Component
         $this->quizMessage  = 'Congratulations on completing your quiz!';
 
         if( $quiz_type == 'custom' ){
+
+            $quizCompleted      = $this->student->scores()->where('quiz_id', $this->currentQuiz->id)->orderBy('updated_at', 'desc')->first()->completed;
+            $retakeCount        = $this->student->scores()->where('quiz_id', $this->currentQuiz->id)->get()->count();
+
             $this->status       = 'Congratulations on completing your quiz!';
             $this->quizMessage  = 'You will be notified after your quiz has been graded by your instructor.';
+
+            $this->showRetake = ( $quizCompleted == 1 && $retakeCount < 3 ? true : false );
         }
 
 
     }
+
+    public function retakeQuiz($quiz_id){
+
+        $submission = Score::where('user_id', $this->student->id)->where('quiz_id', $quiz_id)->orderBy('updated_at', 'desc')->first();
+
+        $submission->retake = 1;
+        $submission->save();
+
+        $quiz               = Quiz::find($quiz_id);
+        $this->title        = $quiz->name;
+        $this->questions    = $quiz->questions->where('status', 1);
+        $this->video        = '';
+        $this->content      = '';
+        $this->currentUnit  = 0;
+        $this->currentQuiz  = $quiz;
+        $this->submitQuiz   = [];
+        $this->status       = '';
+        $this->quizMessage  = '';
+
+        if( $this->student->hasRole('student') ){
+            $admins         = User::whereHas("roles", function($q){ $q->where("name", "admin"); })->get()->pluck('id')->toArray();
+            $instructor     = $this->course->instructor->id;
+            array_push($admins, $instructor);
+            $this->questions = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
+        }
+
+    }
+
 
 }

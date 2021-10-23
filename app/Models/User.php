@@ -178,7 +178,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     public function scopeGetQuizScore($query, $quiz_id){
-        $score = $this->scores()->where('quiz_id', $quiz_id)->first();
+        $score = $this->scores()->where('quiz_id', $quiz_id)->orderBy('updated_at', 'desc')->first();
 
         if(!$score){
             return false;

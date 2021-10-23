@@ -15,8 +15,9 @@ class RecordController extends Controller
         $admins         = User::whereHas("roles", function($q){ $q->where("name", "admin"); })->get()->pluck('id')->toArray();
         $instructor     = $quiz->chapter->course->instructor->id;
         array_push($admins, $instructor);
-        $questions = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
-        $count = 1;
+        $questions      = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
+        $complete       = $student->scores()->where('quiz_id', $quiz->id)->first()->completed;
+        $count          = 1;
 
         $pdf = App::make('dompdf.wrapper');
 
@@ -27,7 +28,7 @@ class RecordController extends Controller
         $html .= '<hr>';
 
         foreach($questions as $question){
-            $html .= '<p style="margin-bottom: 0; font-weight: bold;">'.$count.'. '.strip_tags($question->question) .   ' - <span style="'. ( $answers[$question->id]['point'] >= 1 ? 'color: green">Correct' : 'color: red">Incorrect') .'</span></p>'; 
+            $html .= '<p style="margin-bottom: 0; font-weight: bold;">'.$count.'. '.strip_tags($question->question) . ($complete == 0 ? ' - <span style="'. ( $answers[$question->id]['point'] >= 1 ? 'color: green">Correct' : 'color: red">Incorrect') .'</span>' : '' )  .'</p>'; 
 
             if($question->type_id == 1){
                 $html .= '<ul style="list-style: none; margin-left: 0; padding-left: 0; margin-top: 5px;">';

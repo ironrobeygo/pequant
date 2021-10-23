@@ -22,7 +22,7 @@
                                     {{ $question->id }}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    {!! $question->question !!}
+                                    {!! substr(strip_tags($question->question), 0, 20) !!}...
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     {{ $question->type_id == 1 ? 'Multiple Choice' : 'Open Ended' }}
