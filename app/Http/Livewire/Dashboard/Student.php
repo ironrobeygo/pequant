@@ -11,10 +11,12 @@ class Student extends Component
     public $announcements;
     public $user;
     public $progress;
+    public $scores;
 
     public function mount(){
         $this->user = auth()->user();
         $this->progress = $this->user->progress;
+        $this->scores = $this->user->scores()->orderBy('created_at', 'desc')->get();
 
         $admin_ids = User::with('roles')->whereHas('roles', function($query){
                 $query->whereIn("name", ['admin']);

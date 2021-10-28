@@ -84,11 +84,11 @@
             <div class="py-3 px-6">
 
                 <ul>
-                    @foreach($user->scores as $recent)
+                    @foreach($scores as $recent)
                         <li class="text-gray-700 text-base flex justify-between border-b border-dashed mb-4">
                             <span>
                                 <a href="/records/students/{{$user->id}}/quiz/{{$recent->quiz->id}}" target="_blank">{{ $recent->quiz->name }}</a> ( {{ $recent->score }} / {{ $recent->quiz->getQuizTotal() }} ) 
-                                {!! $recent->completed == 0 ? '<span class="text-green-700 font-bold">Graded</span>' : '<span class="text-red-700 font-bold">Ungraded</span>' !!}
+                                {!! $recent->completed == 0 ? '<span class="text-green-700 font-bold">Graded</span>' : '<span class="text-red-700 font-bold">Ungraded</span>' !!} {!! $recent->retake == 1 ? ' <span class="text-xs italic">Retake</span> ' : '' !!}
                             </span>
                             <span class="text-xs italic">
                                 {{ $recent->updated_at->diffForHumans() }}

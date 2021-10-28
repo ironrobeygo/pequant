@@ -13,7 +13,9 @@ class Score extends Model
     protected $fillable = [
         'user_id',
         'quiz_id',
-        'score'
+        'score',
+        'completed',
+        'retake'
     ];
 
     public function quiz(){

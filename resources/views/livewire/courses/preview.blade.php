@@ -1,3 +1,7 @@
+@push('scripts')
+<script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+@endpush
+
 <div class="flex flex-1 w-full">
 
     <aside class="z-20 hidden w-1/5 overflow-y-auto bg-white md:block flex-shrink-0">
@@ -133,3 +137,16 @@
     }
 
 </style>
+
+<script>
+    document.querySelectorAll( 'oembed[url]' ).forEach( element => {
+        // Create the <a href="..." class="embedly-card"></a> element that Embedly uses
+        // to discover the media.
+        const anchor = document.createElement( 'a' );
+
+        anchor.setAttribute( 'href', element.getAttribute( 'url' ) );
+        anchor.className = 'embedly-card';
+
+        element.appendChild( anchor );
+    } );
+</script>

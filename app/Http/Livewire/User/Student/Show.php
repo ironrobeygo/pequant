@@ -211,6 +211,7 @@ class Show extends Component
             unset($this->submitQuiz['attachments']);
         }
 
+
         $temps = array_values($this->submitQuiz);
 
         foreach($temps[0] as $key => $temp){

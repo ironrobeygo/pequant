@@ -133,7 +133,7 @@
                             </div>
                             @endforeach
                             <div class="flex justify-end mt-6">
-                                <button type="submit" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
+                                <button type="submit" wire:loading.attr="disabled" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
                             </div>
                         </form>
                         @endif
