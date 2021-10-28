@@ -1,5 +1,5 @@
 @push('scripts')
-<script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+<script charset="utf-8" src="//cdn.iframe.ly/embed.js?api_key=4697f747519ca5b0c22b50"></script>
 @endpush
 
 <div class="flex flex-1 w-full">
@@ -140,13 +140,6 @@
 
 <script>
     document.querySelectorAll( 'oembed[url]' ).forEach( element => {
-        // Create the <a href="..." class="embedly-card"></a> element that Embedly uses
-        // to discover the media.
-        const anchor = document.createElement( 'a' );
-
-        anchor.setAttribute( 'href', element.getAttribute( 'url' ) );
-        anchor.className = 'embedly-card';
-
-        element.appendChild( anchor );
+        iframely.load( element, element.attributes.url.value );
     } );
 </script>
