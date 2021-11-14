@@ -87,10 +87,10 @@ class Index extends Component
 
         $students = $course->students;
 
-        $data['event_title'] => $this->title;
-        $data['event_link'] => $this->event_link;
-        $data['event_date'] => $this->selectedDate['dateStr'];
-        $data['event_time'] => $this->start_time .' - '.$this->end_time;
+        $data['event_title'] = $this->title;
+        $data['event_link'] = $this->event_link;
+        $data['event_date'] = $this->selectedDate['dateStr'];
+        $data['event_time'] = $this->start_time .' - '.$this->end_time;
         $data['course'] = $course->name;
 
         foreach($students as $student){
