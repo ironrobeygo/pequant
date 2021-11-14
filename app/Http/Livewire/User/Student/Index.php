@@ -22,8 +22,17 @@ class Index extends Component
     public $selectedCourse;
     public $student;
     public $deleteUser = '';
+    public $isShowEnrolmentModal;
+    public $isShowUnEnrolmentModal;
+    public $isDeleteModal;
 
     public $listeners = ["updatedList" => 'render'];
+
+    public function mount(){
+        $this->isShowEnrolmentModal = false;
+        $this->isShowUnEnrolmentModal = false;
+        $this->isDeleteModal = false;
+    }
 
     public function render()
     {
@@ -46,22 +55,23 @@ class Index extends Component
 
     public function showModalEnrolment($id){
 
-        $this->student = $id;
-        $institutions = User::where('id', $this->student)
-            ->get()
-            ->pluck('institution_id')
-            ->unique();
+        $this->isShowEnrolmentModal = true;
+        $this->student = User::find($id);
+        $institution_id = $this->student->institution_id;
 
-        $this->courses = Course::whereHas('institution', function($query) use($institutions){
-                $query->whereIn('institution_id', $institutions);
+        $this->courses = Course::whereHas('institution', function($query) use($institution_id){
+                $query->where('institution_id', $institution_id);
             })
             ->where('isOnline', 1)
+            ->where('status', 1)
+            ->whereNull('deleted_at')
             ->get();
 
     }
 
     public function showModalUnEnrolment($id){
 
+        $this->isShowUnEnrolmentModal = true;
         $this->student = $id;
         $studentCourses = User::where('id', $this->student)->first()->studentCourses()->pluck('course_id')->unique();
         $this->courses = Course::whereIn('id', $studentCourses)->get();
@@ -73,14 +83,23 @@ class Index extends Component
         $course = Course::find($this->selectedCourse);
         $course->enrolStudent($this->student);
 
+        $this->isShowEnrolmentModal = false;
+
     }
 
     public function processUnEnrolment(){
         $course = Course::find($this->selectedCourse);
         $course->unEnrolStudent($this->student);
+        $this->isShowUnEnrolmentModal = false;
+    }
+
+    public function closeModal(){
+        $this->isShowEnrolmentModal = false;
+        $this->isShowUnEnrolmentModal = false;
     }
 
     public function delete(User $user){
+        $this->isDeleteModal = true;
         $this->deleteUser = $user;
     }
 
@@ -89,6 +108,7 @@ class Index extends Component
             $this->deleteUser->delete();
             $this->emitSelf('updatedList');
             $this->deleteUser = '';
+            $this->isDeleteModal = false;
         }
     }
 
