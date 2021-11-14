@@ -20,7 +20,7 @@ class Unit extends Model implements HasMedia
 
     protected $fillable = [
         'name',
-        'video',
+        'type',
         'content',
         'user_id',
         'updated_by',
@@ -37,6 +37,10 @@ class Unit extends Model implements HasMedia
 
     public function path(){
         return "/api/courses/{$this->chapter->course_id}/chapters/{$this->chapter->id}/units/{$this->id}";
+    }
+
+    public function setTypeAttribute($value){
+        $this->attributes['type'] = 'unit';
     }
 
     public function chapter(){

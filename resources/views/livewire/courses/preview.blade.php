@@ -1,7 +1,6 @@
 @push('scripts')
 <script charset="utf-8" src="//cdn.iframe.ly/embed.js?api_key=4697f747519ca5b0c22b50"></script>
 @endpush
-
 <div class="flex flex-1 w-full">
 
     <aside class="z-20 hidden w-1/5 overflow-y-auto bg-white md:block flex-shrink-0">
@@ -25,30 +24,17 @@
                         <ul>
                             @foreach($chapter->units as $unit)
                             <li>
-                                <a href="#" class="block p-4 border border-gray-50 border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, 'unit')">
+                                <a href="#" class="block p-4 border border-gray-50 border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, '{{ $unit->type }}')">
                                     <span class="flex block">
                                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                                         {{ $unit->name }}
                                     </span>
                                     <span class="block text-sm italic px-6 ml-1">
-                                        unit
+                                        {{ $unit->type }}
                                     </span>
                                 </a>
                             </li>
                             @endforeach
-                            @foreach($chapter->quizzes as $quiz)
-                            <li>
-                                <a href="#" class="block p-4 border border-b-0" wire:click.prevent="updateContent({{ $quiz->id }}, 'quiz')">
-                                    <span class="flex block">
-                                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        {{ $quiz->name }}
-                                    </span>
-                                    <span class="block text-sm italic px-6 ml-1">
-                                        quiz
-                                    </span>
-                                </a>
-                            </li>
-                        @endforeach
                         </ul>
                     </li>
                 @endforeach
@@ -56,23 +42,31 @@
         </div>
     </aside>
 
-    <div class="w-full p-4">
+    <div class="w-full p-4 border border-gray-100 bg-gray-100">
 
         @if($title == '')
 
-            <div class="text-center p-40 border border-gray-100 bg-gray-100">
+            @if($course->description == '')
+            <div class="text-center p-40 ">
                 <span class="inline-block m-auto">
                     <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 </span>
-                <h1 class="text-2xl">Welcome to {{ $course->name }}</h1>     
+                <h1 class="text-2xl">Welcome to {{ $course->name }}</h1> 
                 <p>Please select a unit to start learning</p>               
             </div>
+            @else
+            <div class="py-40 px-20">
+                <div class="text-center">
+                    <span class="inline-block m-auto">
+                        <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </span>
+                    <h1 class="text-2xl">Welcome to {{ $course->name }}</h1> 
+                </div>
+                {!! $course->description !!}
+            </div>
+            @endif
 
         @else
-
-            @if($video != '')
-            <iframe width="100%" height="500" src="https://www.youtube.com/embed/{{ $video }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="mb-4"></iframe>
-            @endif
             <div class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
                 <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
                 <div class="document-editor__editable-container">
@@ -83,28 +77,32 @@
                         @else
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
 
-                            @foreach($questions as $question)
-                            <div>
-                                <h3><p>{!! $counter++ .'. ' . str_replace('<p>', '', $question->question) !!}</h3>
-                                @if($question->type_id == 1)
-                                    <ul class="ml-5">
-                                    @foreach($question->options as $option)
-                                        <li>
-                                            {{ $option->value }}
-                                        </li>
-                                    @endforeach
-                                    </ul>
-                                @endif
+                            @if(!empty($questions))
+                                @foreach($questions as $question)
+                                <div>
+                                    <h3><p>{!! $counter++ .'. ' . str_replace('<p>', '', $question->question) !!}</h3>
+                                    @if($question->type_id == 1)
+                                        <ul class="ml-5">
+                                        @foreach($question->options as $option)
+                                            <li>
+                                                {{ $option->value }}
+                                            </li>
+                                        @endforeach
+                                        </ul>
+                                    @endif
 
-                                @if($question->type_id == 2)
-                                <textarea></textarea>
-                                @endif
+                                    @if($question->type_id == 2)
+                                    <textarea></textarea>
+                                    @endif
 
-                                @if($question->type_id == 3)
-                                <textarea></textarea>
-                                @endif
-                            </div>
-                            @endforeach
+                                    @if($question->type_id == 3)
+                                    <textarea></textarea>
+                                    @endif
+                                </div>
+                                @endforeach
+                            @else
+                                <p>No questions assigned to this quiz yet</p>
+                            @endif
 
                         @endif
                     </div>
@@ -118,7 +116,7 @@
 
 <style type="text/css">
     .document-editor{
-        max-height:  700px;
+        max-height:  100%;
     }
 
     .document-editor__editable-container{
@@ -136,10 +134,25 @@
         margin:  0 auto;
     }
 
+    figure.media{
+        margin-top: 20px;
+        margin-bottom:  20px;
+    }
+
+    .document-editor__editable p{
+        margin-bottom:  20px;
+    }
+
 </style>
 
 <script>
-    document.querySelectorAll( 'oembed[url]' ).forEach( element => {
-        iframely.load( element, element.attributes.url.value );
-    } );
+    document.addEventListener('DOMContentLoaded', () => {
+
+        Livewire.hook('element.initialized', (el, component) => {
+            if(el.tagName == 'OEMBED'){
+                iframely.load( el, el.getAttribute('url') );
+            }
+            
+        });
+    });
 </script>

@@ -21,52 +21,16 @@ class RecordController extends Controller
 
         $pdf = App::make('dompdf.wrapper');
 
-        $html = '<p style="margin: 0;"><span style="font-weight: bold;">Name</span>: '. $student->name.'</p>';
-        $html .= '<p style="margin: 0;"><span style="font-weight: bold;">Course</span>: '.$quiz->chapter->course->name.'</p>';
-        $html .= '<p style="margin: 0;"><span style="font-weight: bold;">Chapter</span>: '.$quiz->chapter->name.'</p>';
-        $html .= '<p style="margin: 0;"><span style="font-weight: bold;">Quiz</span>: '.$quiz->name.'</p>';
-        $html .= '<hr>';
+        $data = [
+            'questions' => $questions,
+            'student'   => $student,
+            'quiz'      => $quiz,
+            'count'     => $count,
+            'complete'  => $complete,
+            'answers'   => $answers
+        ];
 
-        foreach($questions as $question){
-            $html .= '<p style="margin-bottom: 0; font-weight: bold;">'.$count.'. '.strip_tags($question->question) . ($complete == 0 ? ' - <span style="'. ( $answers[$question->id]['point'] >= 1 ? 'color: green">Correct' : 'color: red">Incorrect') .'</span>' : '' )  .'</p>'; 
-
-            if($question->type_id == 1){
-                $html .= '<ul style="list-style: none; margin-left: 0; padding-left: 0; margin-top: 5px;">';
-                $type = 'checkbox';
-                $optionCounter = $question->options->pluck('answer')->filter(function($value, $key){
-                    return $value == 1;
-                });
-
-                if($optionCounter->count() == 1){
-                    $type = 'radio';
-                }
-
-                foreach($question->options as $option){
-                    $html .= '<li style="line-height: 0;">';
-                    if($type == 'checkbox'){
-                        $html .= '<input type="checkbox" style="margin-right: 2px;" '.(in_array($option->id,json_decode($answers[$question->id]['answer'])) ? ' checked ' : '').' disabled>';
-                    } else {
-                        $html .= '<input type="radio" style="margin-right: 2px;"'.(in_array($option->id,json_decode($answers[$question->id]['answer'])) ? ' checked ' : '').'disabled>';
-                    }
-                    $html .= '<span style="display: inline-block; margin-top: -5px;">'.$option->value.'</span>';
-                    $html .= '</li>';
-                }
-                $html .= '</ul>';
-            }
-
-            if($question->type_id == 2){
-                $html .= '<p style="margin-top: 0;">Answer: '.$answers[$question->id]['answer'].'</p>';
-            }
-
-            if($question->type_id == 3){
-                $html .= '<a href="'.$student->getMedia('quiz')->where('id', $answers[$question->id]['answer'])->first()->getFullUrl().'" target="_blank">Click to view to download file</a><br>';
-            }
-                                    
-
-            $count++;
-        }
-
-        $pdf->loadHTML($html);
-        return $pdf->stream($student->name.'-'.$quiz->chapter->course->name.'-'.$quiz->chapter->name.'-'.$quiz->name.'.pdf');
+        $pdf->loadView('records.show', $data);
+        return $pdf->download($student->name.'-'.$quiz->chapter->course->name.'-'.$quiz->chapter->name.'-'.$quiz->name.'.pdf');
     }
 }

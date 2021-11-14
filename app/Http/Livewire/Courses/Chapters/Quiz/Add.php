@@ -5,12 +5,14 @@ namespace App\Http\Livewire\Courses\Chapters\Quiz;
 use App\Models\Course;
 use App\Models\Chapter;
 use Livewire\Component;
+use Carbon\Carbon;
 
 class Add extends Component
 {
     public $course;
     public $chapter;
     public $name;
+    public $expiration;
     public $attachments = [];
 
     public function mount(Course $course, Chapter $chapter){
@@ -32,6 +34,9 @@ class Add extends Component
 
         $data = [
             'name' => $this->name,
+            'type'  => 'quiz',
+            'content' => 'empty',
+            'expires_at' => Carbon::parse($this->expiration)->format('Y-m-d'),
             'user_id' => auth()->user()->id,
             'updated_by' => auth()->user()->id
         ];

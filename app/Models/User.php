@@ -7,6 +7,7 @@ use App\Models\Unit;
 use App\Models\Score;
 use App\Models\Answer;
 use App\Models\Course;
+use App\Models\Message;
 use App\Models\Progress;
 use App\Models\Institution;
 use App\Models\Announcement;
@@ -221,5 +222,13 @@ class User extends Authenticatable implements HasMedia
 
     public function addAnnouncement($data){
         return $this->announcements()->create($data);
+    }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
+    }
+
+    public function activities(){
+        return $this->hasMany(Activity::class);
     }
 }

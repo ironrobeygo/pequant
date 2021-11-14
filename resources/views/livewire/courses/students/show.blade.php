@@ -35,40 +35,32 @@
                                                 </span>
                                             </div>
                                             @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        @foreach($chapter->quizzes as $k => $quiz)
-                            <div class="flex">
-                                <span class="inline-block pt-3 mr-2">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </span>
-                                <div class="w-full -mx-4 sm:-mx-8 px-2 sm:px-8 pb-2 overflow-x-auto">
-                                    <div class="bg-white shadow-md rounded-md overflow-hidden">
-                                        <div class="flex justify-between items-center px-5 py-3 text-gray-700 border-b">
-                                            <h3 class="text-l">{{ $quiz->name }}</h3>
 
-                                            @if( $student->getQuizScore($quiz->id) !== false && $student->getQuizScore($quiz->id)->completed == 0)
-                                            <span class="px-2 py-1 font-semibold leading-tight text-mohs-green-700 bg-mohs-green-100 rounded-full">
-                                                Completed
-                                            </span>
-                                            @elseif( $student->getQuizScore($quiz->id) === false )
-                                            <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">
-                                                Not submitted
-                                            </span>
-                                            @else
-                                            <a href="{{ route('courses.students.quiz.show', ['course' => $course, 'student' => $student, 'quiz' => $quiz]) }}" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full">
-                                                Submitted
-                                            </a>
+                                            @if($unit->type == 'quiz')
+
+                                                @if( $student->getQuizScore($unit->id) !== false && $student->getQuizScore($unit->id)->completed == 0)
+                                                <span class="px-2 py-1 font-semibold leading-tight text-mohs-green-700 bg-mohs-green-100 rounded-full">
+                                                    Completed
+                                                </span>
+                                                @elseif( $student->getQuizScore($unit->id) === false )
+                                                <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">
+                                                    Not submitted
+                                                </span>
+                                                @else
+                                                <a href="{{ route('courses.students.quiz.show', ['course' => $course, 'student' => $student, 'quiz' => $unit]) }}" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full">
+                                                    Submitted
+                                                </a>
+                                                @endif
                                             @endif
                                         </div>
+                                        @if($unit->type == 'quiz')
                                         <div class="w-full px-5 py-3">
-                                            Score: {{ $student->getQuizScore($quiz->id) !== false ? $student->getQuizScore($quiz->id)->score : 0 }}/{{ $quiz->getQuizTotal() }}
+                                            @php
+                                                $quizTotal = \App\Models\Quiz::find($unit->id)->getQuizTotal();
+                                            @endphp
+                                            Score: {{ $student->getQuizScore($unit->id) !== false ? $student->getQuizScore($unit->id)->score : 0 }}/{{ $quizTotal }}
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

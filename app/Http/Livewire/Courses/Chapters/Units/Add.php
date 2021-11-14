@@ -37,7 +37,7 @@ class Add extends Component
 
         $data = [
             'name'          => $this->name,
-            'video'         => $this->video,
+            'type'          => 'unit',
             'content'       => $this->content,
             'user_id'       => auth()->user()->id,
             'updated_by'    => auth()->user()->id

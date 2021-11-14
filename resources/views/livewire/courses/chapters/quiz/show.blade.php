@@ -25,7 +25,19 @@
                                     {!! substr(strip_tags($question->question), 0, 20) !!}...
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    {{ $question->type_id == 1 ? 'Multiple Choice' : 'Open Ended' }}
+                                    @switch($question->type_id)
+                                        @case(1)
+                                            Multiple Choice
+                                        @break
+
+                                        @case(2)
+                                            Open Ended
+                                        @break
+
+                                        @case(3)
+                                            File Upload
+                                        @break
+                                    @endswitch
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     @if($question->user->id == auth()->user()->id)

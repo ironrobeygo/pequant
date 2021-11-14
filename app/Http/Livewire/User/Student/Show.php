@@ -38,13 +38,14 @@ class Show extends Component
     public $submitQuiz;
     public $answerType;
     public $showRetake;
+    public $next;
+    public $previous;
 
     protected $listeners = ['updateContent'];
 
     public function mount(Course $course){
         $this->course       = $course;
         $this->title        = '';
-        $this->video        = '';
         $this->content      = '';
         $this->questions    = [];
         $this->progress     = [];
@@ -88,15 +89,26 @@ class Show extends Component
     public function updateContent($id, $type){
 
         if($type == 'unit'){
+
             $unit               = Unit::find($id);
             $this->title        = $unit->name;
-            $this->video        = $unit->video ? $unit->video : '';
             $this->content      = $unit->content;
             $this->currentUnit  = $unit;
             $this->currentQuiz  = 0;
             $this->questions    = [];
             $this->status       = '';
             $this->quizMessage  = '';
+
+            $next = $unit->chapter->units->filter(function($value, $key) use ($unit){
+               return $value->order > $unit->order; 
+            });
+
+            $previous = $unit->chapter->units->filter(function($value, $key) use ($unit){
+               return $value->order < $unit->order; 
+            });
+
+            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
+            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
 
             event(new UnitOpened(auth()->user(), $this->currentUnit));
 
@@ -111,7 +123,6 @@ class Show extends Component
             if( $exists === null ){
                 $this->student->addProgress($data);
             }
-
             
         }
 
@@ -124,6 +135,17 @@ class Show extends Component
             $this->currentUnit  = 0;
             $this->currentQuiz  = $quiz;
             $this->submitQuiz   = [];
+
+            $next = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
+               return $value->order > $quiz->order; 
+            });
+
+            $previous = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
+               return $value->order < $quiz->order; 
+            });
+
+            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
+            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
 
             event(new QuizOpened(auth()->user(), $this->currentQuiz));
 
@@ -139,6 +161,10 @@ class Show extends Component
                 $this->showRetake = ( $quizCompleted == 1 && $retakeCount < 3 ? true : false );
 
             } else {
+
+                $this->status = '';
+                $this->quizMessage = '';
+
                 if( $this->student->hasRole('student') ){
                     $admins         = User::whereHas("roles", function($q){ $q->where("name", "admin"); })->get()->pluck('id')->toArray();
                     $instructor     = $this->course->instructor->id;
@@ -283,8 +309,6 @@ class Show extends Component
 
             $this->showRetake = ( $quizCompleted == 1 && $retakeCount < 3 ? true : false );
         }
-
-
     }
 
     public function retakeQuiz($quiz_id){
@@ -311,7 +335,6 @@ class Show extends Component
             array_push($admins, $instructor);
             $this->questions = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
         }
-
     }
 
 

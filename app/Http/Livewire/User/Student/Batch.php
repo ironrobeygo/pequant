@@ -46,7 +46,6 @@ class Batch extends Component
                         $user = User::create([
                             'name'              => $data['name'] . ' ' . $data['last_name'],
                             'email'             => $data['email'],
-                            'contact_number'    => $data['contact_number'],
                             'section'           => $data['section'],
                             'password'          => Hash::make($password),
                             'institution_id'    => $institution->id
@@ -55,6 +54,10 @@ class Batch extends Component
                         $user->assignRole('student');
 
                         $course->enrolStudent($user->id);
+
+                        $data['password'] = $password;
+
+                        Notification::send($user, new StudentCreated($data));
 
                         DB::commit();
                     }

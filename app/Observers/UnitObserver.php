@@ -17,12 +17,13 @@ class UnitObserver
     {
 
         if(is_null($unit->order)){
-            $unit->order = Unit::where('chapter_id', $unit->chapter_id)->max('order') + 1;
+            $unit->order = Unit::where('chapter_id', $unit->chapter_id)->whereNull('deleted_at')->max('order') + 1;
             $unit->save();
             return;
         }
 
         $lowerPriorityUnits = Unit::where('chapter_id', $unit->chapter_id)
+            ->whereNull('deleted_at')
             ->where('order', '>=', $unit->order)
             ->get();
 
@@ -44,13 +45,14 @@ class UnitObserver
 
         if($oldChapterId != $unit->chapter_id){
 
-            $oldChapterUnitOrderMax = Unit::where('chapter_id', $oldChapterId)->max('order');
+            $oldChapterUnitOrderMax = Unit::where('chapter_id', $oldChapterId)->whereNull('deleted_at')->max('order');
 
             $oldOrderRange = [
                 $oldOrder, $oldChapterUnitOrderMax
             ];
 
             $oldChapterUnits = Unit::where('chapter_id', $oldChapterId)
+                ->whereNull('deleted_at')
                 ->whereBetween('order', $oldOrderRange)
                 ->get();
 
@@ -61,6 +63,7 @@ class UnitObserver
 
             $lowerPriorityUnits = Unit::where('id', '!=', $unit->id)
                 ->where('chapter_id', $unit->chapter_id)
+                ->whereNull('deleted_at')
                 ->get();
 
             foreach ($lowerPriorityUnits as $lowerPriorityUnit) {
@@ -73,7 +76,7 @@ class UnitObserver
         } else {
 
             if(is_null($unit->order)){
-                $unit->order = Unit::where('chapter_id', $unit->chapter_id)->max('order');
+                $unit->order = Unit::where('chapter_id', $unit->chapter_id)->whereNull('deleted_at')->max('order');
             }
 
             if ($unit->getOriginal('order') > $unit->order) {
@@ -89,6 +92,7 @@ class UnitObserver
             $lowerPriorityUnits = Unit::where('id', '!=', $unit->id)
                 ->where('chapter_id', $unit->chapter_id)
                 ->whereBetween('order', $orderRange)
+                ->whereNull('deleted_at')
                 ->get();
 
             foreach ($lowerPriorityUnits as $lowerPriorityUnit) {
@@ -107,6 +111,7 @@ class UnitObserver
     {
         $lowerPriorityUnits = Unit::where('order', '>', $unit->order)
             ->where('chapter_id', $unit->chapter_id)
+            ->whereNull('deleted_at')
             ->get();
 
         foreach ($lowerPriorityUnits as $lowerPriorityUnit) {

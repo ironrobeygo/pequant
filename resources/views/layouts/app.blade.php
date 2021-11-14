@@ -45,7 +45,7 @@
         @stack('modals')
 
         @livewireScripts
-
+        @stack('footerScripts')
         @include('sweet::alert')
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>

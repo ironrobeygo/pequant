@@ -28,8 +28,16 @@ class Institution extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function instructors(){
+        return $this->hasMany(User::class)->role('instructor');
+    }
+
     public function students(){
         return $this->hasMany(User::class)->role('student');
+    }
+
+    public function users(){
+        return $this->hasMany(User::class);
     }
 
     public static function search($search)

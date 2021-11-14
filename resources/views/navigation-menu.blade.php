@@ -62,6 +62,14 @@
                 <span class="ml-4">{{ __('Users') }}</span>
             </x-jet-nav-link>
             @endrole
+            @role('student')
+            <x-jet-nav-link href="/students/{{ auth()->user()->id }}/gradebook" :active="request()->routeIs('gradebook')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span class="ml-4">{{ __('Gradebook') }}</span>
+            </x-jet-nav-link>
+            @endrole
             <x-jet-nav-link href="/user/profile" :active="request()->routeIs('user/profile')">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Chapter;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,8 @@ class Quiz extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'units';
+
     CONST ACTIVE  = 1;
     CONST INACTIVE = 0;
 
@@ -20,14 +23,23 @@ class Quiz extends Model
 
     protected $fillable = [
         'name',
-        'module_id',
+        'type',
+        'content',
         'user_id',
         'updated_by',
+        'expires_at',
         'status'
     ];
 
     public function path(){
         return "/api/courses/{$this->module->course_id}/modules/{$this->module->id}/quizzes/{$this->id}";
+    }
+
+    public function setTypeAttribute($value){
+        $this->attributes['type'] = 'quiz';
+    }
+    public function setContentAttribute($value){
+        $this->attributes['content'] = 'empty content';
     }
 
     public function chapter(){
@@ -50,5 +62,15 @@ class Quiz extends Model
 
     public function completed(){
         return $this->completed == 0 ? true : false;
+    }
+
+    public function isExpired(){
+
+        if(!is_null($this->expires_at)){
+            return !Carbon::parse($this->expires_at)->isFuture();            
+        } else {
+            return false;
+        }
+
     }
 }

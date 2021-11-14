@@ -18,12 +18,6 @@
             @error('name') <span class="error">{{ $message }}</span> @enderror
         </div>
 
-        <div class="block text-sm mt-4">
-            <x-jet-label for="video" value="{{ __('Unit Video') }}" />
-            <x-jet-input id="video" class="block mt-1 w-full" type="text" wire:model="video" name="video" :value="old('video')"/>
-            @error('video') <span class="error">{{ $message }}</span> @enderror
-        </div>
-
         <div wire:ignore class="block mt-4 text-sm">
             <x-jet-label for="content" value="{{ __('Unit Description') }}" />
 

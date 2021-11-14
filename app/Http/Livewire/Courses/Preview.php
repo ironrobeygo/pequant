@@ -42,6 +42,7 @@ class Preview extends Component
             $this->title = $unit->name;
             $this->video = $unit->video;
             $this->content = $unit->content;
+            $this->questions = [];
 
             $data = [
                 'unit_id' => $unit->id,

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Quiz;
 use App\Models\Unit;
 use App\Models\Question;
 use App\Events\QuizOpened;
@@ -9,6 +10,7 @@ use App\Events\UnitOpened;
 use App\Events\CourseAccess;
 use App\Events\QuizSubmitted;
 use App\Events\UnitCompleted;
+use App\Observers\QuizObserver;
 use App\Observers\UnitObserver;
 use App\Listeners\LogQuizOpened;
 use App\Listeners\LogUnitOpened;
@@ -66,6 +68,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Unit::observe(UnitObserver::class);
+        Quiz::observe(QuizObserver::class);
         Question::observe(QuestionObserver::class);
     }
 }

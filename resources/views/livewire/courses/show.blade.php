@@ -48,47 +48,24 @@
                                         <div class="lg:flex justify-between items-center px-5 py-3 text-gray-700 border-b">
                                             <h3 class="text-l">
                                                 {{ $unit->name }}
-                                                <span class="text-xs italic block">Unit {{$unit->order}}</span>
+                                                <span class="text-xs italic block">{{ ucwords($unit->type) }} {{$unit->order}}</span>
                                             </h3>
                                             <ul class="flex space-x-2">
+                                                @if($unit->type == 'quiz')
+                                                <li>
+                                                    <a href="{{ route('courses.chapters.quiz.show', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $unit->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-yellow-500 rounded-full text-sm">View</a>
+                                                </li>
+                                                @endif
                                                 @role('admin')
                                                 <li>
+                                                    @if($unit->type == 'unit')
                                                     <a href="{{ route('courses.chapters.units.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'unit' => $unit->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Edit</a>
+                                                    @else
+                                                    <a href="{{ route('courses.chapters.quiz.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $unit->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Edit</a>
+                                                    @endif
                                                 </li>
                                                 <li>
-                                                    <a href="#" wire:click.prevent="deleteUnit({{$unit->id}})" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-red-500 rounded-full text-sm">Delete</a>
-                                                </li>
-                                                @endrole
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        @endforeach
-                        @foreach($chapter->quizzes as $k => $quiz)
-                            <li class="flex ignore-elements">
-                                <span class="inline-block pt-3 mr-2">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </span>
-                                <div class="w-full -mx-4 sm:-mx-8 px-2 sm:px-8 pb-2 overflow-x-auto">
-                                    <div class="bg-white shadow-md rounded-md overflow-hidden">
-                                        <div class="lg:flex justify-between items-center px-5 py-3 text-gray-700 border-b">
-                                            <h3 class="text-l">
-                                                {{ $quiz->name }}
-                                                <span class="text-xs italic block">Quiz</span>
-                                            </h3>
-                                            <ul class="flex space-x-2">
-                                                <li>
-                                                    <a href="{{ route('courses.chapters.quiz.show', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $quiz->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-yellow-500 rounded-full text-sm">View</a>
-                                                </li>
-                                                @role('admin')
-                                                <li>
-                                                    <a href="{{ route('courses.chapters.quiz.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $quiz->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Edit</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" wire:click.prevent="deleteQuiz({{ $quiz->id }})" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-red-500 rounded-full text-sm">Delete</a>
+                                                    <a href="#" wire:click.prevent="{{$unit->type == 'unit' ? 'deleteUnit' : 'deleteQuiz' }}({{$unit->id}})" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-red-500 rounded-full text-sm">Delete</a>
                                                 </li>
                                                 @endrole
                                             </ul>
