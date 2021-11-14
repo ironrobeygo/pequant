@@ -83,11 +83,28 @@ class Index extends Component
             'course_id' => $this->course_id
         ]);
 
-        if( !$new_event ){
-            alert()->error('An error has occurred', 'Please try again!');
+        $course = Course::find($this->course_id);
+
+        $students = $course->students;
+
+        $data['event_title'] => $this->title;
+        $data['event_link'] => $this->event_link;
+        $data['event_date'] => $this->selectedDate['dateStr'];
+        $data['event_time'] => $this->start_time .' - '.$this->end_time;
+        $data['course'] = $course->name;
+
+        foreach($students as $student){
+
+            $data['name'] = $student->name;
+
+            Notification::send($student, new EventCreated($data));
         }
 
-        alert()->success('A new event has been added to your calendar', 'Congratulations!');
+        // if( !$new_event ){
+        //     alert()->error('An error has occurred', 'Please try again!');
+        // }
+
+        // alert()->success('A new event has been added to your calendar', 'Congratulations!');
 
         $this->title = '';
         $this->event_link = '';
