@@ -23,6 +23,7 @@ class Add extends Component
     public $expires_at;
 
     public function mount(){
+        $this->expiration = 6;
         $this->categories = Category::all();
         $this->institutions = Institution::all();        
     }

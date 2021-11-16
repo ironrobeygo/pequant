@@ -20,6 +20,8 @@ class UnitObserver
             $unit->order = Unit::where('chapter_id', $unit->chapter_id)->whereNull('deleted_at')->max('order') + 1;
             $unit->save();
             return;
+        } else {
+            return false;
         }
 
         $lowerPriorityUnits = Unit::where('chapter_id', $unit->chapter_id)

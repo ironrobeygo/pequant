@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Chapter;
+use App\Scopes\UnitScope;
 use App\Scopes\OrderScope;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,7 @@ class Unit extends Model implements HasMedia
         parent::boot();
   
         static::addGlobalScope(new OrderScope);
+        // static::addGlobalScope(new UnitScope);
     }
 
     public function path(){

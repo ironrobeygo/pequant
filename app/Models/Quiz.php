@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Chapter;
 use App\Models\Question;
+use App\Scopes\QuizScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +31,13 @@ class Quiz extends Model
         'expires_at',
         'status'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+  
+        // static::addGlobalScope(new QuizScope);
+    }
 
     public function path(){
         return "/api/courses/{$this->module->course_id}/modules/{$this->module->id}/quizzes/{$this->id}";

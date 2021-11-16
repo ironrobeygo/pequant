@@ -18,6 +18,8 @@ class QuizObserver
             $quiz->order = Quiz::where('chapter_id', $quiz->chapter_id)->whereNull('deleted_at')->max('order') + 1;
             $quiz->save();
             return;
+        } else {
+            return false;
         }
 
         $lowerPriorityUnits = Quiz::where('chapter_id', $quiz->chapter_id)
