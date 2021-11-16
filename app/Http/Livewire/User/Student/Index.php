@@ -96,6 +96,7 @@ class Index extends Component
     public function closeModal(){
         $this->isShowEnrolmentModal = false;
         $this->isShowUnEnrolmentModal = false;
+        $this->isDeleteModal = false;
     }
 
     public function delete(User $user){

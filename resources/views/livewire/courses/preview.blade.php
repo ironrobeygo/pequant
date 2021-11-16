@@ -62,7 +62,9 @@
                     </span>
                     <h1 class="text-2xl">Welcome to {{ $course->name }}</h1> 
                 </div>
-                {!! $course->description !!}
+                <div class="text-justify">
+                    {!! $course->description !!}    
+                </div>
             </div>
             @endif
 
