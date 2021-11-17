@@ -75,7 +75,9 @@
                     <div class="document-editor__editable">
                         @if(empty($questions))
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
-                        {!! $content !!}
+                        <div class="ck-content">
+                            {!! $content !!}
+                        </div>
                         @else
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
 
@@ -115,6 +117,8 @@
     </div>
 
 </div>
+
+<link rel="stylesheet" type="text/css" href="{{ asset('ckeditor/style.css') }}">
 
 <style type="text/css">
     .document-editor{

@@ -113,7 +113,9 @@
                     <div class="document-editor__editable">
                         @if(empty($questions))
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
+                        <div class="ck-content">
                             {!! $content !!}
+                        </div>
                         @else
                         <form wire:submit.prevent="submitQuiz">
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
@@ -175,6 +177,9 @@
         @endif
     </div>
 </div>
+
+<link rel="stylesheet" type="text/css" href="{{ asset('ckeditor/style.css') }}">
+<script charset="utf-8" src="//cdn.iframe.ly/embed.js?api_key=4697f747519ca5b0c22b50"></script>
 
 <style type="text/css">
     .document-editor{

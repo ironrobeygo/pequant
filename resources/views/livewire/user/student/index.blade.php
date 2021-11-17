@@ -26,6 +26,12 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="relative">
+                    <button class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none" wire:click="resetTable()">
+                        Reset
+                    </button>
+                </div>
             </div>
 
             <div class="flex justify-between">
@@ -74,11 +80,6 @@
                         </td>
                         <td class="py-3 px-6 text-center">
                             <ul class="flex justify-center">
-                                <li>
-                                    <a href="/students/{{ $student->id }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
-                                        View
-                                    </a>
-                                </li> 
                                 <li>
                                     <a href="/students/{{ $student->id }}/edit" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
                                         Edit

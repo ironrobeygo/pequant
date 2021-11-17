@@ -99,6 +99,15 @@ class Index extends Component
         $this->isDeleteModal = false;
     }
 
+    public function resetTable(){
+        $this->institutionFilter = 0;
+        $this->perPage = 10;
+        $this->search = '';
+        $this->orderBy = 'id';
+        $this->orderAsc = false;
+        $this->emitSelf('updatedList');
+    }
+
     public function delete(User $user){
         $this->isDeleteModal = true;
         $this->deleteUser = $user;
