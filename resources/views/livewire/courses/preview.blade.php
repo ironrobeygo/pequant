@@ -84,7 +84,7 @@
                             @if(!empty($questions))
                                 @foreach($questions as $question)
                                 <div>
-                                    <h3><p>{!! $counter++ .'. ' . str_replace('<p>', '', $question->question) !!}</h3>
+                                    <h3 class="font-bold mb-2 flex"><span class="mr-1 inline-block">{{ $counter++.'.' }}</span> {!! strip_tags($question->question, "<p>") !!}</h3>
                                     @if($question->type_id == 1)
                                         <ul class="ml-5">
                                         @foreach($question->options as $option)
