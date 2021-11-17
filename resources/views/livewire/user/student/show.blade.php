@@ -74,7 +74,9 @@
                     </span>
                     <h1 class="text-2xl mb-4">Welcome to {{ $course->name }}</h1> 
                 </div>
-                {!! $course->description !!}
+                <div class="ck-content">
+                    {!! $course->description !!}
+                </div>
             </div>
             @endif
 
