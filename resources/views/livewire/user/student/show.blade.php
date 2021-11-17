@@ -169,7 +169,7 @@
                         </a>
                         @endif
                         @if(!is_null($next))
-                        <a href="#"  wire:click.prevent="goNext({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="goNext({{$current->id}}, {{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Next
                         </a>
                         @endif

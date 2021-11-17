@@ -176,9 +176,9 @@ class Show extends Component
 
     }
 
-    public function goNext($id, $type){
+    public function goNext($current, $id, $type){
         $this->updateContent($id, $type);
-        $this->progressUpdate($id);
+        $this->progressUpdate($current);
     }
 
     public function getAnswerCount($data){
