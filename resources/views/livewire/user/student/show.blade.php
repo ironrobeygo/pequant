@@ -164,12 +164,12 @@
 
                     <div class="flex justify-between">
                         @if(!is_null($previous))
-                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="document.getByElementId('document-editor').scrollTo(0, 0)" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Previous
                         </a>
                         @endif
                         @if(!is_null($next))
-                        <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="document.getByElementId('document-editor').scrollTo(0, 0)"  class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="goNext({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Next
                         </a>
                         @endif
@@ -229,4 +229,8 @@
             
         });
     });
+
+    function scrollIntoViewContent(){
+        document.getElementById('document-editor').scroll({top:0,behavior:'smooth'});
+    }
 </script>

@@ -176,6 +176,11 @@ class Show extends Component
 
     }
 
+    public function goNext($id, $type){
+        $this->updateContent($id, $type);
+        $this->progressUpdate($id);
+    }
+
     public function getAnswerCount($data){
         $type = 'checkbox';
 
