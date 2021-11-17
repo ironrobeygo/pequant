@@ -12,7 +12,6 @@ class Edit extends Component
     public $user;
     public $name;
     public $email;
-    public $contact_number;
     public $institution_id;
     public $role;
 
@@ -21,7 +20,6 @@ class Edit extends Component
         $this->user = $user;
         $this->name = $this->user->name;
         $this->email = $this->user->email;
-        $this->contact_number = $this->user->contact_number;
         $this->institution_id = $this->user->institution_id;
         $this->role = $this->user->getRoleNames()[0];
 
@@ -41,7 +39,6 @@ class Edit extends Component
         $data = [
             'name'              => $this->name,
             'email'             => $this->email,
-            'contact_number'    => $this->contact_number,
             'institution_id'    => $this->institution_id
         ];
 
@@ -59,7 +56,6 @@ class Edit extends Component
         return [
             'name'              => 'required',
             'email'             => 'required',
-            'contact_number'    => 'nullable',
             'institution_id'    => 'required',
             'role'              => 'required'
         ];

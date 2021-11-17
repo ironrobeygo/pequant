@@ -79,8 +79,7 @@ class Show extends Component
             ->pluck('quiz_id')->toArray();
     }
 
-    public function render()
-    {
+    public function render(){
 
         return view('livewire.user.student.show');
 

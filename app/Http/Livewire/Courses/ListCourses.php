@@ -113,7 +113,7 @@ class ListCourses extends Component
                         $cloneQuestion = $question->replicate()->fill([
                             'user_id'   => auth()->user()->id,
                             'updated_by'=> auth()->user()->id,
-                            'status'    => 0
+                            'status'    => 1
                         ]);
                         $cloneQuestion->quiz_id = $cloneQuiz->id;
                         $cloneQuestion->save();

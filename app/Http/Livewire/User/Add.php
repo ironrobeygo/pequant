@@ -13,7 +13,6 @@ class Add extends Component
 
     public $name;
     public $email;
-    public $contact_number;
     public $institution_id;
     public $role;
 
@@ -30,7 +29,6 @@ class Add extends Component
         $data = [
             'name'              => $this->name,
             'email'             => $this->email,
-            'contact_number'    => $this->contact_number,
             'password'          => Hash::make('!@#$%^&*'),
             'institution_id'    => $this->institution_id
         ];
@@ -48,7 +46,6 @@ class Add extends Component
         return [
             'name'              => 'required',
             'email'             => 'required',
-            'contact_number'    => 'nullable',
             'institution_id'    => 'required',
             'role'              => 'required|not_in:0'
         ];

@@ -117,8 +117,6 @@
                         @else
                         <form wire:submit.prevent="submitQuiz">
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
-
-
                             @if($currentQuiz->isExpired())
                                 <p class="text-red-500">This quiz has already expired!</p>
                             @elseif(count($questions) == 0 )
@@ -162,12 +160,12 @@
 
                     <div class="flex justify-between">
                         @if(!is_null($previous))
-                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click.document="document.getByElementId('document-editor__editable-container').scrollTo(0, 0)" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Previous
                         </a>
                         @endif
                         @if(!is_null($next))
-                        <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click.document="document.getByElementId('document-editor__editable-container').scrollTo(0, 0)"  class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Next
                         </a>
                         @endif

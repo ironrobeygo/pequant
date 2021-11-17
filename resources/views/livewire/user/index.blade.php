@@ -7,7 +7,6 @@
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">Name</th>
                         <th class="py-3 px-6 text-left">Email</th>
-                        <th class="py-3 px-6 text-left">Contact Number</th>
                         <th class="py-3 px-6 text-left">Role</th>
                         <th class="py-3 px-6 text-left">Institution</th>
                         <th class="py-3 px-6 text-left">Joined Date</th>
@@ -25,9 +24,6 @@
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap">
                             {{ $user->email }}
-                        </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                            {{ $user->contact_number }}
                         </td>
                         <td class="py-3 px-6 text-left whitespace-nowrap">
                             <ul>
