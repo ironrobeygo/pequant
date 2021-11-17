@@ -107,7 +107,7 @@
 
         @else
 
-            <div class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
+            <div id="document-editor" class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
                 <div class="document-editor__editable-container">
 
                     <div class="document-editor__editable">
@@ -162,12 +162,12 @@
 
                     <div class="flex justify-between">
                         @if(!is_null($previous))
-                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click.document="document.getByElementId('document-editor__editable-container').scrollTo(0, 0)" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="document.getByElementId('document-editor').scrollTo(0, 0)" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Previous
                         </a>
                         @endif
                         @if(!is_null($next))
-                        <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click.document="document.getByElementId('document-editor__editable-container').scrollTo(0, 0)"  class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="document.getByElementId('document-editor').scrollTo(0, 0)"  class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Next
                         </a>
                         @endif

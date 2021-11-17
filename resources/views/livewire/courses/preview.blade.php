@@ -69,7 +69,7 @@
             @endif
 
         @else
-            <div class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
+            <div id="document-editor" class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
                 <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
                 <div class="document-editor__editable-container">
                     <div class="document-editor__editable">
@@ -111,6 +111,19 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="flex justify-between">
+                    @if(!is_null($previous))
+                    <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        Previous
+                    </a>
+                    @endif
+                    @if(!is_null($next))
+                    <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        Next
+                    </a>
+                    @endif
+                </div>  
             </div>
 
         @endif
@@ -166,4 +179,8 @@
             
         });
     });
+
+    function scrollIntoViewContent(){
+        document.getElementById('document-editor').scroll({top:0,behavior:'smooth'});
+    }
 </script>

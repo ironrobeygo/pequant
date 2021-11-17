@@ -19,6 +19,8 @@ class Preview extends Component
     public $questions;
     public $counter = 1;
     public $visited;
+    public $next;
+    public $previous;
 
     public function mount(Course $course){
         $this->course = $course;
@@ -47,6 +49,17 @@ class Preview extends Component
             $data = [
                 'unit_id' => $unit->id,
             ];
+
+            $next = $unit->chapter->units->filter(function($value, $key) use ($unit){
+               return $value->order > $unit->order; 
+            });
+
+            $previous = $unit->chapter->units->filter(function($value, $key) use ($unit){
+               return $value->order < $unit->order; 
+            });
+
+            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
+            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
             
         }
 
@@ -54,6 +67,17 @@ class Preview extends Component
             $quiz = Quiz::find($id);
             $this->title = $quiz->name;
             $this->questions = $quiz->questions->where('status', 1);
+
+            $next = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
+               return $value->order > $quiz->order; 
+            });
+
+            $previous = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
+               return $value->order < $quiz->order; 
+            });
+
+            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
+            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
             
         }
 
