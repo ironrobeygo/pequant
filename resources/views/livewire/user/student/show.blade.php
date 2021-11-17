@@ -210,6 +210,11 @@
         margin-bottom:  20px;
     }
 
+    .ck-content p,
+    .ck-content ol{
+        margin-bottom:  20px;
+    }
+
 </style>
 
 <script>

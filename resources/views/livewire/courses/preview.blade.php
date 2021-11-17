@@ -62,7 +62,7 @@
                     </span>
                     <h1 class="text-2xl">Welcome to {{ $course->name }}</h1> 
                 </div>
-                <div class="text-justify">
+                <div class="ck-content text-justify">
                     {!! $course->description !!}    
                 </div>
             </div>
@@ -146,6 +146,11 @@
     }
 
     .document-editor__editable p{
+        margin-bottom:  20px;
+    }
+
+    .ck-content p,
+    .ck-content ol{
         margin-bottom:  20px;
     }
 
