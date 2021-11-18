@@ -80,13 +80,14 @@
                         </div>
                         @else
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
-
                             @if(!empty($questions))
+                                <ol>
                                 @foreach($questions as $question)
-                                <div>
+                                <li>
                                     <h3 class="mb-2">
                                         {!! $question->question !!}
                                     </h3>
+
                                     @if($question->type_id == 1)
                                         <ul class="ml-5">
                                         @foreach($question->options as $option)
@@ -104,8 +105,9 @@
                                     @if($question->type_id == 3)
                                     <textarea class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"></textarea>
                                     @endif
-                                </div>
+                                </li>
                                 @endforeach
+                                </ol>
                             @else
                                 <p>No questions assigned to this quiz yet</p>
                             @endif
