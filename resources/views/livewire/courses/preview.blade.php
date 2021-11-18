@@ -81,13 +81,13 @@
                         @else
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
                             @if(!empty($questions))
-                                <ol>
+                                <ol class="list-decimal">
                                 @foreach($questions as $question)
                                 <li>
-                                    <h3 class="mb-2">
+                                    <div>
                                         {!! $question->question !!}
-                                    </h3>
-
+                                    </div>
+                                    
                                     @if($question->type_id == 1)
                                         <ul class="ml-5">
                                         @foreach($question->options as $option)
