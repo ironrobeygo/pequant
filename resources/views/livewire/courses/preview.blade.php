@@ -83,7 +83,7 @@
                             @if(!empty($questions))
                                 <ol class="list-decimal">
                                 @foreach($questions as $question)
-                                <li>
+                                <li class="mb-4">
                                     <div>
                                         {!! $question->question !!}
                                     </div>
