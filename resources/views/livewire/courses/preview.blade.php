@@ -84,8 +84,8 @@
                             @if(!empty($questions))
                                 @foreach($questions as $question)
                                 <div>
-                                    <h3 class="mb-2 flex">
-                                        {!! strip_tags($question->question, "<p>") !!}
+                                    <h3 class="mb-2">
+                                        {!! $question->question !!}
                                     </h3>
                                     @if($question->type_id == 1)
                                         <ul class="ml-5">
