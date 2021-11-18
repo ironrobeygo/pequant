@@ -60,7 +60,7 @@ class Edit extends Component
             'type_id'   => $this->type_id,
             'updated_by' => auth()->user()->id,
             'status'    => auth()->user()->hasRole('admin') ? Question::ACTIVE : Question::PENDING,
-            'weight' => 0
+            'weight' => $this->weight
         ];
 
         $this->question->update($data);

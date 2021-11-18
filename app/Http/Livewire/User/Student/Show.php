@@ -134,6 +134,7 @@ class Show extends Component
             $this->currentUnit  = 0;
             $this->currentQuiz  = $quiz;
             $this->submitQuiz   = [];
+            $this->nextID       = $quiz->id;
 
             $next = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
                return $value->order > $quiz->order; 

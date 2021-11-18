@@ -58,7 +58,7 @@ class Add extends Component
             'user_id'   => auth()->user()->id,
             'updated_by' => auth()->user()->id,
             'status'    => auth()->user()->hasRole('admin') ? Question::ACTIVE : Question::PENDING,
-            'weight'    => $this->weight == '' ? 0 : $this->weight
+            'weight'    => $this->weight == '' ? 1 : $this->weight
         ];
 
         $question = $this->quiz->addQuestion($data);

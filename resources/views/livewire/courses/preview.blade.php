@@ -72,7 +72,7 @@
             <div id="document-editor" class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
                 <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
                 <div class="document-editor__editable-container">
-                    <div class="document-editor__editable">
+                    <div class="ck-content document-editor__editable">
                         @if(empty($questions))
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
                         <div class="ck-content">
@@ -84,7 +84,9 @@
                             @if(!empty($questions))
                                 @foreach($questions as $question)
                                 <div>
-                                    <h3 class="font-bold mb-2 flex"><span class="mr-1 inline-block">{{ $counter++.'.' }}</span> {!! strip_tags($question->question, "<p>") !!}</h3>
+                                    <h3 class="mb-2 flex">
+                                        {!! strip_tags($question->question, "<p>") !!}
+                                    </h3>
                                     @if($question->type_id == 1)
                                         <ul class="ml-5">
                                         @foreach($question->options as $option)
