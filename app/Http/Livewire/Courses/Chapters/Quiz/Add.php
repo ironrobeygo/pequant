@@ -32,26 +32,28 @@ class Add extends Component
 
         $this->validate();
 
+        $expiration = $this->expiration != '' ? Carbon::parse($this->expiration)->format('Y-m-d') : null;
+
         $data = [
             'name' => $this->name,
             'type'  => 'quiz',
             'content' => 'empty',
-            'expires_at' => Carbon::parse($this->expiration)->format('Y-m-d'),
+            'expires_at' => $expiration,
             'user_id' => auth()->user()->id,
             'updated_by' => auth()->user()->id
         ];
 
         $quiz = $this->chapter->addQuiz($data); 
 
-        if(!empty($this->attachments[0])){
-            foreach ($this->attachments as $attachment) {
-                $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
-                $quiz->addMedia($attachment[0]->getRealPath())
-                    ->usingName($filename)
-                    ->usingFileName($attachment[0]->getClientOriginalName())
-                    ->toMediaCollection('images');
-            }            
-        }
+        // if(!empty($this->attachments[0])){
+        //     foreach ($this->attachments as $attachment) {
+        //         $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
+        //         $quiz->addMedia($attachment[0]->getRealPath())
+        //             ->usingName($filename)
+        //             ->usingFileName($attachment[0]->getClientOriginalName())
+        //             ->toMediaCollection('images');
+        //     }            
+        // }
 
         alert()->success('A new quiz has been created.', 'Congratulations!');
 
@@ -59,14 +61,14 @@ class Add extends Component
 
     }
 
-    public function addAttachment(){
-        $this->attachments[] = [];
-    }
+    // public function addAttachment(){
+    //     $this->attachments[] = [];
+    // }
 
-    public function removeAttachment($index)
-    {
-        unset($this->attachments[$index]);
-    }
+    // public function removeAttachment($index)
+    // {
+    //     unset($this->attachments[$index]);
+    // }
 
     protected function rules(){
         return [

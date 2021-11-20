@@ -38,8 +38,10 @@ class Show extends Component
     public $submitQuiz;
     public $answerType;
     public $showRetake;
+    public $units;
     public $next;
     public $previous;
+    public $currentId;
 
     protected $listeners = ['updateContent'];
 
@@ -58,8 +60,15 @@ class Show extends Component
         $this->answerType   = 'checkbox';
         $this->currentQuiz  = 0;
         $this->currentUnit  = 0;
+        $this->currentId    = 0;
         $this->student      = auth()->user();
         $this->showRetake   = false;
+
+        $this->units = $course->chapters->map(function($chapter){
+            return $chapter->units->map(function($unit){ 
+                return $unit->only(['id']);
+            })->values()->flatten();
+        })->values()->flatten()->toArray();
 
         $this->progress = $this->student
             ->progress()
@@ -94,20 +103,16 @@ class Show extends Component
             $this->content      = $unit->content;
             $this->currentUnit  = $unit;
             $this->currentQuiz  = 0;
+            $this->currentId    = $unit->id;
             $this->questions    = [];
             $this->status       = '';
             $this->quizMessage  = '';
 
-            $next = $unit->chapter->units->filter(function($value, $key) use ($unit){
-               return $value->order > $unit->order; 
-            });
+            $next_id = $this->findIndex($id) + 1;
+            $prev_id = $this->findIndex($id) - 1;
 
-            $previous = $unit->chapter->units->filter(function($value, $key) use ($unit){
-               return $value->order < $unit->order; 
-            });
-
-            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
-            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
+            $this->getNext($next_id);
+            $this->getPrev($prev_id);
 
             event(new UnitOpened(auth()->user(), $this->currentUnit));
 
@@ -133,19 +138,15 @@ class Show extends Component
             $this->content      = '';
             $this->currentUnit  = 0;
             $this->currentQuiz  = $quiz;
+            $this->currentId    = $quiz->id;
             $this->submitQuiz   = [];
             $this->nextID       = $quiz->id;
 
-            $next = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
-               return $value->order > $quiz->order; 
-            });
+            $next_id = $this->findIndex($id) + 1;
+            $prev_id = $this->findIndex($id) - 1;
 
-            $previous = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
-               return $value->order < $quiz->order; 
-            });
-
-            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
-            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
+            $this->getNext($next_id);
+            $this->getPrev($prev_id);
 
             event(new QuizOpened(auth()->user(), $this->currentQuiz));
 
@@ -339,6 +340,35 @@ class Show extends Component
             $instructor     = $this->course->instructor->id;
             array_push($admins, $instructor);
             $this->questions = $quiz->questions->where('status', 1)->whereIn('user_id', $admins);
+        }
+    }
+
+    public function findIndex($id){
+        return array_search($id, $this->units);
+    }
+
+    public function getNext($next_id){
+
+        $unitCount = count($this->units);
+        if( $next_id < $unitCount ){
+            $unit_id = $this->units[$next_id];
+            $unit = Unit::where('id', $unit_id)->first();
+
+            $this->next = $unit->only('id', 'type');
+        } else {
+            $this->next = null;
+        }
+    }
+
+    public function getPrev($prev_id){
+
+        if( $prev_id >= 0 ){
+            $unit_id = $this->units[$prev_id];
+            $unit = Unit::where('id', $unit_id)->first();
+
+            $this->previous = $unit->only('id', 'type');
+        } else {
+            $this->previous = null;
         }
     }
 

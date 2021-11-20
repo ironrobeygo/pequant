@@ -17,19 +17,32 @@ class Preview extends Component
     public $content;
     public $progress;
     public $questions;
-    public $counter = 1;
+    public $counter;
     public $visited;
     public $next;
     public $previous;
+    public $navigation;
+    public $units;
+    public $currentId;
 
     public function mount(Course $course){
         $this->course = $course;
         $this->title = '';
         $this->video = '';
         $this->content = '';
+        $this->counter = 1;
         $this->progress = [];
         $this->visited = [];
         $this->questions = [];
+        $this->next = null;
+        $this->previous = null;
+        $this->currentId = 0;
+        $this->units = $course->chapters->map(function($chapter){
+            return $chapter->units->map(function($unit){ 
+                return $unit->only(['id']);
+            })->values()->flatten();
+        })->values()->flatten()->toArray();
+
     }
 
     public function render()
@@ -44,22 +57,18 @@ class Preview extends Component
             $this->title = $unit->name;
             $this->video = $unit->video;
             $this->content = $unit->content;
+            $this->currentId  = $unit->id;
             $this->questions = [];
 
             $data = [
                 'unit_id' => $unit->id,
             ];
 
-            $next = $unit->chapter->units->filter(function($value, $key) use ($unit){
-               return $value->order > $unit->order; 
-            });
+            $next_id = $this->findIndex($id) + 1;
+            $prev_id = $this->findIndex($id) - 1;
 
-            $previous = $unit->chapter->units->filter(function($value, $key) use ($unit){
-               return $value->order < $unit->order; 
-            });
-
-            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
-            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
+            $this->getNext($next_id);
+            $this->getPrev($prev_id);
             
         }
 
@@ -67,19 +76,44 @@ class Preview extends Component
             $quiz = Quiz::find($id);
             $this->title = $quiz->name;
             $this->questions = $quiz->questions->where('status', 1);
+            $this->currentId  = $quiz->id;
 
-            $next = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
-               return $value->order > $quiz->order; 
-            });
+            $next_id = $this->findIndex($id) + 1;
+            $prev_id = $this->findIndex($id) - 1;
 
-            $previous = $quiz->chapter->units->filter(function($value, $key) use ($quiz){
-               return $value->order < $quiz->order; 
-            });
-
-            $this->next = (count($next) == 0 ? null : $next->first()->only('id', 'type')  );
-            $this->previous = (count($previous) == 0 ? null : $previous->first()->only('id', 'type') );
+            $this->getNext($next_id);
+            $this->getPrev($prev_id);
             
         }
 
+    }
+
+    public function findIndex($id){
+        return array_search($id, $this->units);
+    }
+
+    public function getNext($next_id){
+
+        $unitCount = count($this->units);
+        if( $next_id < $unitCount ){
+            $unit_id = $this->units[$next_id];
+            $unit = Unit::where('id', $unit_id)->first();
+
+            $this->next = $unit->only('id', 'type');
+        } else {
+            $this->next = null;
+        }
+    }
+
+    public function getPrev($prev_id){
+
+        if( $prev_id >= 0 ){
+            $unit_id = $this->units[$prev_id];
+            $unit = Unit::where('id', $unit_id)->first();
+
+            $this->previous = $unit->only('id', 'type');
+        } else {
+            $this->previous = null;
+        }
     }
 }

@@ -28,6 +28,7 @@ class Add extends Component
         $this->course = $course;
         $this->chapter = $chapter;
         $this->type_id = 2; //default
+        $this->weight = 1;
         $this->quiz = $quiz;
         $this->options[] = ['value' => '', 'answer' => false];
         $this->attachments = [

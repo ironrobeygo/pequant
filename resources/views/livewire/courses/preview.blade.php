@@ -23,7 +23,7 @@
                         </div>
                         <ul>
                             @foreach($chapter->units as $unit)
-                            <li>
+                            <li class="{{ $unit->id == $currentId || $unit->id == $currentId ? 'bg-mohs-orange-500' : '' }}">
                                 <a href="#" class="block p-4 border border-gray-50 border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, '{{ $unit->type }}')">
                                     <span class="flex block">
                                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -103,7 +103,7 @@
                                     @endif
 
                                     @if($question->type_id == 3)
-                                    <textarea class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"></textarea>
+                                    <input type="file">
                                     @endif
                                 </li>
                                 @endforeach

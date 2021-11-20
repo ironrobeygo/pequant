@@ -36,6 +36,7 @@ class Edit extends Component
         $this->options = $question->options->toArray();
         $this->showOptionsForm = $question->type_id == 1 ? true : false;
         $this->medias   = $question->getMedia('images');
+        $this->weight = is_null($question->weight) ? 1 : $question->weight;  
     }
 
     public function multipleChoice($value){
@@ -65,13 +66,13 @@ class Edit extends Component
 
         $this->question->update($data);
 
-        foreach ($this->attachments as $attachment) {
-            $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
-            $this->question->addMedia($attachment[0]->getRealPath())
-                ->usingName($filename)
-                ->usingFileName($attachment[0]->getClientOriginalName())
-                ->toMediaCollection('images');
-        }
+        // foreach ($this->attachments as $attachment) {
+        //     $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
+        //     $this->question->addMedia($attachment[0]->getRealPath())
+        //         ->usingName($filename)
+        //         ->usingFileName($attachment[0]->getClientOriginalName())
+        //         ->toMediaCollection('images');
+        // }
 
         if($this->type_id == 1){
 

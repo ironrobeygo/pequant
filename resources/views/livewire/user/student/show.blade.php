@@ -18,13 +18,13 @@
 
             <ul class="bg-gray-600 text-white">
                 @foreach($course->chapters as $u => $chapter)
-                    <li class="border border-b-0" x-data="{show:false}">
+                    <li class="border border-b-0" x-data="{show:true}">
                         <div class="bg-mohs-green-600 text-white p-4 text-lg cursor-pointer" @click="show=!show">
                            {{ $u + 1 .'. '.$chapter->name }} 
                         </div>
                         <ul x-show="show">
                             @foreach($chapter->units as $unit)
-                            <li class="flex p-4 border-b">
+                            <li class="flex p-4 border-b{{ $unit->id == $currentId || $unit->id == $currentId ? ' bg-mohs-orange-500' : '' }}">
                                 <span>
                                     @if($unit->type == 'unit')
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -82,7 +82,8 @@
 
         @elseif($status != '')
 
-            <div class="text-center p-40 border border-gray-100 bg-gray-100">
+            <div class="text-center p-40 border border-gray-100 bg-gray-100 relative flex flex-nowrap flex-col">
+                <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
                 <span class="inline-block m-auto">
                     <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </span>
@@ -90,18 +91,20 @@
                 <p class="mb-4">{{ $quizMessage }}</p>
 
                 @if($showRetake)    
-                    <a href="#" wire:click.prevent="retakeQuiz({{$currentQuiz->id}})" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Retake Quiz</a> 
+                    <p class="text-center">
+                        <a href="#" wire:click.prevent="retakeQuiz({{$currentQuiz->id}})" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none inline-block">Retake Quiz</a> 
+                    </p>
                 @endif
             </div>
 
             <div class="flex justify-between">
                 @if(!is_null($previous))
-                <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                     Previous
                 </a>
                 @endif
                 @if(!is_null($next))
-                <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                     Next
                 </a>
                 @endif
@@ -110,6 +113,7 @@
         @else
 
             <div id="document-editor" class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
+                <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
                 <div class="document-editor__editable-container">
 
                     <div class="document-editor__editable">
@@ -169,7 +173,7 @@
                         </a>
                         @endif
                         @if(!is_null($next))
-                        <a href="#"  wire:click.prevent="goNext({{$currentUnit->id}}, {{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Next
                         </a>
                         @endif

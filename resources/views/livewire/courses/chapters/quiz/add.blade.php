@@ -1,4 +1,3 @@
-
 <form wire:submit.prevent="addQuiz" method="POST">
     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -21,7 +20,7 @@
 
         <div class="block text-sm">
             <x-jet-label for="name" value="{{ __('Expiration Date') }}" />
-            <x-jet-input id="expiration" class="block mt-1 w-full" type="text" wire:model="expiration" name="expiration" :value="old('expiration')" onchange="this.dispatchEvent(new InputEvent('input'))" required autofocus autocomplete="expiration" />
+            <x-jet-input id="expiration" class="block mt-1 w-full" type="text" wire:model="expiration" name="expiration" :value="old('expiration')" onchange="this.dispatchEvent(new InputEvent('input'))" autocomplete="expiration" />
             @error('expiration') <span class="error">{{ $message }}</span> @enderror
         </div>
 
