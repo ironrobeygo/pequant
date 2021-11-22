@@ -130,34 +130,38 @@
                             @elseif(count($questions) == 0 )
                                 <p>No questions added for this quiz yet. Please come back later.</p>
                             @else
+                                <ol class="list-decimal">
                                 @foreach($questions as $question)
-                                <div class="pb-2 mb-2">
-                                    <h3 class="font-bold mb-2 flex"><span class="mr-1 inline-block">{{ $counter++.'.' }}</span> {!! strip_tags($question->question, "<p>") !!}</h3>
-                                    @if($question->type_id == 1)
-                                        <ul>
-                                        @php $answerType = $this->getAnswerCount($question->options) @endphp
-                                        @foreach($question->options as $option)
-                                            <li class="flex">
-                                                @if($answerType == 'checkbox')
-                                                <input type="checkbox" class="mt-1 mr-2" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}][{{$option->id}}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}.{{$option->id}}">
-                                                @else
-                                                <input type="radio" class="mt-1 mr-2" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}][]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}.0" value="{{$option->id}}">
-                                                @endif
-                                                <span>{{ $option->value }}</span>
-                                            </li>
-                                        @endforeach
-                                        </ul>
-                                    @endif
+                                    <li class="mb-4">
+                                        <div>
+                                            {!! $question->question !!}
+                                        </div>
+                                        @if($question->type_id == 1)
+                                            <ul class="ml-5">
+                                            @php $answerType = $this->getAnswerCount($question->options) @endphp
+                                            @foreach($question->options as $option)
+                                                <li class="flex">
+                                                    @if($answerType == 'checkbox')
+                                                    <input type="checkbox" class="mt-1 mr-2" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}][{{$option->id}}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}.{{$option->id}}">
+                                                    @else
+                                                    <input type="radio" class="mt-1 mr-2" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}][]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}.0" value="{{$option->id}}">
+                                                    @endif
+                                                    <span>{{ $option->value }}</span>
+                                                </li>
+                                            @endforeach
+                                            </ul>
+                                        @endif
 
-                                    @if($question->type_id == 2)
-                                    <textarea class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}"></textarea>
-                                    @endif
+                                        @if($question->type_id == 2)
+                                        <textarea class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}"></textarea>
+                                        @endif
 
-                                    @if($question->type_id == 3)
-                                    <input type="file" name="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.attachments.{{$question->quiz_id}}.{{$question->id}}">
-                                    @endif
-                                </div>
+                                        @if($question->type_id == 3)
+                                        <input type="file" name="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.attachments.{{$question->quiz_id}}.{{$question->id}}">
+                                        @endif
+                                    </li>
                                 @endforeach
+                                </ol>
                                 <div class="flex justify-end mt-6">
                                     <button type="submit" wire:loading.attr="disabled" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
                                 </div>
