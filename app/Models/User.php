@@ -120,6 +120,10 @@ class User extends Authenticatable implements HasMedia
         return $this->progress()->create($data);
     } 
 
+    public function updateProgress($data){
+        return $this->progress()->update($data);
+    }
+
     public function scopeStudentRecentProgress(){
 
         return $this->progress()->orderBy('updated_at', 'desc')->get();

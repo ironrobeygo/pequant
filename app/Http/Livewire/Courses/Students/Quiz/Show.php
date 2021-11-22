@@ -8,6 +8,7 @@ use App\Models\Score;
 use App\Models\Answer;
 use App\Models\Course;
 use Livewire\Component;
+use Illuminate\Support\Facades\Notification;
 
 class Show extends Component
 {
@@ -71,7 +72,14 @@ class Show extends Component
         $score->completed = 0;
         $score->save();
 
-        alert()->success('You\'ve successfully grade a quiz.', 'Congratulations!');
+        $userData = [
+            'course' => $this->course->name,
+            'quiz' => $this->quiz->name,
+            'student' => $this->student->name
+        ];
+
+        Notification::send($this->student, new StudentQuizGradedNotification($userData));
+        alert()->success('You\'ve successfully graded a quiz.', 'Congratulations!');
 
         return redirect()->to('/courses/'.$this->course->id.'/students/'.$this->student->id);
 

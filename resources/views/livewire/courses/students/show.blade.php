@@ -54,11 +54,18 @@
                                             @endif
                                         </div>
                                         @if($unit->type == 'quiz')
-                                        <div class="w-full px-5 py-3">
+                                        <div class="w-full px-5 py-3 flex justify-between">
+                                            <span class="text-sm italic text-mohs-green-500">
                                             @php
                                                 $quizTotal = \App\Models\Quiz::find($unit->id)->getQuizTotal();
                                             @endphp
                                             Score: {{ $student->getQuizScore($unit->id) !== false ? $student->getQuizScore($unit->id)->score : 0 }}/{{ $quizTotal }}
+                                            </span>
+                                            @if( $student->scores->where('quiz_id', $unit->id)->count() > 0 )
+                                            <span class="text-sm italic text-mohs-green-500">
+                                                {{ $student->scores->where('quiz_id', $unit->id)->count() }} Retake(s)
+                                            </span>
+                                            @endif
                                         </div>
                                         @endif
                                     </div>

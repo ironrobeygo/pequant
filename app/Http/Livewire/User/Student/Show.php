@@ -16,6 +16,8 @@ use App\Events\UnitOpened;
 use App\Events\QuizSubmitted;
 use App\Events\UnitCompleted;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\InstructorQuizNotification;
 
 class Show extends Component
 {
@@ -126,6 +128,8 @@ class Show extends Component
 
             if( $exists === null ){
                 $this->student->addProgress($data);
+            } else {
+                $this->student->updateProgress($data);
             }
             
         }
@@ -298,7 +302,15 @@ class Show extends Component
             $quizData['completed'] = 1;
         }
 
+        $userData = [
+            'course' => $this->course->name,
+            'quiz' => $this->currentQuiz->name,
+            'user'  => auth()->user()->name, 
+            'instructor' => $this->course->instructor->name
+        ];
+
         event(new QuizSubmitted($this->student, $this->currentQuiz));
+        Notification::send($this->course->instructor, new InstructorQuizNotification($userData));
 
         $this->student->addScore($quizData);
 
