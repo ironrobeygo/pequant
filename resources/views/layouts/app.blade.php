@@ -48,6 +48,12 @@
         @stack('footerScripts')
         @include('sweet::alert')
         <!-- Scripts -->
+
+        <script type="text/javascript">
+            document.addEventListener("contextmenu", function(e){
+                e.preventDefault();
+            }, false);
+        </script>
         <script src="{{ mix('js/app.js') }}" defer></script>
     </body>
 </html>

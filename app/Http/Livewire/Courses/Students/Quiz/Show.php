@@ -9,6 +9,7 @@ use App\Models\Answer;
 use App\Models\Course;
 use Livewire\Component;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\StudentQuizGradedNotification;
 
 class Show extends Component
 {
