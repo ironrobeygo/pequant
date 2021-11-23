@@ -41,6 +41,7 @@ class Batch extends Component
                         $password = Str::random(16);
 
                         $institution = Institution::where('name', $data['institution'])->firstOrFail();
+
                         $course = Course::where('name', $data['course'])->firstOrFail();
 
                         DB::beginTransaction();
