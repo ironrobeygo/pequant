@@ -20,30 +20,56 @@ class Add extends Component
     public $type_id;
     public $question;
     public $weight;
-    public $showOptionsForm = false;
+    public $showOptionsForm;
     public $options = [];
     public $attachments = [];
+    public $identificationField;
+    public $identify;
 
     public function mount(Course $course, Chapter $chapter, Quiz $quiz){
+
         $this->course = $course;
         $this->chapter = $chapter;
         $this->type_id = 2; //default
         $this->weight = 1;
         $this->quiz = $quiz;
         $this->options[] = ['value' => '', 'answer' => false];
+        $this->showOptionsForm = false;
         $this->attachments = [
             []
         ];
+        $this->identificationField = false;
+        $this->identify = '';
     }
 
     public function multipleChoice($value){
-        if( $value == 1){
-            $this->showOptionsForm = true;
-        } else {
-            $this->showOptionsForm = false;
-            $this->options = [
-                ['value' => '', 'answer' => false]
-            ];
+
+        switch($value){
+            case 1: 
+                $this->showOptionsForm = true;
+                $this->identificationField = false;
+                $this->options = [
+                    ['value' => '', 'answer' => false]
+                ];
+            break;
+
+            case 2:
+            case 3:
+            default:
+                $this->showOptionsForm = false;
+                $this->identificationField = false;
+                $this->options = [
+                    ['value' => '', 'answer' => false]
+                ];
+            break;
+
+            case 4:
+                $this->showOptionsForm = false;
+                $this->identificationField = true;
+                $this->options = [
+                    ['value' => '', 'answer' => false]
+                ];
+            break;
         }
 
         $this->dispatchBrowserEvent('contentChanged');
@@ -80,6 +106,10 @@ class Add extends Component
             }
 
             $question->syncOptions($options);
+        }
+
+        if($this->type_id == 4){
+            $question->addAnswer( array('answer' => $this->identify) );
         }
 
         if(!empty($this->attachments[0])){

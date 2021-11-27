@@ -21,7 +21,7 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
-    <body x-data="{ 'showModal': false, 'isSideMenuOpen': false, 'isPagesMenuOpen': false }">
+    <body x-data="{ 'showModal': false, 'isSideMenuOpen': false, 'isPagesMenuOpen': false }" oncopy="return false">
 
         <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
 
@@ -34,9 +34,31 @@
         @livewireScripts
 
         <script type="text/javascript">
-            document.addEventListener("contextmenu", function(e){
-                e.preventDefault();
-            }, false);
+            var parentHeight = document.getElementById('document-parent').clientHeight;
+            console.log(parentHeight);
+            // // Disable Right click
+            // document.addEventListener('contextmenu', event => event.preventDefault());
+
+            // // Disable key down
+            // document.onkeydown = disableSelectCopy;
+
+            // // Disable mouse down
+            // document.onmousedown = dMDown;
+
+            // // Disable click
+            // document.onclick = dOClick;
+
+            // function dMDown(e) { return false; }
+
+            // function dOClick() { return true; }
+
+            // function disableSelectCopy(e) {
+            //     // current pressed key
+            //     var pressedKey = String.fromCharCode(e.keyCode).toLowerCase();
+            //     if ((e.ctrlKey && (pressedKey == "c" || pressedKey == "x" || pressedKey == "v" || pressedKey == "a" || pressedKey == "u")) ||  e.keyCode == 123) {
+            //         return false;
+            //     }
+            // }        
         </script>
     </body>
 </html>

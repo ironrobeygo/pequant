@@ -47,10 +47,6 @@ class Question extends Model implements HasMedia
         return $this->belongsTo(Quiz::class);
     }
 
-    public function answers(){
-        return $this->belongsToMany(Answer::class, 'answer_question', 'question_id', 'option_id');
-    }
-
     public function options(){
         return $this->belongsToMany(Option::class);
     }
@@ -59,7 +55,11 @@ class Question extends Model implements HasMedia
         return $this->options()->sync($data);
     }
 
-    public function syncAnswer($data){
-        return $this->answers()->sync($data);
+    public function answers(){
+        return $this->hasMany(Answer::class);
+    }
+
+    public function addAnswer($data){
+        return $this->answers()->create($data);
     }
 }

@@ -23,27 +23,28 @@ class Show extends Component
 {
     use WithFileUploads;
 
-    public $student;
-    public $currentUnit;
-    public $currentQuiz;
-    public $course;
+    public $next;
+    public $units;
     public $title;
     public $video;
-    public $content;
-    public $progress;
+    public $course;
+    public $status;
+    public $content;    
+    public $student;
+    public $counter;
     public $visited;
     public $answered;
+    public $progress;
+    public $previous;
+    public $complete;
     public $questions;
-    public $counter;
-    public $status;
-    public $quizMessage;
+    public $currentId;
     public $submitQuiz;
     public $answerType;
     public $showRetake;
-    public $units;
-    public $next;
-    public $previous;
-    public $currentId;
+    public $currentUnit;
+    public $currentQuiz;
+    public $quizMessage;
 
     protected $listeners = ['updateContent'];
 
@@ -51,20 +52,21 @@ class Show extends Component
         $this->course       = $course;
         $this->title        = '';
         $this->content      = '';
+        $this->status       = '';
+        $this->quizMessage  = '';
+        $this->submitQuiz   = [];
         $this->questions    = [];
         $this->progress     = [];
         $this->visited      = [];
         $this->answered     = [];
-        $this->counter      = 1;
-        $this->status       = '';
-        $this->quizMessage  = '';
-        $this->submitQuiz   = [];
-        $this->answerType   = 'checkbox';
         $this->currentQuiz  = 0;
         $this->currentUnit  = 0;
         $this->currentId    = 0;
+        $this->counter      = 1;
+        $this->answerType   = 'checkbox';
         $this->student      = auth()->user();
         $this->showRetake   = false;
+        $this->complete     = false;
 
         $this->units = $course->chapters->map(function($chapter){
             return $chapter->units->map(function($unit){ 
@@ -91,14 +93,16 @@ class Show extends Component
     }
 
     public function render(){
-
         return view('livewire.user.student.show');
-
     }
 
     public function updateContent($id, $type){
 
         if($type == 'unit'){
+
+            if($this->currentId != 0){
+                $this->goComplete($this->currentId);
+            }
 
             $unit               = Unit::find($id);
             $this->title        = $unit->name;
@@ -119,22 +123,27 @@ class Show extends Component
             event(new UnitOpened(auth()->user(), $this->currentUnit));
 
             $data = [
-                'unit_id' => $unit->id,
+                'unit_id' => $unit->id
             ];
 
             $exists = Progress::where('student_id', $this->student->id)
                         ->where('unit_id', $id)
                         ->first();
 
+            array_push($this->visited, $this->currentId);
+
             if( $exists === null ){
                 $this->student->addProgress($data);
-            } else {
-                $this->student->updateProgress($data);
-            }
+            } 
             
         }
 
         if($type == 'quiz'){
+
+            if($this->currentId != 0){
+                $this->goComplete($this->currentId);
+            }
+
             $quiz               = Quiz::find($id);
             $this->title        = $quiz->name;
             $this->questions    = $quiz->questions->where('status', 1);
@@ -180,11 +189,27 @@ class Show extends Component
 
         }
 
+        $this->dispatchBrowserEvent('adjustHeight');
+
     }
 
     public function goNext($current, $id, $type){
+        $this->goComplete($current);
         $this->updateContent($id, $type);
-        $this->progressUpdate($current);
+    }
+
+    public function goComplete($current){
+        $currentObject = Progress::where('student_id', $this->student->id)
+                    ->where('unit_id', $current)
+                    ->first();
+
+        if($currentObject !== null){
+            $currentObject->completed_at = Carbon::now();
+            $currentObject->save();
+
+            array_push($this->progress, $current);
+            array_push($this->visited, $current);
+        }
     }
 
     public function getAnswerCount($data){
@@ -199,19 +224,6 @@ class Show extends Component
         }
 
         return $type;
-    }
-
-    public function progressUpdate($id){
-
-        $unit = Unit::find($id);
-
-        $progress = Progress::where('student_id', $this->student->id)
-                        ->where('unit_id', $id)
-                        ->first();
-        $progress->completed_at = Carbon::now();
-        $progress->save();
-
-        event(new UnitCompleted($this->student, $unit));
     }
 
     public function submitQuiz(){
@@ -369,6 +381,7 @@ class Show extends Component
             $this->next = $unit->only('id', 'type');
         } else {
             $this->next = null;
+            $this->complete = true;
         }
     }
 

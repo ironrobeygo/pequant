@@ -4,6 +4,12 @@
 
 <div class="flex flex-1 w-full">
 
+    <div id="loading-div" wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-90 flex items-center justify-center z-50">
+        <img src="{{ asset('images/logo.png') }}" class="w-60 h-auto mx-auto mt-52">
+        <p class="font-bold text-xl mt-4">Processing...</p>
+    </div>
+
+
     <aside class="z-20 hidden w-1/5 overflow-y-auto bg-white md:block flex-shrink-0">
         <div class="text-gray-500 text-gray-400">
             <div class="p-4 bg-gray-700">
@@ -29,12 +35,19 @@
                                     @if($unit->type == 'unit')
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                                     @else
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     @endif
-                                    @if(in_array($unit->id, $visited))
-                                    <input type="checkbox" class="leading-loose ml-1 mr-2 z-50" wire:change="progressUpdate({{ $unit->id }})" {{ in_array($unit->id, $progress) ? 'checked' : '' }}>
+
+                                    @if(in_array($unit->id, $progress) || in_array($unit->id, $answered))
+                                    <span class="inline-block mt-1 ml-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                    </span>
+                                    @elseif(in_array($unit->id, $visited))
+                                    <span class="inline-block mt-1 ml-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+                                    </span>
                                     @endif
                                 </span>
                                 <a href="#" class="block" wire:click.prevent="updateContent({{ $unit->id }}, '{{ $unit->type }}')">
@@ -54,7 +67,7 @@
         </div>
     </aside>
 
-    <div class="w-full p-4 border border-gray-100 bg-gray-100">
+    <div id="document-parent" class="w-full p-4 border border-gray-100 bg-gray-100">
 
         @if($title == '')
 
@@ -83,7 +96,7 @@
         @elseif($status != '')
 
             <div class="text-center p-40 border border-gray-100 bg-gray-100 relative flex flex-nowrap flex-col">
-                <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
+                <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75 flex items-center justify-center bottom-0">Processing...</div>
                 <span class="inline-block m-auto">
                     <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </span>
@@ -113,7 +126,7 @@
         @else
 
             <div id="document-editor" class="document-editor flex relative border border-gray-100 overflow-y-scroll flex-nowrap flex-col">
-                <div wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-75">Processing...</div>
+                
                 <div class="document-editor__editable-container">
 
                     <div class="document-editor__editable">
@@ -144,7 +157,7 @@
                                                     @if($answerType == 'checkbox')
                                                     <input type="checkbox" class="mt-1 mr-2" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}][{{$option->id}}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}.{{$option->id}}">
                                                     @else
-                                                    <input type="radio" class="mt-1 mr-2" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}][]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}.0" value="{{$option->id}}">
+                                                    <input type="radio" class="mt-1 mr-2" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}][]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}.0" value="{{$option->id}}" required>
                                                     @endif
                                                     <span>{{ $option->value }}</span>
                                                 </li>
@@ -153,17 +166,17 @@
                                         @endif
 
                                         @if($question->type_id == 2)
-                                        <textarea class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}"></textarea>
+                                        <textarea class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}" required></textarea>
                                         @endif
 
                                         @if($question->type_id == 3)
-                                        <input type="file" name="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.attachments.{{$question->quiz_id}}.{{$question->id}}">
+                                        <input type="file" name="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]" wire:ignore wire:model.defer="submitQuiz.attachments.{{$question->quiz_id}}.{{$question->id}}" required>
                                         @endif
                                     </li>
                                 @endforeach
                                 </ol>
                                 <div class="flex justify-end mt-6">
-                                    <button type="submit" wire:loading.attr="disabled" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
+                                    <button type="submit" wire:loading.attr="disabled" wire:loading.class="bg-gray" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
                                 </div>
                             @endif
                         </form>
@@ -177,8 +190,14 @@
                         </a>
                         @endif
                         @if(!is_null($next))
-                        <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="goNext({{ $currentId }}, {{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
                             Next
+                        </a>
+                        @endif
+
+                        @if($complete)
+                        <a href="#"  wire:click.prevent="goComplete({{ $currentId }})" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                            Complete
                         </a>
                         @endif
                     </div>     
@@ -230,6 +249,10 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+        window.addEventListener('adjustHeight', event => {
+            heightParentToChild();
+        });
+
         Livewire.hook('element.initialized', (el, component) => {
             if(el.tagName == 'OEMBED'){
                 iframely.load( el, el.getAttribute('url') );
@@ -240,5 +263,10 @@
 
     function scrollIntoViewContent(){
         document.getElementById('document-editor').scroll({top:0,behavior:'smooth'});
+    }
+
+    function heightParentToChild(){
+        var parentHeight = document.getElementById('document-parent').clientHeight;
+        document.getElementById('document-editor').style.height = parentHeight+'px';
     }
 </script>

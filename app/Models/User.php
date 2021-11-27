@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Quiz;
 use App\Models\Unit;
 use App\Models\Score;
@@ -121,7 +122,10 @@ class User extends Authenticatable implements HasMedia
     } 
 
     public function updateProgress($data){
-        return $this->progress()->update($data);
+        $update = [
+            'completed_at' => Carbon::now()
+        ];
+        return $this->progress()->where('id', $data['unit_id'])->update($update);
     }
 
     public function scopeStudentRecentProgress(){
