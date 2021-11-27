@@ -36,7 +36,7 @@ class ListCourses extends Component
             $courses = Course::where('instructor_id', auth()->user()->id)->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage);
 
         } else if(auth()->user()->hasRole('student')){
-            $courses = auth()->user()->studentCourses()->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage);
+            $courses = auth()->user()->studentCourses()->where('status', 1)->where('isOnline', 1)->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage);
         } else {
             $courses = Course::search($this->search)->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage);
         }
