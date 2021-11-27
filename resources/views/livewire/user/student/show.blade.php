@@ -172,6 +172,10 @@
                                         @if($question->type_id == 3)
                                         <input type="file" name="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]" wire:ignore wire:model.defer="submitQuiz.attachments.{{$question->quiz_id}}.{{$question->id}}" required>
                                         @endif
+
+                                        @if($question->type_id == 4)
+                                        <input type="text" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" name="submitQuiz[{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.{{$question->quiz_id}}.{{$question->id}}" required>
+                                        @endif
                                     </li>
                                 @endforeach
                                 </ol>

@@ -34,9 +34,7 @@
         @livewireScripts
 
         <script type="text/javascript">
-            var parentHeight = document.getElementById('document-parent').clientHeight;
-            console.log(parentHeight);
-            // // Disable Right click
+            // Disable Right click
             // document.addEventListener('contextmenu', event => event.preventDefault());
 
             // // Disable key down

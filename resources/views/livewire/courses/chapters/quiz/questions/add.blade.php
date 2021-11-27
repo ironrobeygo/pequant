@@ -32,7 +32,7 @@
         @if($identificationField)
         <div class="block text-sm mb-4 w-full">
             <x-jet-label for="identify" value="{{ __('Answer') }}" />
-            <x-jet-input id="identify" class="block mt-1 w-full" type="text" wire:model="identify" name="identify" :value="old('identify')"/>
+            <x-jet-input id="identify" class="block mt-1 w-full" type="text" wire:model="identify" name="identify" :value="old('identify')" required/>
             @error('identify') <span class="error">{{ $message }}</span> @enderror
         </div>
         @endif

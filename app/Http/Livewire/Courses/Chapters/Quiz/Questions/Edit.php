@@ -25,6 +25,8 @@ class Edit extends Component
     public $options = [];
     public $medias;
     public $attachments = [];
+    public $identificationField;
+    public $identify;
 
     public function mount(Course $course, Chapter $chapter, Quiz $quiz, Question $question){
         $this->course = $course;
@@ -37,6 +39,8 @@ class Edit extends Component
         $this->showOptionsForm = $question->type_id == 1 ? true : false;
         $this->medias   = $question->getMedia('images');
         $this->weight = is_null($question->weight) ? 1 : $question->weight;  
+        $this->identificationField = $this->type_id == 4 ? true : false;
+        $this->identify = $this->type_id == 4 ? $this->question->answerKey->answer : '';
     }
 
     public function multipleChoice($value){

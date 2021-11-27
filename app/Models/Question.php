@@ -6,6 +6,7 @@ use App\Models\Quiz;
 use App\Models\User;
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\AnswerKey;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -55,11 +56,15 @@ class Question extends Model implements HasMedia
         return $this->options()->sync($data);
     }
 
+    public function answerKey(){
+        return $this->hasOne(AnswerKey::class);
+    }
+
     public function answers(){
         return $this->hasMany(Answer::class);
     }
 
     public function addAnswer($data){
-        return $this->answers()->create($data);
+        return $this->answerKey()->create($data);
     }
 }

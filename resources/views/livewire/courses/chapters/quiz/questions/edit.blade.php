@@ -7,6 +7,7 @@
                 <option value="2" selected>Open Ended Question</option>
                 <option value="1">Multiple Choice</option>
                 <option value="3">File Upload</option>
+                <option value="4">Identification</option>
             </select>
             @error('type_id') <span class="error">{{ $message }}</span> @enderror
         </div>
@@ -27,6 +28,14 @@
             <x-jet-input id="weight" class="block mt-1 w-full" type="text" wire:model="weight" name="weight" :value="old('weight')"/>
             @error('weight') <span class="error">{{ $message }}</span> @enderror
         </div>
+
+        @if($identificationField)
+        <div class="block text-sm mb-4 w-full">
+            <x-jet-label for="identify" value="{{ __('Answer') }}" />
+            <x-jet-input id="identify" class="block mt-1 w-full" type="text" wire:model="identify" name="identify" :value="old('identify')" required/>
+            @error('identify') <span class="error">{{ $message }}</span> @enderror
+        </div>
+        @endif
 
         @if($showOptionsForm || $type_id == 1)
         <div class="block text-sm">

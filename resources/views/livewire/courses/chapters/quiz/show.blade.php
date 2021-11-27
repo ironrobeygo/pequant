@@ -37,6 +37,10 @@
                                         @case(3)
                                             File Upload
                                         @break
+
+                                        @case(4)
+                                            Identification
+                                        @break
                                     @endswitch
                                 </td>
                                 <td class="px-4 py-3 text-sm">

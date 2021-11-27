@@ -291,7 +291,20 @@ class Show extends Component
 
                 $temp = json_encode($temp);
             } else {
-                $quiz_type = 'custom';
+
+                $question = Question::find($key);
+
+                if( isset($question->answerKey) ){
+                    $type = 'identification';
+
+                    if( $temp == $question->answerKey->answer ){
+                        $point = 1;
+                        $score++;
+                    }
+                } else {
+                   $quiz_type = 'custom'; 
+                }
+
             }
 
             $data = [
@@ -322,7 +335,7 @@ class Show extends Component
         ];
 
         event(new QuizSubmitted($this->student, $this->currentQuiz));
-        Notification::send($this->course->instructor, new InstructorQuizNotification($userData));
+        // Notification::send($this->course->instructor, new InstructorQuizNotification($userData));
 
         $this->student->addScore($quizData);
 

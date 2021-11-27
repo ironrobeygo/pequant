@@ -55,7 +55,7 @@
                 </ul>
             @endif
 
-            @if($question->type_id == 2)
+            @if($question->type_id == 2 || $question->type_id == 4)
                 <p style="margin-top: 0;">Answer: {{$answers[$question->id]['answer']}}</p>
             @endif
 
