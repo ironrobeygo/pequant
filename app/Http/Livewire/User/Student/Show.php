@@ -262,60 +262,62 @@ class Show extends Component
 
         $temps = array_values($this->submitQuiz);
 
-        foreach($temps[0] as $key => $temp){
+        if( count($temps) > 0 ){
+            foreach($temps[0] as $key => $temp){
 
-            $point = 0;
+                $point = 0;
 
-            if(is_array($temp)){
-                $type = 'options';
+                if(is_array($temp)){
+                    $type = 'options';
 
-                if(count($temp) > 1){
-                    $temp = array_keys($temp);
-                }
+                    if(count($temp) > 1){
+                        $temp = array_keys($temp);
+                    }
 
-                $questionAnswer = Question::find($key)
-                    ->options
-                    ->filter(function($value, $key){
-                        return $value->answer == 1;
-                    })
-                    ->pluck('id')
-                    ->toArray();
+                    $questionAnswer = Question::find($key)
+                        ->options
+                        ->filter(function($value, $key){
+                            return $value->answer == 1;
+                        })
+                        ->pluck('id')
+                        ->toArray();
 
-                sort($temp);
-                sort($questionAnswer);
+                    sort($temp);
+                    sort($questionAnswer);
 
-                if( $temp == $questionAnswer ){
-                    $point = 1;
-                    $score++;
-                }
-
-                $temp = json_encode($temp);
-            } else {
-
-                $question = Question::find($key);
-
-                if( isset($question->answerKey) ){
-                    $type = 'identification';
-
-                    if( $temp == $question->answerKey->answer ){
+                    if( $temp == $questionAnswer ){
                         $point = 1;
                         $score++;
                     }
+
+                    $temp = json_encode($temp);
                 } else {
-                   $quiz_type = 'custom'; 
+
+                    $question = Question::find($key);
+
+                    if( isset($question->answerKey) ){
+                        $type = 'identification';
+
+                        if( $temp == $question->answerKey->answer ){
+                            $point = 1;
+                            $score++;
+                        }
+                    } else {
+                       $quiz_type = 'custom'; 
+                    }
+
                 }
 
+                $data = [
+                    'quiz_id'       => $this->currentQuiz->id,
+                    'question_id'   => $key,
+                    'type'          => $type,
+                    'answer'        => $temp,
+                    'point'         => $point
+                ];
+
+                $this->student->addAnswer($data);
             }
-
-            $data = [
-                'quiz_id'       => $this->currentQuiz->id,
-                'question_id'   => $key,
-                'type'          => $type,
-                'answer'        => $temp,
-                'point'         => $point
-            ];
-
-            $this->student->addAnswer($data);
         }
 
         $quizData = [
