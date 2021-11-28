@@ -4,7 +4,7 @@
 
 <div class="flex flex-1 w-full">
 
-    <div id="loading-div" wire:loading class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-90 flex items-center justify-center z-50">
+    <div id="loading-div" wire:loading wire:target="updateContent" class="absolute w-full h-screen text-center bg-gray-100 p-20 bg-opacity-90 flex items-center justify-center z-50">
         <img src="{{ asset('images/logo.png') }}" class="w-60 h-auto mx-auto mt-52">
         <p class="font-bold text-xl mt-4">Processing...</p>
     </div>
@@ -136,7 +136,7 @@
                             {!! $content !!}
                         </div>
                         @else
-                        <form wire:submit.prevent="submitQuiz">
+                        <form wire:submit.prevent="submitQuiz" class="ck-content">
                         <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
                             @if($currentQuiz->isExpired())
                                 <p class="text-red-500">This quiz has already expired!</p>
@@ -170,7 +170,8 @@
                                         @endif
 
                                         @if($question->type_id == 3)
-                                        <input type="file" name="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]" wire:ignore wire:model.defer="submitQuiz.attachments.{{$question->quiz_id}}.{{$question->id}}" required>
+                                        <input type="file" name="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]" wire:model.defer="submitQuiz.attachments.{{$question->quiz_id}}.{{$question->id}}" required>
+                                        <div wire:loading wire:target="submitQuiz['attachments'][{{ $question->quiz_id }}][{{ $question->id }}]">Uploading...</div>
                                         @endif
 
                                         @if($question->type_id == 4)
@@ -179,14 +180,15 @@
                                     </li>
                                 @endforeach
                                 </ol>
-                                <div class="flex justify-end mt-6">
-                                    <button type="submit" wire:loading.attr="disabled" wire:loading.class="bg-gray" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
+                                <div class="flex justify-end mt-6" wire:loading.remove wire:target="submitQuiz['attachments']">
+                                    <button type="submit" wire:loading.attr="disabled" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
                                 </div>
                             @endif
                         </form>
                         @endif
                     </div>
 
+                    @if(empty($questions))
                     <div class="flex justify-between">
                         @if(!is_null($previous))
                         <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
@@ -205,6 +207,7 @@
                         </a>
                         @endif
                     </div>     
+                    @endif
                 </div>
             </div>
         @endif

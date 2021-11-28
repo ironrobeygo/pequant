@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>{{ $quiz->name }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('ckeditor/style.css') }}">
 </head>
 <body>
 
