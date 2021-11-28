@@ -13,11 +13,9 @@
     <p style="margin: 0;"><span style="font-weight: bold;">Quiz:</span> {{$quiz->name}}</p>
     <hr>
 
-    dd($questions);
-
     <ol>
     @foreach($questions as $question)
-        <li>{!! $question->question !!}
+        <li style="margin-bottom: 20px;">{!! $question->question !!}
             @if($complete == 0)
                 @php
                     $marker = 'red';
