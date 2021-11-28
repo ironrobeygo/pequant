@@ -13,32 +13,33 @@
     <p style="margin: 0;"><span style="font-weight: bold;">Quiz:</span> {{$quiz->name}}</p>
     <hr>
 
+    dd($questions);
+
+    <ol>
     @foreach($questions as $question)
-            <p style="margin-bottom: 0; font-weight: bold;">
-            	{{ $count.'. '.strip_tags($question->question) }} 
-            	@if($complete == 0)
-            		@php
-            			$marker = 'red';
-            			$markerTitle = 'Incorrect';
-            		@endphp
-            		@if($answers[$question->id]['point'] >= 1)
-            			@php
-            				$marker = 'green';
-            				$markerTitle = 'Correct';
-            			@endphp
-            		@endif
-            		<span style="color:  {{ $marker  }}">{{ $markerTitle }}</span>
-            	@endif
-            </p> 
+        <li>{!! $question->question !!}
+            @if($complete == 0)
+                @php
+                    $marker = 'red';
+                    $markerTitle = 'Incorrect';
+                @endphp
+                @if($answers[$question->id]['point'] >= 1)
+                    @php
+                        $marker = 'green';
+                        $markerTitle = 'Correct';
+                    @endphp
+                @endif
+                <span style='color:{!! $marker  !!}'>{{ $markerTitle }}</span>
+            @endif
 
             @if($question->type_id == 1)
                 <ul style="list-style: none; margin-left: 0; padding-left: 0; margin-top: 5px;">
                 @php
-	                $optionCounter = $question->options->pluck('answer')->filter(function($value, $key){
-	                    return $value == 1;
-	                });
+                    $optionCounter = $question->options->pluck('answer')->filter(function($value, $key){
+                        return $value == 1;
+                    });
 
-	                $type = $optionCounter->count() == 1 ? 'radio' : 'checkbox';
+                    $type = $optionCounter->count() == 1 ? 'radio' : 'checkbox';
 
                 @endphp
 
@@ -64,9 +65,10 @@
             @endif
                                     
             @php
-            	$count++;
+                $count++;
             @endphp
+        </li>
     @endforeach
-
+    </ol>
 </body>
 </html>
