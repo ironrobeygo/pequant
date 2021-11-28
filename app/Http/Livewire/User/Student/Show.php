@@ -45,6 +45,7 @@ class Show extends Component
     public $currentUnit;
     public $currentQuiz;
     public $quizMessage;
+    public $disabledQuiz;
 
     protected $listeners = ['updateContent'];
 
@@ -59,6 +60,7 @@ class Show extends Component
         $this->progress     = [];
         $this->visited      = [];
         $this->answered     = [];
+        $this->disabledQuiz = [];
         $this->currentQuiz  = 0;
         $this->currentUnit  = 0;
         $this->currentId    = 0;
@@ -113,6 +115,7 @@ class Show extends Component
             $this->questions    = [];
             $this->status       = '';
             $this->quizMessage  = '';
+            $this->disabledQuiz = [];
 
             $next_id = $this->findIndex($id) + 1;
             $prev_id = $this->findIndex($id) - 1;
@@ -154,6 +157,7 @@ class Show extends Component
             $this->currentId    = $quiz->id;
             $this->submitQuiz   = [];
             $this->nextID       = $quiz->id;
+            $this->disabledQuiz = $quiz->chapter->units->where('order', '<', $quiz->order)->pluck('id')->toArray();
 
             $next_id = $this->findIndex($id) + 1;
             $prev_id = $this->findIndex($id) - 1;
