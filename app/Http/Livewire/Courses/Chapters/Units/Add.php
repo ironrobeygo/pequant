@@ -16,14 +16,11 @@ class Add extends Component
     public $name;
     public $video;
     public $content;
-    public $attachments = [];
+    public $attachments;
 
     public function mount(Course $course, Chapter $chapter){
         $this->course   = $course;
         $this->chapter  = $chapter;
-        $this->attachments = [
-            []
-        ];
     }
 
     public function render()
@@ -45,29 +42,20 @@ class Add extends Component
 
         $unit = $this->chapter->addUnit($data);
 
-        if(!empty($this->attachments[0])){
-            foreach ($this->attachments as $attachment) {
-                $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
-                $unit->addMedia($attachment[0]->getRealPath())
-                    ->usingName($filename)
-                    ->usingFileName($attachment[0]->getClientOriginalName())
-                    ->toMediaCollection('images');
-            }            
-        }
-
         alert()->success('A new unit has been created.', 'Congratulations!');
 
         return redirect()->to('/courses/'.$this->course->id);
 
     }
 
-    public function addAttachment(){
-        $this->attachments[] = [];
-    }
+    public function updatedAttachments(){
+        $filename = pathinfo($this->attachments->getClientOriginalName(), PATHINFO_FILENAME);
+        $media = auth()->user()->addMedia($this->attachments->getRealPath())
+            ->usingName($filename)
+            ->usingFileName($this->attachments->getClientOriginalName())
+            ->toMediaCollection('files');
 
-    public function removeAttachment($index)
-    {
-        unset($this->attachments[$index]);
+        $this->dispatchBrowserEvent('resetFileUploader', ['uploadedUrl' => $media->getFullUrl(), 'filename' => $filename]);
     }
 
     protected function rules(){

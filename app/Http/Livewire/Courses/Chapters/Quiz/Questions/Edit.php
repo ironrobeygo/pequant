@@ -24,7 +24,7 @@ class Edit extends Component
     public $showOptionsForm = false;
     public $options = [];
     public $medias;
-    public $attachments = [];
+    public $attachments;
     public $identificationField;
     public $identify;
 
@@ -70,14 +70,6 @@ class Edit extends Component
 
         $this->question->update($data);
 
-        // foreach ($this->attachments as $attachment) {
-        //     $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
-        //     $this->question->addMedia($attachment[0]->getRealPath())
-        //         ->usingName($filename)
-        //         ->usingFileName($attachment[0]->getClientOriginalName())
-        //         ->toMediaCollection('images');
-        // }
-
         if($this->type_id == 1){
 
             $options = array();
@@ -108,16 +100,16 @@ class Edit extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
-    public function addAttachment(){
-        $this->attachments[] = [];
-    }
+    public function updatedAttachments(){
+        $filename = pathinfo($this->attachments->getClientOriginalName(), PATHINFO_FILENAME);
+        $media = auth()->user()->addMedia($this->attachments->getRealPath())
+            ->usingName($filename)
+            ->usingFileName($this->attachments->getClientOriginalName())
+            ->toMediaCollection('files');
 
-    public function removeAttachment($index)
-    {
-        $this->attachments[$index]->delete();
-        unset($this->attachments[$index]);
+        $this->dispatchBrowserEvent('resetFileUploader', ['uploadedUrl' => $media->getFullUrl(), 'filename' => $filename]);
     }
-
+    
     public function removeMedia($index){
         $this->medias[$index]->delete();
         unset($this->medias[$index]);

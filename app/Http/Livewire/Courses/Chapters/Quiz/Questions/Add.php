@@ -22,7 +22,7 @@ class Add extends Component
     public $weight;
     public $showOptionsForm;
     public $options = [];
-    public $attachments = [];
+    public $attachments;
     public $identificationField;
     public $identify;
 
@@ -35,9 +35,6 @@ class Add extends Component
         $this->quiz = $quiz;
         $this->options[] = ['value' => '', 'answer' => false];
         $this->showOptionsForm = false;
-        $this->attachments = [
-            []
-        ];
         $this->identificationField = false;
         $this->identify = '';
     }
@@ -112,16 +109,6 @@ class Add extends Component
             $question->addAnswer( array('answer' => $this->identify) );
         }
 
-        if(!empty($this->attachments[0])){
-            foreach ($this->attachments as $attachment) {
-                $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
-                $question->addMedia($attachment[0]->getRealPath())
-                    ->usingName($filename)
-                    ->usingFileName($attachment[0]->getClientOriginalName())
-                    ->toMediaCollection('images');
-            }
-        }
-
         return redirect()->to('/courses/'.$this->course->id.'/chapters/'.$this->chapter->id.'/quiz/'.$this->quiz->id);
 
     }
@@ -134,13 +121,14 @@ class Add extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
-    public function addAttachment(){
-        $this->attachments[] = [];
-    }
+    public function updatedAttachments(){
+        $filename = pathinfo($this->attachments->getClientOriginalName(), PATHINFO_FILENAME);
+        $media = auth()->user()->addMedia($this->attachments->getRealPath())
+            ->usingName($filename)
+            ->usingFileName($this->attachments->getClientOriginalName())
+            ->toMediaCollection('files');
 
-    public function removeAttachment($index)
-    {
-        unset($this->attachments[$index]);
+        $this->dispatchBrowserEvent('resetFileUploader', ['uploadedUrl' => $media->getFullUrl(), 'filename' => $filename]);
     }
 
     public function render()

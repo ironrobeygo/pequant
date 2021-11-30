@@ -20,7 +20,7 @@ class Edit extends Component
     public $video;
     public $content;
     public $medias;
-    public $attachments = [];
+    public $attachments;
 
     public function mount(Course $course, Chapter $chapter, Unit $unit){
         $this->course   = $course;
@@ -50,30 +50,20 @@ class Edit extends Component
 
         $this->unit->update($data); 
 
-        if(!empty($this->attachments[0])){
-            foreach ($this->attachments as $attachment) {
-                $filename = pathinfo($attachment[0]->getClientOriginalName(), PATHINFO_FILENAME);
-                $this->unit->addMedia($attachment[0]->getRealPath())
-                    ->usingName($filename)
-                    ->usingFileName($attachment[0]->getClientOriginalName())
-                    ->toMediaCollection('images');
-            }
-        }
-
         alert()->success('A unit has been updated successfully.', 'Congratulations!');
 
         return redirect()->to('/courses/'.$this->course->id);
 
     }
 
-    public function addAttachment(){
-        $this->attachments[] = [];
-    }
+    public function updatedAttachments(){
+        $filename = pathinfo($this->attachments->getClientOriginalName(), PATHINFO_FILENAME);
+        $media = auth()->user()->addMedia($this->attachments->getRealPath())
+            ->usingName($filename)
+            ->usingFileName($this->attachments->getClientOriginalName())
+            ->toMediaCollection('files');
 
-    public function removeAttachment($index)
-    {
-        $this->attachments[$index]->delete();
-        unset($this->attachments[$index]);
+        $this->dispatchBrowserEvent('resetFileUploader', ['uploadedUrl' => $media->getFullUrl(), 'filename' => $filename]);
     }
 
     public function removeMedia($index){

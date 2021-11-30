@@ -32,7 +32,10 @@
             @error('content') <span class="error">{{ $message }}</span> @enderror
         </div>
 
-        <div class="flex justify-end mt-6">
+        <div class="flex justify-between mt-6">
+
+            <input type="file" wire:model="attachments" id="attachments">
+
             <x-jet-button wire:loading.attr="disabled">
                 {{ __('Update unit') }}
                 <span class="ml-2" aria-hidden="true">+</span>
@@ -109,6 +112,26 @@
     DecoupledEditor
         .create( document.querySelector( '.document-editor__editable' ), {
             extraPlugins: [ SimpleUploadAdapterPlugin ],
+            link: {
+                decorators: {
+                    toggleDownloadable: {
+                        mode: 'manual',
+                        label: 'Downloadable',
+                        attributes: {
+                            download: 'file'
+                        }
+                    },
+                    openInNewTab: {
+                        mode: 'manual',
+                        label: 'Open in a new tab',
+                        defaultValue: true,         // This option will be selected by default.
+                        attributes: {
+                            target: '_blank',
+                            rel: 'noopener noreferrer'
+                        }
+                    }
+                }
+            }
         } )
         .then( editor => {
             const toolbarContainer = document.querySelector( '.document-editor__toolbar' );
@@ -118,10 +141,25 @@
             editor.model.document.on('change:data', () => {
                 @this.set('content', editor.getData());
             })
+
+            window.editor = editor;
         } )
         .catch( err => {
             console.error( err );
         } )
+
+    window.addEventListener('resetFileUploader', event => {
+
+        window.editor.model.change(writer => {
+           const insertPosition = editor.model.document.selection.getFirstPosition();
+
+           writer.insertText(event.detail.filename, {
+              linkHref: event.detail.uploadedUrl
+           }, insertPosition);
+        });
+
+        document.getElementById('attachments').value = "";
+    });
 </script>
 
 <style type="text/css">
