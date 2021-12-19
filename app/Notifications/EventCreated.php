@@ -46,8 +46,7 @@ class EventCreated extends Notification
             ->greeting('Hi '.$this->data['name'].',')
             ->line("A new event - {$this->data['event_title']} - has been created for your {$this->data['course']} course.")
             ->line("Date: {$this->data['event_date']}")
-            ->line("Time: {$this->data['event_time']}")
-            ->action('Event link', url($this->data['event_link']));
+            ->line("Time: {$this->data['event_time']}");
     }
 
     /**
