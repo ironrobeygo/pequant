@@ -9,4 +9,8 @@ class EventController extends Controller
     public function index(){
         return view('calendar.index');
     }
+
+    public function create(){
+        return view('calendar.add');
+    }
 }

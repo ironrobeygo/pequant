@@ -9,4 +9,6 @@
         @endrole
     </x-slot>
 
+    @livewire('institution.schedule.index')
+
 </x-app-layout>

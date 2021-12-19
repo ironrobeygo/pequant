@@ -9,14 +9,19 @@
         <p class="font-bold text-xl mt-4">Processing...</p>
     </div>
 
-
     <aside class="z-20 hidden w-1/5 overflow-y-auto bg-white md:block flex-shrink-0">
         <div class="text-gray-500 text-gray-400">
             <div class="p-4 bg-gray-700">
-                <a href="{{ route('courses') }}" class="flex py-2 mb-4 text-xs font-medium leading-none text-white underline transition-colors duration-150 focus:outline-none">
-                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
+                <div class="flex justify-between">
+                    <a href="{{ route('courses') }}" class="flex py-2 mb-4 text-xs font-medium leading-none text-white underline transition-colors duration-150 focus:outline-none">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
                     Back to courses
-                </a>
+                    </a> 
+                    @if( !is_null($event) )
+                    <a href="{{ $event->url }}" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
+                    @endif
+                </div>
+                
                 <h2 class="font-semibold text-2xl text-white leading-tight">
                    {{$course->name}}
                 </h2>  

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Chapter;
 use App\Models\Category;
 use App\Models\Schedule;
@@ -103,5 +104,9 @@ class Course extends Model
 
     public function addSchedule($data){
         return $this->schedule()->create($data);
+    }
+
+    public function events(){
+        return $this->hasMany(Event::class);
     }
 }

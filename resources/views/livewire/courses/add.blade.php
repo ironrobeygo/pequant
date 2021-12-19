@@ -4,7 +4,7 @@
         <div class="block text-sm">
             <x-jet-label for="name" value="{{ __('Course Name') }}" />
             <x-jet-input id="name" class="block mt-1 w-full" type="text" wire:model="name" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            @error('name') <span class="error">{{ $message }}</span> @enderror
+            @error('name') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <div class="mt-4">
@@ -15,7 +15,7 @@
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
-            @error('category_id') <span class="error">{{ $message }}</span> @enderror
+            @error('category_id') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <div class="mt-4">
@@ -26,7 +26,7 @@
                 <option value="{{ $institution->id }}">{{ $institution->name }}</option>
                 @endforeach
             </select>
-            @error('institution_id') <span class="error">{{ $message }}</span> @enderror
+            @error('institution_id') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <div class="mt-4">
@@ -37,7 +37,7 @@
                 <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
                 @endforeach
             </select>
-            @error('instructor_id') <span class="error">{{ $message }}</span> @enderror
+            @error('instructor_id') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <div class="mt-4">
@@ -46,7 +46,7 @@
                 <option value="6">6 Months</option>
                 <option value="12">12 Months</option>
             </select>
-            @error('expiration') <span class="error">{{ $message }}</span> @enderror
+            @error('expiration') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <div wire:ignore class="block mt-4 text-sm">
@@ -55,12 +55,10 @@
             <div class="document-editor">
                 <div class="document-editor__toolbar"></div>
                 <div class="document-editor__editable-container">
-                    <div class="document-editor__editable">
-                        <p>The initial editor data.</p>
-                    </div>
+                    <div class="document-editor__editable"></div>
                 </div>
             </div>
-            @error('description') <span class="error">{{ $message }}</span> @enderror
+            @error('description') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <div class="flex justify-end mt-6">

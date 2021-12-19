@@ -27,6 +27,7 @@ class Show extends Component
     public $units;
     public $title;
     public $video;
+    public $event;
     public $course;
     public $status;
     public $content;    
@@ -69,6 +70,8 @@ class Show extends Component
         $this->student      = auth()->user();
         $this->showRetake   = false;
         $this->complete     = false;
+
+        $this->event        = $this->course->events()->whereBetween('start', ['2021-12-19 00:00:00', '2021-12-19 23:59:59'])->first() !== null ? $this->course->events()->whereBetween('start', ['2021-12-19 00:00:00', '2021-12-19 23:59:59'])->first() : null ;
 
         $this->units = $course->chapters->map(function($chapter){
             return $chapter->units->map(function($unit){ 

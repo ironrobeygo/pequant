@@ -35,7 +35,7 @@
 
         <script type="text/javascript">
             // Disable Right click
-            document.addEventListener('contextmenu', event => event.preventDefault());
+            // document.addEventListener('contextmenu', event => event.preventDefault());
 
             // // Disable key down
             // document.onkeydown = disableSelectCopy;

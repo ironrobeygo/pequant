@@ -93,11 +93,6 @@
                                     </li> 
                                     @role('admin')
                                     <li>
-                                        <a href="/courses/{{ $course->id }}/edit" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
-                                            Edit
-                                        </a>
-                                    </li> 
-                                    <li>
                                         <a wire:click.prevent="delete({{ $course->id }})" href="#" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
                                             Delete
                                         </a>

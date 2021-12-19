@@ -11,7 +11,6 @@ class Index extends Component
 {
     public $now;
     public $events;
-    public $isModalOpen;
     public $isEditModal;
     public $isShowModal;
     public $gotoDateModal;
@@ -42,7 +41,6 @@ class Index extends Component
         $this->end_time = '';
         $this->description = '';
         $this->course_id = 0;
-        $this->isModalOpen = false;
         $this->isShowModal = false;
         $this->gotoDateModal = false;
         $this->navigate = true;
@@ -60,62 +58,9 @@ class Index extends Component
             $events = Event::select('id','title','start')->get();
         }
 
-
         $this->events = json_encode($events);
 
         return view('livewire.calendar.index');
-    }
-
-    public function addEvent(){
-
-        $this->validate();
-
-        $selStart = Carbon::parse($this->selectedDate['dateStr'] . ' ' . $this->start_time)->format('Y-m-d H:i:s');
-        $selEnd = Carbon::parse($this->selectedDate['dateStr'] . ' ' . $this->end_time)->format('Y-m-d H:i:s');
-
-        $new_event = Event::create([
-            'title' => $this->title,
-            'url' => $this->event_link,
-            'start' => $selStart,
-            'end' => $selEnd,
-            'description' => $this->description, 
-            'user_id' => auth()->user()->id,
-            'course_id' => $this->course_id
-        ]);
-
-        $course = Course::find($this->course_id);
-
-        $students = $course->students;
-
-        $data['event_title'] = $this->title;
-        $data['event_link'] = $this->event_link;
-        $data['event_date'] = $this->selectedDate['dateStr'];
-        $data['event_time'] = $this->start_time .' - '.$this->end_time;
-        $data['course'] = $course->name;
-
-        foreach($students as $student){
-
-            $data['name'] = $student->name;
-
-            Notification::send($student, new EventCreated($data));
-        }
-
-        // if( !$new_event ){
-        //     alert()->error('An error has occurred', 'Please try again!');
-        // }
-
-        // alert()->success('A new event has been added to your calendar', 'Congratulations!');
-
-        $this->title = '';
-        $this->event_link = '';
-        $this->start_time = '';
-        $this->end_time = '';
-        $this->description = '';
-        $this->course_id = 0;
-        $this->selectedDate = false;
-        $this->isModalOpen = false;
-
-        $this->emit('refreshCalendar');
     }
 
     public function isGotoDateModal(){
@@ -126,20 +71,6 @@ class Index extends Component
         $newDate = $this->selectedYear.'-'.$this->selectedMonth.'-01';
         $this->gotoDateModal = false;
         $this->dispatchBrowserEvent('initiateGotoDate', ['newDate' => $newDate]);
-    }
-
-    public function openModal($date){
-        $this->selectedDate = $date;
-        $dateStr = Carbon::parse($date['dateStr']);
-        $this->selectedDate['dateStr'] = $dateStr->format('l, F j, Y');
-        $start_time = $end_time = $this->timeInterval($dateStr);
-        
-        array_pop($start_time);        
-        $this->selectedDate['start_time'] = $start_time;
-        array_shift($end_time);
-        $this->selectedDate['end_time'] = $end_time;
-
-        $this->isModalOpen = true;
     }
 
     public function showModal(Event $event){
@@ -154,43 +85,9 @@ class Index extends Component
         $this->end_time = '';
         $this->description = '';
         $this->selectedDate = false;
-        $this->isModalOpen = false;
         $this->selectedEvent = [];
         $this->isShowModal = false;
         $this->gotoDateModal = false;
-    }
-
-    protected function timeInterval($dateStr){
-
-        $now = Carbon::now('Asia/Manila');
-
-        $hour = $dateStr->gte($now) ? '05' : $now->format('H');
-
-        if($now->format('i') <= 30){
-            $mins = 30;
-        } else {
-            $hour++;
-            $mins = 00;
-        }
-
-        $start = $hour . ':'. $mins;
-        $end = '23:00';
-        $duration = '30';
-
-        $array_of_time = array();
-        $start_time = strtotime($start);
-        $end_time = strtotime($end);
-
-        $add_mins = $duration * 60;
-
-        while($start_time <= $end_time){
-
-            $array_of_time[] = date("h:i a", $start_time);
-            $start_time += $add_mins;
-
-        }
-
-        return $array_of_time;
     }
 
     public function refreshCalendar(){
@@ -198,10 +95,4 @@ class Index extends Component
         $this->events = json_encode($events);        
     }
 
-    protected $rules = [
-        'title' => 'required',
-        'start_time' => 'required',
-        'end_time' => 'required',
-        'description' => 'required'
-    ];
 }

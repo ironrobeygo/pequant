@@ -100,6 +100,7 @@ class Add extends Component
         $zoom_response = json_decode($response->getBody());
 
         $data = [
+            'institution_id'    => $this->institution->id,
             'meeting_id'        => $zoom_response->id,
             'date'              => date("Y-m-d\TH:i:s", $this->start_time),
             'duration'          => $this->duration,
@@ -115,7 +116,7 @@ class Add extends Component
 
         alert()->success("A new schedule has been created.", 'Congratulations!');
 
-        return redirect()->to('/institutions/'.$this->institution->id.'/schedules');
+        return redirect()->to('/institutions/'.$this->institution->id);
 
     }
 

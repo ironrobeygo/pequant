@@ -14,6 +14,7 @@ class Schedule extends Model
 
     protected $fillable = [
         'course_id',
+        'institution_id',
         'meeting_id',
         'date',
         'duration',
@@ -31,5 +32,23 @@ class Schedule extends Model
 
     public function course(){
         return $this->belongsTo(Course::class);
+    }
+
+    public function showRecurrenceType(){
+        switch($this->recurrence_type){
+            default:
+                $type = 'Daily';
+            break;
+
+            case 2: 
+                $type = 'Weekly';
+            break;
+
+            case 3:
+                $type = 'Monthly';
+            break;
+        }
+
+        return $type;
     }
 }
