@@ -30,7 +30,7 @@
                                 </div>
                                 @if($chapter->content)
                                 <div class="w-full px-5 py-3">
-                                    {{ $chapter->content }}
+                                    {!! $chapter->content !!}
                                 </div>
                                 @endif
                             </div>
