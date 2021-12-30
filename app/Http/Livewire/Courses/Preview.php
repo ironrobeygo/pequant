@@ -24,6 +24,7 @@ class Preview extends Component
     public $navigation;
     public $units;
     public $currentId;
+    public $event;
 
     public function mount(Course $course){
         $this->course = $course;
@@ -37,6 +38,11 @@ class Preview extends Component
         $this->next = null;
         $this->previous = null;
         $this->currentId = 0;
+
+        $date = date('Y-m-d');
+
+        $this->event        = $this->course->events()->whereBetween('start', [$date.' 00:00:00', $date.' 23:59:59'])->first() !== null ? $this->course->events()->whereBetween('start', [$date.' 00:00:00', $date.' 23:59:59'])->first() : null ;
+
         $this->units = $course->chapters->map(function($chapter){
             return $chapter->units->map(function($unit){ 
                 return $unit->only(['id']);
