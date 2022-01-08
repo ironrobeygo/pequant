@@ -8,7 +8,10 @@
                         <h2 class="font-bold text-lg mb-2">{{ $quiz->name }}</h2>
                             @foreach($questions as $question)
                             <div class="pb-2 mb-2">
-                                <h3 class="font-bold mb-2 flex"><span>{!! $counter++ .'. ' .$question->question !!}</span></h3>
+                                <h3 class="mb-2 flex">
+                                    <span class="mr-2">{!! $counter++ .'. ' !!}</span>
+                                    <span>{!! $question->question !!}</span>
+                                </h3>
                                 @if($question->type_id == 1)
                                     <ul>
                                     @php $answerType = $this->getAnswerCount($question->options) @endphp
@@ -30,7 +33,7 @@
                                 @endif
 
                                 @if($question->type_id == 3)
-                                    <a href="{{ $student->getMedia('quiz')->where('id', $answers[$question->id]['answer'])->first()->getFullUrl() }}" target="_blank">Click to view</a>
+                                    <a href="{{ $student->getMedia('quiz')->where('id', $answers[$question->id]['answer'])->first()->getFullUrl() }}" target="_blank" class="italic underline text-red-500">Click to view submitted answer</a>
                                 @endif
 
                                 <div class="mt-5 mb-5">
@@ -74,3 +77,18 @@
     </div>
 
 </div>
+
+<style type="text/css">
+    .table, table{
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    table, td {
+        padding:  4px;
+        border: 1px solid grey;
+    }
+
+
+</style>
