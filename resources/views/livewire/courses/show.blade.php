@@ -130,6 +130,13 @@
 
 </div>
 
+<style type="text/css">
+    .my-handle{
+        cursor: move;
+        cursor: -webkit-grabbing;
+    }
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
 <script type="text/javascript">

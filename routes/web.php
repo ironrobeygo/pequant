@@ -215,55 +215,55 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/analytics', [AnalyticsController::class, 'index']);
 
-    Route::get('/checker', function(){
+    // Route::get('/checker', function(){
 
-        $data = array();
+    //     $data = array();
 
-        // $institutions = Institution::whereHas('users.activities', function($query){
-        //     $query->whereIn('event', ['has successfully logged in']);
-        //     $query->whereYear('created_at', Carbon::now()->year);
-        // })
-        // ->select('id', 'name')
-        // ->get();
+    //     // $institutions = Institution::whereHas('users.activities', function($query){
+    //     //     $query->whereIn('event', ['has successfully logged in']);
+    //     //     $query->whereYear('created_at', Carbon::now()->year);
+    //     // })
+    //     // ->select('id', 'name')
+    //     // ->get();
 
-        // foreach($institutions as $institution){
+    //     // foreach($institutions as $institution){
 
-            // $filter = 1;
+    //         // $filter = 1;
 
-            // $filterchecker = $filter > 0;
+    //         // $filterchecker = $filter > 0;
 
-            // $sections = User::where('institution_id', $filter)->whereHas('roles', function($query){
-            //      $query->where('name','student');
-            // })
-            // ->select('section')
-            // ->groupBy('section')
-            // ->get();
+    //         // $sections = User::where('institution_id', $filter)->whereHas('roles', function($query){
+    //         //      $query->where('name','student');
+    //         // })
+    //         // ->select('section')
+    //         // ->groupBy('section')
+    //         // ->get();
 
-            // dd($sections);
-            // $all = Activity::when($filterchecker, function($query) use ($filter){
-            //         $query->whereHas('user', function($q) use ($filter){
-            //             $q->where('institution_id', $filter);
-            //         });
-            //     })
-            //     ->where('event', 'has successfully logged in')
-            //     ->select(
-            //         DB::raw("(count(id)) as total"),
-            //         DB::raw("(DATE_FORMAT(created_at, '%m-%Y')) as month_year"))
-            //     ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
-            //     ->orderBy('month_year', 'ASC')
-            //     ->get()->values()->toArray();
+    //         // dd($sections);
+    //         // $all = Activity::when($filterchecker, function($query) use ($filter){
+    //         //         $query->whereHas('user', function($q) use ($filter){
+    //         //             $q->where('institution_id', $filter);
+    //         //         });
+    //         //     })
+    //         //     ->where('event', 'has successfully logged in')
+    //         //     ->select(
+    //         //         DB::raw("(count(id)) as total"),
+    //         //         DB::raw("(DATE_FORMAT(created_at, '%m-%Y')) as month_year"))
+    //         //     ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
+    //         //     ->orderBy('month_year', 'ASC')
+    //         //     ->get()->values()->toArray();
 
-            // $instructor = User::where('institution_id', 1)->whereHas('activities', function($query){
-            //     $query->whereIn('event', ['has successfully logged in']);
-            //     // $query->whereYear('created_at', Carbon::now()->year);
-            //     $query->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'));
-            // })->get();
+    //         // $instructor = User::where('institution_id', 1)->whereHas('activities', function($query){
+    //         //     $query->whereIn('event', ['has successfully logged in']);
+    //         //     // $query->whereYear('created_at', Carbon::now()->year);
+    //         //     $query->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'));
+    //         // })->get();
 
-        // }
+    //     // }
 
-        // dd($all);
+    //     // dd($all);
 
-    });
+    // });
 
     // Route::get('/chat', function(){
     //     return view('chat');
