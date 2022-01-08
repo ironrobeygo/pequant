@@ -95,4 +95,13 @@ class Index extends Component
         $this->events = json_encode($events);        
     }
 
+    public function viewEvent($id){
+        return redirect()->to('/events/'.$id.'/edit/');
+    }
+
+    public function deleteEvent(){
+        $this->selectedEvent->delete();
+        return redirect()->to('/events');
+    }
+
 }
