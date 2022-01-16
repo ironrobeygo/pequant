@@ -58,7 +58,10 @@ class Batch extends Component
 
                         $course->enrolStudent($user->id);
 
-                        $data['password'] = $password;
+                        $updatedPassword = $institution->alias.$user->id;
+                        $user->update([ 'password' => Hash::make($updatedPassword) ]);
+
+                        $data['password'] = $updatedPassword;
 
                         Notification::send($user, new StudentCreated($data));
 
