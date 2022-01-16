@@ -38,7 +38,8 @@ class Batch extends Component
                 ->each(
                     function(array $data){
 
-                        $password = Str::random(16);
+                        // $password = Str::random(16);
+                        $password = 'MOHS.USER';
 
                         $institution = Institution::where('name', $data['institution'])->firstOrFail();
 
@@ -58,7 +59,8 @@ class Batch extends Component
 
                         $course->enrolStudent($user->id);
 
-                        $updatedPassword = $institution->alias.$user->id;
+                        // $updatedPassword = $institution->alias.$user->id;
+                        $updatedPassword = $password;
                         $user->update([ 'password' => Hash::make($updatedPassword) ]);
 
                         $data['password'] = $updatedPassword;
