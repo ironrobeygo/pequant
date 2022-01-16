@@ -4,6 +4,7 @@ namespace App\Http\Livewire\User;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use App\Models\Institution;
 use App\Notifications\UserCreated;
 use Spatie\Permission\Models\Role;
