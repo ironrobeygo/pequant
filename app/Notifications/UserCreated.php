@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class StudentCreated extends Notification
+class UserCreated extends Notification
 {
     use Queueable;
 
@@ -45,7 +45,7 @@ class StudentCreated extends Notification
         return (new MailMessage)
             ->from('info@mohs-academy.com', 'Student Support')
             ->greeting('Hi '.$this->data['name'].',')
-            ->line("Your MOHS Academy student account has been created!")
+            ->line("Your MOHS Academy account has been created!")
             ->line("Username: {$this->data['email']}")
             ->line("Password: {$this->data['password']}")
             ->action('Go to LMS', url('https://lms.mohs-academy.com'));
