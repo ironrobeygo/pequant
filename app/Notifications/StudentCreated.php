@@ -43,12 +43,12 @@ class StudentCreated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from('customer-support@mohs-analytics.com', 'Student Support')
+            ->from('info@mohs-academy.com', 'Student Support')
             ->greeting('Hi '.$this->data['name'].',')
-            ->line("Your MOHS Analytics student account has been created!")
+            ->line("Your MOHS Academy student account has been created!")
             ->line("Username: {$this->data['email']}")
             ->line("Password: {$this->data['password']}")
-            ->action('Go to LMS', url('https://lms.mohs-analytics.com'));
+            ->action('Go to LMS', url('https://lms.mohs-academy.com'));
     }
 
     /**

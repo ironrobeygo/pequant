@@ -11,14 +11,16 @@ class UserCreated extends Notification
 {
     use Queueable;
 
+    private $data;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
