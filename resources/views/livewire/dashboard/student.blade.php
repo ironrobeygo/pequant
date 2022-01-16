@@ -13,7 +13,7 @@
             <div class="font-bold mb-2 bg-gray-200 text-gray-600 uppercase text-sm leading-normal py-3 px-6">Announcements</div>
             <div class="py-3 px-6">
                 <ul>
-                    @if($announcements)
+                    @if(!empty($announcements))
                     @foreach($announcements as $announcement)
                     <li class="mb-2 border-b border-dashed pb-2">
                         <span class="font-bold block">{{ $announcement->name }} <span class="font-normal">by</span> {{ $announcement->user->id == auth()->user()->id ? 'You' : $announcement->user->name }} <span class="italic text-xs">({{ $announcement->created_at->diffForHumans() }})</span></span> 
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-<!--         <div class="rounded overflow-hidden shadow-lg w-1/2">
+        <div class="rounded overflow-hidden shadow-lg w-1/2">
             <div class="font-bold mb-2 bg-gray-200 text-gray-600 uppercase text-sm leading-normal py-3 px-6">Course(s) Progress</div>
             <div class="py-3 px-6">
                 <ul>
@@ -61,10 +61,10 @@
                     @endforeach
                 </ul>
             </div>
-        </div> -->
+        </div>
     </div>
 
-    <div class="flex w-full space-x-4">
+<!--     <div class="flex w-full space-x-4">
 
         <div class="rounded overflow-hidden shadow-lg w-1/2">
             <div class="font-bold mb-2 bg-gray-200 text-gray-600 uppercase text-sm leading-normal py-3 px-6">Completed Units</div>
@@ -87,6 +87,6 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
 
 </div>
