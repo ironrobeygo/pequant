@@ -102,13 +102,13 @@ Route::group(['middleware' => 'auth'], function(){
             ]
         ]);
 
-        Route::resource('courses.preview', CoursePreviewController::class,[
-            'names' => [
-                'index'     => 'courses.preview',
-            ]
-        ]);
-
     });
+
+    Route::resource('courses.preview', CoursePreviewController::class,[
+        'names' => [
+            'index'     => 'courses.preview',
+        ]
+    ]);
 
     Route::resource('events', EventController::class);
 
