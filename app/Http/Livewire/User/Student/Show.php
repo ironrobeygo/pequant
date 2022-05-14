@@ -70,8 +70,10 @@ class Show extends Component
         $this->student      = auth()->user();
         $this->showRetake   = false;
         $this->complete     = false;
+        
+        $date = date('Y-m-d');
 
-        $this->event        = $this->course->events()->whereBetween('start', ['2021-12-19 00:00:00', '2021-12-19 23:59:59'])->first() !== null ? $this->course->events()->whereBetween('start', ['2021-12-19 00:00:00', '2021-12-19 23:59:59'])->first() : null ;
+        $this->event        = $this->course->events()->whereBetween('start', [$date.' 00:00:00', $date.' 23:59:59'])->first() !== null ? $this->course->events()->whereBetween('start', [$date.' 00:00:00', $date.' 23:59:59'])->first() : null ;
 
         $this->units = $course->chapters->map(function($chapter){
             return $chapter->units->map(function($unit){ 

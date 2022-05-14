@@ -7,7 +7,5 @@
         </a>
     </x-slot>
 
-    asdfasdf
-
     @livewire('courses.chapters.show', ['course' => $course, 'chapter' => $chapter])
 </x-app-layout>
