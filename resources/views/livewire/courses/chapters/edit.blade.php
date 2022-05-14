@@ -3,8 +3,11 @@
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div class="block text-sm">
             <x-jet-label for="name" value="{{ __('Chapter Name') }}" />
-            <x-jet-input id="name" class="block mt-1 w-full" type="text" wire:model="name" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            @error('name') <span class="error">{{ $message }}</span> @enderror
+            <x-jet-input id="name" class="block mt-1 w-full" type="text" wire:model="name" name="name" :value="old('name')"
+                required autofocus autocomplete="name" />
+            @error('name')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
 
         <div wire:ignore class="block mt-4 text-sm">
@@ -18,7 +21,9 @@
                     </div>
                 </div>
             </div>
-            @error('content') <span class="error">{{ $message }}</span> @enderror
+            @error('content')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="flex justify-end mt-6">
@@ -33,12 +38,12 @@
 
 
 @push('scripts')
-<script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/decoupled-document/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/decoupled-document/ckeditor.js"></script>
 @endpush
 
 <script>
     class MyUploadAdapter {
-        constructor( loader ) {
+        constructor(loader) {
             // The file loader instance to use during the upload. It sounds scary but do not
             // worry — the loader will be passed into the adapter later on in this guide.
             this.loader = loader;
@@ -46,15 +51,15 @@
         // Starts the upload process.
         upload() {
             return this.loader.file
-                .then( file => new Promise( ( resolve, reject ) => {
+                .then(file => new Promise((resolve, reject) => {
                     this._initRequest();
-                    this._initListeners( resolve, reject, file );
-                    this._sendRequest( file );
-                } ) );
+                    this._initListeners(resolve, reject, file);
+                    this._sendRequest(file);
+                }));
         }
         // Aborts the upload process.
         abort() {
-            if ( this.xhr ) {
+            if (this.xhr) {
                 this.xhr.abort();
             }
         }
@@ -65,18 +70,18 @@
             // integration to choose the right communication channel. This example uses
             // a POST request with JSON as a data structure but your configuration
             // could be different.
-            xhr.open( 'POST', "{{ route('image.store') }}", true );
+            xhr.open('POST', "{{ route('image.store') }}", true);
             xhr.setRequestHeader('x-csrf-token', '{{ csrf_token() }}');
             xhr.responseType = 'json';
         }
         // Initializes XMLHttpRequest listeners.
-        _initListeners( resolve, reject, file ) {
+        _initListeners(resolve, reject, file) {
             const xhr = this.xhr;
             const loader = this.loader;
             const genericErrorText = `Couldn't upload file: ${ file.name }.`;
-            xhr.addEventListener( 'error', () => reject( genericErrorText ) );
-            xhr.addEventListener( 'abort', () => reject() );
-            xhr.addEventListener( 'load', () => {
+            xhr.addEventListener('error', () => reject(genericErrorText));
+            xhr.addEventListener('abort', () => reject());
+            xhr.addEventListener('load', () => {
                 const response = xhr.response;
                 // This example assumes the XHR server's "response" object will come with
                 // an "error" which has its own "message" that can be passed to reject()
@@ -84,66 +89,67 @@
                 //
                 // Your integration may handle upload errors in a different way so make sure
                 // it is done properly. The reject() function must be called when the upload fails.
-                if ( !response || response.error ) {
-                    return reject( response && response.error ? response.error.message : genericErrorText );
+                if (!response || response.error) {
+                    return reject(response && response.error ? response.error.message : genericErrorText);
                 }
                 // If the upload is successful, resolve the upload promise with an object containing
                 // at least the "default" URL, pointing to the image on the server.
                 // This URL will be used to display the image in the content. Learn more in the
                 // UploadAdapter#upload documentation.
-                resolve( {
+                resolve({
                     default: response.url
-                } );
-            } );
+                });
+            });
             // Upload progress when it is supported. The file loader has the #uploadTotal and #uploaded
             // properties which are used e.g. to display the upload progress bar in the editor
             // user interface.
-            if ( xhr.upload ) {
-                xhr.upload.addEventListener( 'progress', evt => {
-                    if ( evt.lengthComputable ) {
+            if (xhr.upload) {
+                xhr.upload.addEventListener('progress', evt => {
+                    if (evt.lengthComputable) {
                         loader.uploadTotal = evt.total;
                         loader.uploaded = evt.loaded;
                     }
-                } );
+                });
             }
         }
         // Prepares the data and sends the request.
-        _sendRequest( file ) {
+        _sendRequest(file) {
             // Prepare the form data.
             const data = new FormData();
-            data.append( 'upload', file );
+            data.append('upload', file);
             // Important note: This is the right place to implement security mechanisms
             // like authentication and CSRF protection. For instance, you can use
             // XMLHttpRequest.setRequestHeader() to set the request headers containing
             // the CSRF token generated earlier by your application.
             // Send the request.
-            this.xhr.send( data );
+            this.xhr.send(data);
         }
         // ...
     }
-    function SimpleUploadAdapterPlugin( editor ) {
-        editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+
+    function SimpleUploadAdapterPlugin(editor) {
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
             // Configure the URL to the upload script in your back-end here!
-            return new MyUploadAdapter( loader );
+            return new MyUploadAdapter(loader);
         };
     }
 
     DecoupledEditor
-        .create( document.querySelector( '.document-editor__editable' ), {
-            extraPlugins: [ SimpleUploadAdapterPlugin ],
-        } )
-        .then( editor => {
-            const toolbarContainer = document.querySelector( '.document-editor__toolbar' );
+        .create(document.querySelector('.document-editor__editable'), {
+            extraPlugins: [SimpleUploadAdapterPlugin],
+        })
+        .then(editor => {
+            const toolbarContainer = document.querySelector('.document-editor__toolbar');
 
-            toolbarContainer.appendChild( editor.ui.view.toolbar.element );
+            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
 
             editor.model.document.on('change:data', () => {
-                @this.set('description', editor.getData());
+                @this.set('content', editor.getData());
             })
-        } )
-        .catch( err => {
-            console.error( err );
-        } )
+        })
+        .catch(err => {
+            console.error(err);
+        })
 </script>
 
 <style type="text/css">
@@ -164,7 +170,7 @@
         z-index: 1;
 
         /* Create the illusion of the toolbar floating over the editable. */
-        box-shadow: 0 0 5px hsla( 0,0%,0%,.2 );
+        box-shadow: 0 0 5px hsla(0, 0%, 0%, .2);
 
         /* Use the CKEditor CSS variables to keep the UI consistent. */
         border-bottom: 1px solid var(--ck-color-toolbar-border);
@@ -178,7 +184,7 @@
 
     /* Make the editable container look like the inside of a native word processor application. */
     .document-editor__editable-container {
-        padding: calc( 2 * var(--ck-spacing-large) );
+        padding: calc(2 * var(--ck-spacing-large));
         background: var(--ck-color-base-foreground);
 
         /* Make it possible to scroll the "page" of the edited content. */
@@ -193,12 +199,12 @@
         /* Keep the "page" off the boundaries of the container. */
         padding: 1cm 2cm 2cm;
 
-        border: 1px hsl( 0,0%,82.7% ) solid;
+        border: 1px hsl(0, 0%, 82.7%) solid;
         border-radius: var(--ck-border-radius);
         background: white;
 
         /* The "page" should cast a slight shadow (3D illusion). */
-        box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+        box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
 
         /* Center the "page". */
         margin: 0 auto;
@@ -212,7 +218,7 @@
 
     /* Adjust the headings dropdown to host some larger heading styles. */
     .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-        line-height: calc( 1.7 * var(--ck-line-height-base) * var(--ck-font-size-base) );
+        line-height: calc(1.7 * var(--ck-line-height-base) * var(--ck-font-size-base));
         min-width: 6em;
     }
 
@@ -241,7 +247,7 @@
     .document-editor .ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
         font-size: 1.75em;
         font-weight: normal;
-        color: hsl( 203, 100%, 50% );
+        color: hsl(203, 100%, 50%);
     }
 
     .document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
@@ -279,7 +285,8 @@
     /* Make the block quoted text serif with some additional spacing. */
     .document-editor .ck-content blockquote {
         font-family: Georgia, serif;
-        margin-left: calc( 2 * var(--ck-spacing-large) );
-        margin-right: calc( 2 * var(--ck-spacing-large) );
+        margin-left: calc(2 * var(--ck-spacing-large));
+        margin-right: calc(2 * var(--ck-spacing-large));
     }
+
 </style>
