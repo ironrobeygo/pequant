@@ -33,7 +33,7 @@
 
 
 @push('scripts')
-<script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/decoupled-document/ckeditor.js"></script>
+<script src="{!! asset('js/ckeditor.js') !!}"></script>
 @endpush
 
 <script>
