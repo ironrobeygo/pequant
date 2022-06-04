@@ -138,7 +138,7 @@
             toolbarContainer.appendChild( editor.ui.view.toolbar.element );
 
             editor.model.document.on('change:data', () => {
-                @this.set('description', editor.getData());
+                @this.set('content', editor.getData());
             })
         } )
         .catch( err => {
