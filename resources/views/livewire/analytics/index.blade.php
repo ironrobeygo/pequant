@@ -19,6 +19,7 @@
             <x-jet-label for="range" value="{{ __('Range') }}" />
             <select id="range" name="range" wire:model="range" wire:change="updateFilter" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full">
                 <option>Select a range</option>
+                <option value="week">Week</option>
                 <option value="month">Month</option>
                 <option value="year">Year</option>
             </select>
@@ -58,6 +59,11 @@
                 }
             }
         }
+    });
+
+    Livewire.on('updatedInstitution', ticks => {
+        myChart.data.datasets = JSON.parse(ticks);
+        myChart.update();
     });
 
     Livewire.on('updatedFilter', ticks => {

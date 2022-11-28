@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Analytics;
 
 use DB;
 use App\Models\User;
+use App\Models\Course;
 use Livewire\Component;
 use App\Models\Activity;
 use App\Models\Institution;
@@ -11,22 +12,25 @@ use App\Models\Institution;
 class Index extends Component
 {
 
-    public $filter;
     public $range;
-    public $institutions;
-    public $sections;
-    public $section;
     public $ticks;
+    public $filter;
+    public $course;
+    public $courses;
+    public $section;
+    public $sections;
+    public $institutions;
 
     protected $listeners = ['resetChart' => 'render'];
 
     public function mount(){
         $this->filter   = 0;
         $this->range    = 'month';
+        $this->courses  = [];
         $this->institutions = Institution::all();
-        foreach($this->institutions as $institution){
-            $this->sections[$institution->id] = array_filter(User::where('institution_id', $institution->id)->select('section')->groupBy('section')->get()->pluck('section')->toArray());
-        }
+        // foreach($this->institutions as $institution){
+        //     $this->sections[$institution->id] = array_filter(User::where('institution_id', $institution->id)->select('section')->groupBy('section')->get()->pluck('section')->toArray());
+        // }
 
     }
 
@@ -45,10 +49,12 @@ class Index extends Component
                         $q->where('institution_id', $institution->id);
                     })
                     ->where('event', 'has successfully logged in')
+                    ->where('created_at', '>=', '2022-08-01 00:00:01')
+                    ->where('created_at', '<=', '2022-12-31 11:59:59')
                     ->select(
                             DB::raw("(count(id)) as total"),
-                            DB::raw("(DATE_FORMAT(created_at, '%m-%Y')) as month_year"))
-                        ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
+                            DB::raw("(DATE_FORMAT(created_at, '{$this->getDateFormat()}')) as month_year"))
+                        ->groupBy(DB::raw("DATE_FORMAT(created_at, '{$this->getDateFormat()}')"))
                         ->orderBy('month_year', 'ASC')
                         ->get()->values()->toArray();
 
@@ -80,24 +86,27 @@ class Index extends Component
         $filter = (int)$this->filter;
         $data = [];
 
-        $date_format = $this->range == 'month' ? '%m-%Y' : '%Y'; 
-
         if($filterchecker){
 
-            foreach($this->sections[$this->filter] as $section){
+            $this->courses = Course::where('institution_id', $filter)->where('status', 1)->where('isOnline', 1)->get();
+
+            foreach($this->courses as $course){
+
+              $students = $course->students->pluck('id');
 
                 $tick_data = array();
 
-                $data[$section]['label'] = $section;
+                $data[$course->name]['label'] = $course->name;
 
-                $ticks = Activity::whereHas('user', function($q) use ($section){
-                            $q->where('section', $section);
-                        })
+                $ticks = Activity::with('user')
+                        ->whereIn('user_id', $students)
                         ->where('event', 'has successfully logged in')
+                        ->where('created_at', '>=', '2022-08-01 00:00:01')
+                        ->where('created_at', '<=', '2022-12-31 11:59:59')
                         ->select(
                                 DB::raw("(count(id)) as total"),
-                                DB::raw("(DATE_FORMAT(created_at, '{$date_format}')) as month_year"))
-                            ->groupBy(DB::raw("DATE_FORMAT(created_at, '{$date_format}')"))
+                                DB::raw("(DATE_FORMAT(created_at, '{$this->getDateFormat($this->range)}')) as month_year"))
+                            ->groupBy(DB::raw("DATE_FORMAT(created_at, '{$this->getDateFormat($this->range)}')"))
                             ->orderBy('month_year', 'ASC')
                             ->get()->values()->toArray();
 
@@ -111,10 +120,10 @@ class Index extends Component
                     $counter++;
                 }
 
-                $data[$section]['data'] = $tick_data;
+                $data[$course->name]['data'] = $tick_data;
                 $color = $this->colorGenerate();
-                $data[$section]['borderColor'] = $color;
-                $data[$section]['backgroundColor'] = $color;
+                $data[$course->name]['borderColor'] = $color;
+                $data[$course->name]['backgroundColor'] = $color;
             }
 
         }
@@ -124,12 +133,14 @@ class Index extends Component
         $this->emit('updatedFilter', $this->ticks);
     }
 
+    public function updateCourse(){
+
+    }
+
     public function updateSection(){
         $filterchecker = (int)$this->section != '';
         $section = $this->section;
         $data = [];
-
-        $date_format = $this->range == 'month' ? '%m-%Y' : '%Y'; 
 
         $tick_data = array();
 
@@ -139,10 +150,12 @@ class Index extends Component
                     $q->where('section', $section);
                 })
                 ->where('event', 'has successfully logged in')
+                ->where('created_at', '>=', '2022-08-01 00:00:01')
+                ->where('created_at', '<=', '2022-12-31 11:59:59')
                 ->select(
                         DB::raw("(count(id)) as total"),
-                        DB::raw("(DATE_FORMAT(created_at, '{$date_format}')) as month_year"))
-                    ->groupBy(DB::raw("DATE_FORMAT(created_at, '{$date_format}')"))
+                        DB::raw("(DATE_FORMAT(created_at, '{$this->getDateFormat($this->range)}')) as month_year"))
+                    ->groupBy(DB::raw("DATE_FORMAT(created_at, '{$this->getDateFormat($this->range)}')"))
                     ->orderBy('month_year', 'ASC')
                     ->get()->values()->toArray();
 
@@ -183,10 +196,11 @@ class Index extends Component
                         $q->where('institution_id', $institution->id);
                     })
                     ->where('event', 'has successfully logged in')
+
                     ->select(
                             DB::raw("(count(id)) as total"),
-                            DB::raw("(DATE_FORMAT(created_at, '%m-%Y')) as month_year"))
-                        ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
+                            DB::raw("(DATE_FORMAT(created_at, '{$this->getDateFormat($this->range)}')) as month_year"))
+                        ->groupBy(DB::raw("DATE_FORMAT(created_at, '{$this->getDateFormat($this->range)}')"))
                         ->orderBy('month_year', 'ASC')
                         ->get()->values()->toArray();
 
@@ -214,5 +228,24 @@ class Index extends Component
 
     public function colorGenerate(){
         return '#' . dechex(rand(0x000000, 0xFFFFFF));
+    }
+
+    protected function getDateFormat($range = 'month'){
+      switch($range){
+        case 'year':
+            $date_format = '%Y';
+          break;
+        
+        case 'week':
+            $date_format = '%v-%x';
+        break;
+
+        default:
+        case 'month':
+          $date_format = '%m-%Y';
+        break; 
+      }
+
+      return $date_format;
     }
 }
