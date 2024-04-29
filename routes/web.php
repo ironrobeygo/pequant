@@ -46,7 +46,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => ['role:admin']], function () {
 
@@ -101,10 +101,9 @@ Route::group(['middleware' => 'auth'], function(){
                 'delete'    => 'students.delete'
             ]
         ]);
-
     });
 
-    Route::resource('courses.preview', CoursePreviewController::class,[
+    Route::resource('courses.preview', CoursePreviewController::class, [
         'names' => [
             'index'     => 'courses.preview',
         ]
@@ -123,7 +122,7 @@ Route::group(['middleware' => 'auth'], function(){
     ]);
 
     Route::post('/image', [ImageController::class, 'store'])->name('image.store');
-    
+
     Route::resource('courses', CourseController::class, [
         'names' => [
             'index'     => 'courses',
@@ -269,4 +268,12 @@ Route::group(['middleware' => 'auth'], function(){
     //     return view('chat');
     // });
 
+});
+
+Route::get('/test', function () {
+    echo "<img href='" . Storage::url('303/image.png') . "'>";
+    echo "<br>";
+    echo "<img href='" . asset('storage/303/image.png') . "'>";
+
+    echo "<a href='" . asset('css/app.css') . "'>Click Here</a>";
 });

@@ -60,12 +60,12 @@ class Batch extends Component
                         $course->enrolStudent($user->id);
 
                         // $updatedPassword = $institution->alias.$user->id;
-                        $updatedPassword = $password;
-                        $user->update([ 'password' => Hash::make($updatedPassword) ]);
+                        // $updatedPassword = $password;
+                        // $user->update([ 'password' => Hash::make($updatedPassword) ]);
 
-                        $data['password'] = $updatedPassword;
+                        // $data['password'] = $updatedPassword;
 
-                        Notification::send($user, new StudentCreated($data));
+                        // Notification::send($user, new StudentCreated($data));
 
                         DB::commit();
                     }
@@ -80,6 +80,10 @@ class Batch extends Component
         } catch(ModelNotFoundException $h){
             DB::rollback();
             alert()->error($h->getMessage(), 'Please try again!');
+
+        } catch(Throwable $e){
+            DB::rollback();
+            alert()->error($e->getMessage(), 'Please try again');
         }
 
         return redirect()->to('/students');
