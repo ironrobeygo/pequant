@@ -41,9 +41,9 @@ class Batch extends Component
                         // $password = Str::random(16);
                         $password = 'MOHS.USER';
 
-                        $institution = Institution::where('name', $data['institution'])->firstOrFail();
+                        $institution = Institution::where('name', trim($data['institution']))->firstOrFail();
 
-                        $course = Course::where('name', $data['course'])->first();
+                        $course = Course::where('name', trim($data['course']))->firstOrFail();
 
                         DB::beginTransaction();
 
