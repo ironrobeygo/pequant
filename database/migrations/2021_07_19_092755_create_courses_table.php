@@ -25,7 +25,7 @@ class CreateCoursesTable extends Migration
             $table->bigInteger('updated_by')->unsigned();
             $table->boolean('status')->default(Course::PENDING);
             $table->boolean('isOnline')->default(Course::OFFLINE);
-            $table->int('expiration');
+            $table->integer('expiration');
             $table->timestamp('expires_at');
             $table->softDeletes();
             $table->timestamps();

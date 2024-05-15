@@ -25,6 +25,7 @@ class Preview extends Component
     public $units;
     public $currentId;
     public $event;
+    public $courseMenuOpen;
 
     public function mount(Course $course){
         $this->course = $course;
@@ -57,6 +58,8 @@ class Preview extends Component
     }
 
     public function updateContent($id, $type){
+
+        $this->courseMenuOpen = false;
 
         if($type == 'unit'){
             $unit = Unit::find($id);

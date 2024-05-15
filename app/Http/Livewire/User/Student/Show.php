@@ -47,6 +47,7 @@ class Show extends Component
     public $currentQuiz;
     public $quizMessage;
     public $disabledQuiz;
+    public $courseMenuOpen;
 
     protected $listeners = ['updateContent'];
 
@@ -104,6 +105,8 @@ class Show extends Component
     }
 
     public function updateContent($id, $type){
+
+        $this->courseMenuOpen = false;
 
         if($type == 'unit'){
 
