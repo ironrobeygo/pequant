@@ -27,7 +27,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded" wire:click="resetChart">
+            <button class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded" wire:click="resetChart">
                 Reset
             </button>
         </div>

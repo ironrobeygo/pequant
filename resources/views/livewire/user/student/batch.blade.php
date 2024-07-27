@@ -9,7 +9,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-jet-button class="ml-4" wire:loading.attr="disabled" wire:loading.class.remove="bg-mohs-green-600">
+            <x-jet-button class="ml-4" wire:loading.attr="disabled" wire:loading.class.remove="bg-pequant-blue-600">
                 {{ __('Upload') }}
                 <span class="ml-2" aria-hidden="true">+</span>
             </x-jet-button>

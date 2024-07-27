@@ -14,13 +14,13 @@
                                         </li>
                                         @role('admin')
                                         <li>
-                                            <a href="{{ route('courses.chapters.units.add', ['course' => $course->id, 'chapter' => $chapter->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Add Unit</a>
+                                            <a href="{{ route('courses.chapters.units.add', ['course' => $course->id, 'chapter' => $chapter->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-pequant-blue-500 rounded-full text-sm">Add Unit</a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('courses.chapters.quiz.add', ['course' => $course->id, 'chapter' => $chapter->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Add Quiz</a>
+                                            <a href="{{ route('courses.chapters.quiz.add', ['course' => $course->id, 'chapter' => $chapter->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-pequant-blue-500 rounded-full text-sm">Add Quiz</a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('courses.chapters.edit', ['course' => $course->id, 'chapter' => $chapter->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Edit</a>
+                                            <a href="{{ route('courses.chapters.edit', ['course' => $course->id, 'chapter' => $chapter->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-pequant-blue-500 rounded-full text-sm">Edit</a>
                                         </li>
                                         <li>
                                             <a href="#" wire:click.prevent="deleteChapter({{$chapter->id}})" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-red-500 rounded-full text-sm">Delete</a>
@@ -59,9 +59,9 @@
                                                 @role('admin')
                                                 <li>
                                                     @if($unit->type == 'unit')
-                                                    <a href="{{ route('courses.chapters.units.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'unit' => $unit->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Edit</a>
+                                                    <a href="{{ route('courses.chapters.units.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'unit' => $unit->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-pequant-blue-500 rounded-full text-sm">Edit</a>
                                                     @else
-                                                    <a href="{{ route('courses.chapters.quiz.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $unit->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-mohs-green-500 rounded-full text-sm">Edit</a>
+                                                    <a href="{{ route('courses.chapters.quiz.edit', ['course' => $course->id, 'chapter' => $chapter->id, 'quiz' => $unit->id]) }}" class="px-2 py-1 font-semibold leading-tight cursor-pointer hover:text-white hover:bg-pequant-blue-500 rounded-full text-sm">Edit</a>
                                                     @endif
                                                 </li>
                                                 <li>
@@ -84,7 +84,7 @@
         <div class="lg:w-1/4 mb-2">
             @hasanyrole('admin|instructor')
                 @if($course->schedule)
-                <a href="{{$course->schedule->start_url}}" target="_blank" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+                <a href="{{$course->schedule->start_url}}" target="_blank" class="flex items-center justify-between px-4 py-3 mb-4 cursor-pointer text-sm font-medium leading-5 text-white transition-colors duration-150 bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none">
                     Host Live Class 
                     <span class="ml-2" aria-hidden="true">+</span>
                 </a>
@@ -119,7 +119,7 @@
                 <p class="text-center text-l">Students Enrolled</p>
                 <p class="text-center text-8xl font-bold my-5">{{ $count }}</p>
                 <p class="text-center">
-                    <a href="{{ route('courses.students', ['course' => $course]) }}" class="w-1/2 mx-auto text-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+                    <a href="{{ route('courses.students', ['course' => $course]) }}" class="w-1/2 mx-auto text-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none">
                         Enrolled Student(s)
                     </a>
                 </p>

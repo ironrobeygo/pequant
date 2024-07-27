@@ -21,12 +21,12 @@
                         <td class="py-3 px-6 text-center">
                             <ul class="flex justify-center">
                                 <li>
-                                    <a href="/categories/{{ $category->id }}/edit" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                    <a href="/categories/{{ $category->id }}/edit" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                         Edit
                                     </a>
                                 </li> 
                                 <li>
-                                    <a href="/categories/{{ $category->id }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                    <a href="/categories/{{ $category->id }}" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                         Delete
                                     </a>
                                 </li>

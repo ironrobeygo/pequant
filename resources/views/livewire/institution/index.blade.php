@@ -1,7 +1,7 @@
 <div class="overflow-x-auto">
     <div class="w-full">
         <div class="mb-4 mt-1 mx-1 flex justify-between items-center">
-            <input wire:model="search" class="w-1/3 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-mohs-green-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for courses, id or author" aria-label="Search">
+            <input wire:model="search" class="w-1/3 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-pequant-blue-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for courses, id or author" aria-label="Search">
 
             <div class="flex justify-between">
                 <span class="inline-block leading-normal text-sm font-semibold pt-2 pr-2">
@@ -45,17 +45,17 @@
                             <td class="py-3 px-6 text-center">
                                 <ul class="flex justify-center">
                                     <li>
-                                        <a href="/institutions/{{ $institution->id }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                        <a href="/institutions/{{ $institution->id }}" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                             View
                                         </a>
                                     </li> 
                                     <li>
-                                        <a href="/institutions/{{ $institution->id }}/edit" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                        <a href="/institutions/{{ $institution->id }}/edit" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                             Edit
                                         </a>
                                     </li> 
                                     <li>
-                                        <a wire:click.prevent="delete({{ $institution->id }})" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110 cursor-pointer">
+                                        <a wire:click.prevent="delete({{ $institution->id }})" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110 cursor-pointer">
                                             Delete
                                         </a>
                                     </li>

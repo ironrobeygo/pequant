@@ -3,7 +3,7 @@
 
         <div class="mb-4 mt-1 mx-1 flex justify-between items-center">
             <div class="flex w-2/3 space-x-2">
-                <input wire:model="search" class="w-1/2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-mohs-green-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for students" aria-label="Search">
+                <input wire:model="search" class="w-1/2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-pequant-blue-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for students" aria-label="Search">
 
                 <select class="inline-block text-sm focus:outline-none form-input" wire:model="institutionFilter">
                     <option>Institution Filter</option>
@@ -13,10 +13,10 @@
                 </select>
 
                 <div class="relative">
-                    <a class="bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none text-white inline-flex items-center w-full px-4 py-2 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800" href="/students/batch">
+                    <a class="bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none text-white inline-flex items-center w-full px-4 py-2 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800" href="/students/batch">
                         Student Upload
                     </a>
-<!--                     <button class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none" @click="isBatchMenuOpen = true">
+<!--                     <button class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none" @click="isBatchMenuOpen = true">
                         Batch Actions
                     </button>
                     <div x-show="isBatchMenuOpen">
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="relative">
-                    <button class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none" wire:click="resetTable()">
+                    <button class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none" wire:click="resetTable()">
                         Reset
                     </button>
                 </div>
@@ -82,22 +82,22 @@
                         <td class="py-3 px-6 text-center">
                             <ul class="flex justify-center">
                                 <li>
-                                    <a href="/students/{{ $student->id }}/edit" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                    <a href="/students/{{ $student->id }}/edit" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                         Edit
                                     </a>
                                 </li> 
                                 <li>
-                                    <a href="#" wire:click.prevent="showModalEnrolment({{ $student->id }})" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                    <a href="#" wire:click.prevent="showModalEnrolment({{ $student->id }})" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                         Enrol
                                     </a>
                                 </li> 
                                 <li>
-                                    <a href="#" @click.prevent="showUnenrolmentModal = true" wire:click.prevent="showModalUnEnrolment({{ $student->id }})" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                    <a href="#" @click.prevent="showUnenrolmentModal = true" wire:click.prevent="showModalUnEnrolment({{ $student->id }})" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                         Unenrol
                                     </a>
                                 </li>
                                 <li>
-                                    <a wire:click.prevent="delete({{ $student->id }})" href="#" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                    <a wire:click.prevent="delete({{ $student->id }})" href="#" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                         Delete
                                     </a>
                                 </li> 
@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="submit" wire:click="processEnrolment" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-mohs-green-600 text-base font-medium text-white hover:bg-mohs-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="submit" wire:click="processEnrolment" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-pequant-blue-600 text-base font-medium text-white hover:bg-pequant-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
                         Process Enrolment
                     </button>
                     <button type="submit" wire:click="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
@@ -179,7 +179,7 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="submit" wire:click="processUnEnrolment" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-mohs-green-600 text-base font-medium text-white hover:bg-mohs-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="submit" wire:click="processUnEnrolment" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-pequant-blue-600 text-base font-medium text-white hover:bg-pequant-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
                         Remove Student
                     </button>
                     <button type="submit" wire:click="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">

@@ -13,7 +13,7 @@
                         Back to courses
                     </a>
                     @if( !is_null($event) )
-                    <a href="{{ $event->url }}" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
+                    <a href="{{ $event->url }}" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
                     @endif
                 </div>
                 <h2 class="font-semibold text-2xl text-white leading-tight">
@@ -24,12 +24,12 @@
             <ul class="bg-gray-600 text-white">
                 @foreach($course->chapters as $u => $chapter)
                     <li class="border border-b-0">
-                        <div class="bg-mohs-green-600 text-white p-4 text-lg">
+                        <div class="bg-pequant-blue-600 text-white p-4 text-lg">
                            {{ $u + 1 .'. '.$chapter->name }} 
                         </div>
                         <ul>
                             @foreach($chapter->units as $unit)
-                            <li class="{{ $unit->id == $currentId || $unit->id == $currentId ? 'bg-mohs-orange-500' : '' }}">
+                            <li class="{{ $unit->id == $currentId || $unit->id == $currentId ? 'bg-pequant-orange-500' : '' }}">
                                 <a href="#" class="block p-4 border border-gray-50 border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, '{{ $unit->type }}')">
                                     <span class="flex block">
                                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -57,7 +57,7 @@
                         Back to courses
                     </a>
                     @if( !is_null($event) )
-                    <a href="{{ $event->url }}" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
+                    <a href="{{ $event->url }}" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
                     @endif
                 </div>
                 <h2 class="font-semibold text-2xl text-white leading-tight">
@@ -68,12 +68,12 @@
             <ul class="bg-gray-600 text-white">
                 @foreach($course->chapters as $u => $chapter)
                     <li class="border border-b-0">
-                        <div class="bg-mohs-green-600 text-white p-4 text-lg">
+                        <div class="bg-pequant-blue-600 text-white p-4 text-lg">
                            {{ $u + 1 .'. '.$chapter->name }} 
                         </div>
                         <ul>
                             @foreach($chapter->units as $unit)
-                            <li class="{{ $unit->id == $currentId || $unit->id == $currentId ? 'bg-mohs-orange-500' : '' }}">
+                            <li class="{{ $unit->id == $currentId || $unit->id == $currentId ? 'bg-pequant-orange-500' : '' }}">
                                 <a href="#" class="block p-4 border border-gray-50 border-b-0" wire:click.prevent="updateContent({{ $unit->id }}, '{{ $unit->type }}')">
                                     <span class="flex block">
                                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -180,12 +180,12 @@
 
                 <div class="flex justify-between">
                     @if(!is_null($previous))
-                    <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                    <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded">
                         Previous
                     </a>
                     @endif
                     @if(!is_null($next))
-                    <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                    <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded">
                         Next
                     </a>
                     @endif

@@ -18,7 +18,7 @@
                     Back to courses
                     </a> 
                     @if( !is_null($event) )
-                    <a href="{{ $event->url }}" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
+                    <a href="{{ $event->url }}" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
                     @endif
                 </div>
                 
@@ -30,12 +30,12 @@
             <ul class="bg-gray-600 text-white">
                 @foreach($course->chapters as $u => $chapter)
                     <li class="border border-b-0" x-data="{show:true}">
-                        <div class="bg-mohs-green-600 text-white p-4 text-lg cursor-pointer" @click="show=!show">
+                        <div class="bg-pequant-blue-600 text-white p-4 text-lg cursor-pointer" @click="show=!show">
                            {{ $u + 1 .'. '.$chapter->name }} 
                         </div>
                         <ul x-show="show">
                             @foreach($chapter->units as $unit)
-                            <li class="flex p-4 border-b{{ $unit->id == $currentId || $unit->id == $currentId ? ' bg-mohs-orange-500' : '' }}{{ in_array($unit->id, $disabledQuiz) ? ' bg-gray-500' : '' }}">
+                            <li class="flex p-4 border-b{{ $unit->id == $currentId || $unit->id == $currentId ? ' bg-pequant-orange-500' : '' }}{{ in_array($unit->id, $disabledQuiz) ? ' bg-gray-500' : '' }}">
                                 <span>
                                     @if($unit->type == 'unit')
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -85,7 +85,7 @@
                     Back to courses
                     </a> 
                     @if( !is_null($event) )
-                    <a href="{{ $event->url }}" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
+                    <a href="{{ $event->url }}" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded mb-4 text-center text-xs" target="_blank">Join Online Class</a>
                     @endif
                 </div>
                 
@@ -97,12 +97,12 @@
             <ul class="bg-gray-600 text-white">
                 @foreach($course->chapters as $u => $chapter)
                     <li class="border border-b-0" x-data="{show:true}">
-                        <div class="bg-mohs-green-600 text-white p-4 text-lg cursor-pointer" @click="show=!show">
+                        <div class="bg-pequant-blue-600 text-white p-4 text-lg cursor-pointer" @click="show=!show">
                            {{ $u + 1 .'. '.$chapter->name }} 
                         </div>
                         <ul x-show="show">
                             @foreach($chapter->units as $unit)
-                            <li class="flex p-4 border-b{{ $unit->id == $currentId || $unit->id == $currentId ? ' bg-mohs-orange-500' : '' }}{{ in_array($unit->id, $disabledQuiz) ? ' bg-gray-500' : '' }}">
+                            <li class="flex p-4 border-b{{ $unit->id == $currentId || $unit->id == $currentId ? ' bg-pequant-orange-500' : '' }}{{ in_array($unit->id, $disabledQuiz) ? ' bg-gray-500' : '' }}">
                                 <span>
                                     @if($unit->type == 'unit')
                                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -191,19 +191,19 @@
 
                 @if($showRetake)    
                     <p class="text-center">
-                        <a href="#" wire:click.prevent="retakeQuiz({{$currentQuiz->id}})" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none inline-block">Retake Quiz</a> 
+                        <a href="#" wire:click.prevent="retakeQuiz({{$currentQuiz->id}})" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none inline-block">Retake Quiz</a> 
                     </p>
                 @endif
             </div>
 
             <div class="flex justify-between">
                 @if(!is_null($previous))
-                <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded">
                     Previous
                 </a>
                 @endif
                 @if(!is_null($next))
-                <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="#"  wire:click.prevent="updateContent({{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded">
                     Next
                 </a>
                 @endif
@@ -267,7 +267,7 @@
                                 @endforeach
                                 </ol>
                                 <div class="flex justify-end mt-6" wire:loading.remove wire:target="submitQuiz['attachments']">
-                                    <button type="submit" wire:loading.attr="disabled" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">Submit Quiz</button>
+                                    <button type="submit" wire:loading.attr="disabled" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none">Submit Quiz</button>
                                 </div>
                             @endif
                         </form>
@@ -277,18 +277,18 @@
                     @if(empty($questions))
                     <div class="flex justify-between">
                         @if(!is_null($previous))
-                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="updateContent({{ $previous['id'] }}, '{{ $previous['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded">
                             Previous
                         </a>
                         @endif
                         @if(!is_null($next))
-                        <a href="#"  wire:click.prevent="goNext({{ $currentId }}, {{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="goNext({{ $currentId }}, {{ $next['id'] }}, '{{ $next['type'] }}')" x-on:click="scrollIntoViewContent()" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded">
                             Next
                         </a>
                         @endif
 
                         @if($complete)
-                        <a href="#"  wire:click.prevent="goComplete({{ $currentId }})" x-on:click="scrollIntoViewContent()" class="bg-mohs-green-500 hover:bg-mohs-green-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="#"  wire:click.prevent="goComplete({{ $currentId }})" x-on:click="scrollIntoViewContent()" class="bg-pequant-blue-500 hover:bg-pequant-blue-700 text-white font-bold py-2 px-4 rounded">
                             Complete
                         </a>
                         @endif

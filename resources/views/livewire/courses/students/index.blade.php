@@ -3,7 +3,7 @@
 
         <div class="mb-4 mt-1 mx-1 flex justify-between items-center">
             <div class="flex w-1/2 space-x-4">
-                <input wire:model="search" class="w-1/3 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-mohs-green-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for students" aria-label="Search">
+                <input wire:model="search" class="w-1/3 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-pequant-blue-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for students" aria-label="Search">
 
                 @role('admin')
                 <select class="inline-block text-sm focus:outline-none form-input" wire:model="institutionFilter">
@@ -70,14 +70,14 @@
                             </td>
                             <td class="py-3 px-6 text-center">
 <!--                                 <div class="relative pt-1">
-                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-mohs-orange-100">
-                                        <div style="width:{{ rand(0, 100)  }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-mohs-orange-600"></div>
+                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pequant-orange-100">
+                                        <div style="width:{{ rand(0, 100)  }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pequant-orange-600"></div>
                                     </div>
                                 </div> -->
 
                                 <ul class="flex justify-center">
                                     <li>
-                                        <a href="{{ route('courses.students.show', ['course' => $course, 'student' => $student]) }}" class="w-4 mr-2 transform hover:text-mohs-orange-500 hover:scale-110">
+                                        <a href="{{ route('courses.students.show', ['course' => $course, 'student' => $student]) }}" class="w-4 mr-2 transform hover:text-pequant-orange-500 hover:scale-110">
                                             Gradebook
                                         </a>
                                     </li> 

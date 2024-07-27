@@ -30,7 +30,7 @@
 
                                             @if(in_array($unit->id, $student->studentProgressCompleted()))
                                             <div class="flex">
-                                                <span class="text-sm italic text-mohs-green-500">
+                                                <span class="text-sm italic text-pequant-blue-500">
                                                     Completed in {{ number_format($student->getCompletionTime($unit->id)->duration / 60, 2) }} hour(s)
                                                 </span>
                                             </div>
@@ -39,7 +39,7 @@
                                             @if($unit->type == 'quiz')
 
                                                 @if( $student->getQuizScore($unit->id) !== false && $student->getQuizScore($unit->id)->completed == 0)
-                                                <span class="px-2 py-1 font-semibold leading-tight text-mohs-green-700 bg-mohs-green-100 rounded-full">
+                                                <span class="px-2 py-1 font-semibold leading-tight text-pequant-blue-700 bg-pequant-blue-100 rounded-full">
                                                     Completed
                                                 </span>
                                                 @elseif( $student->getQuizScore($unit->id) === false )
@@ -55,14 +55,14 @@
                                         </div>
                                         @if($unit->type == 'quiz')
                                         <div class="w-full px-5 py-3 flex justify-between">
-                                            <span class="text-sm italic text-mohs-green-500">
+                                            <span class="text-sm italic text-pequant-blue-500">
                                             @php
                                                 $quizTotal = \App\Models\Quiz::find($unit->id)->getQuizTotal();
                                             @endphp
                                             Score: {{ $student->getQuizScore($unit->id) !== false ? $student->getQuizScore($unit->id)->score : 0 }}/{{ $quizTotal }}
                                             </span>
                                             @if( $student->scores->where('quiz_id', $unit->id)->count() > 0 )
-                                            <span class="text-sm italic text-mohs-green-500">
+                                            <span class="text-sm italic text-pequant-blue-500">
                                                 {{ $student->scores->where('quiz_id', $unit->id)->count() }} Retake(s)
                                             </span>
                                             @endif

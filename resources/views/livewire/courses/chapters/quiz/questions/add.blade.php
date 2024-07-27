@@ -53,13 +53,13 @@
                             <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" type="text" name="options[{{ $index }}]['value']" wire:model.defer="options.{{$index}}.value">
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" class="text-mohs-green-600 form-checkbox focus:border-mohs-green-400 focus:outline-none focus:shadow-outline-mohs-green dark:focus:shadow-outline-gray" name="options[{{$index}}]['answer']" wire:model.defer="options.{{$index}}.answer">
+                            <input type="checkbox" class="text-pequant-blue-600 form-checkbox focus:border-pequant-blue-400 focus:outline-none focus:shadow-outline-pequant-blue dark:focus:shadow-outline-gray" name="options[{{$index}}]['answer']" wire:model.defer="options.{{$index}}.answer">
                         </td>
                     </tr>
                     @endforeach
                     <tr>
                         <td colspan="2" class="pt-4">
-                            <button wire:click.prevent="addOption" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-mohs-green-600 border border-transparent rounded-lg active:mohs-green-600 hover:mohs-green-700 focus:outline-none">
+                            <button wire:click.prevent="addOption" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-pequant-blue-600 border border-transparent rounded-lg active:pequant-blue-600 hover:pequant-blue-700 focus:outline-none">
                                 Add option
                                 <span class="ml-2" aria-hidden="true">+</span>
                             </button>

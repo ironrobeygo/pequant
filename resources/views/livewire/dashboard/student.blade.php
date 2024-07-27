@@ -48,13 +48,13 @@
                                     </a>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-xs font-semibold inline-block text-mohs-orange-100">
+                                    <span class="text-xs font-semibold inline-block text-pequant-orange-100">
                                         {{$progress}}%
                                     </span>
                                 </div>
                             </div>
-                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-mohs-orange-200">
-                                <div style="width:{{$progress}}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-mohs-orange-500"></div>
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pequant-orange-200">
+                                <div style="width:{{$progress}}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pequant-orange-500"></div>
                             </div>
                         </div>
                     </li>

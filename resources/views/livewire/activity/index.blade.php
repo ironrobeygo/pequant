@@ -2,7 +2,7 @@
     <div class="w-full">
 
         <div class="mb-4 mt-1 mx-1 flex justify-between items-center">
-            <input wire:model="search" class="w-1/3 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-mohs-green-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for user name" aria-label="Search">
+            <input wire:model="search" class="w-1/3 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-pequant-blue-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for user name" aria-label="Search">
 
             <div class="flex justify-between">
                 <span class="inline-block leading-normal text-sm font-semibold pt-2 pr-2">
