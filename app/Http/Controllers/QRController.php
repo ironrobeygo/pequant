@@ -60,10 +60,9 @@ class QRController extends Controller
             ->needAppearances()
             ->saveAs(public_path('images/templates/filled.pdf'));
 
-        dd($pdf->getError());
-        // // Always check for errors
-        // if ($result === false) {
-        //     $error = $pdf->getError();
-        // }
+        // Always check for errors
+        if ($result === false) {
+            $error = $pdf->getError();
+        }
     }
 }
